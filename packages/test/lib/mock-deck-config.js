@@ -2,12 +2,13 @@
 
 const dcCardInterfaces = require("dc-card-interfaces"),
       Car              = dcCardInterfaces.Car,
-      Insurance        = dcCardInterfaces.Insurance;
+      Insurance        = dcCardInterfaces.Insurance,
+      DcCard           = dcCardInterfaces.DcCard;
 
 function mockDeckConfig(dcCards, insurances, cars) {
   let deckConfig = {
     dcDeck: [{
-      constructor: function() {},
+      constructor: DcCard,
       args: [],
       count: dcCards
     }],
