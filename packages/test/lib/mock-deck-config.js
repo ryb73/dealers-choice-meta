@@ -1,7 +1,8 @@
 "use strict";
 
 const dcCardInterfaces = require("dc-card-interfaces"),
-      Car              = dcCardInterfaces.Car;
+      Car              = dcCardInterfaces.Car,
+      Insurance        = dcCardInterfaces.Insurance;
 
 function mockDeckConfig(dcCards, insurances, cars) {
   let deckConfig = {
@@ -12,7 +13,7 @@ function mockDeckConfig(dcCards, insurances, cars) {
     }],
 
     insuranceDeck: [{
-      constructor: function() {},
+      constructor: Insurance,
       args: [],
       count: insurances
     }],
