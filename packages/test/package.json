@@ -1,0 +1,22 @@
+{
+  "name": "dc-test",
+  "version": "1.0.0",
+  "description": "Dealer's Choice test utils.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryb73/dealers-choice-test.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-test/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-test",
+  "dependencies": {
+    "dc-card-interfaces": "^1.0.0"
+  }
+}
