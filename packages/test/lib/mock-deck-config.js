@@ -1,14 +1,14 @@
 "use strict";
 
-const dcCardInterfaces = require("dc-card-interfaces"),
-      Car              = dcCardInterfaces.Car,
-      Insurance        = dcCardInterfaces.Insurance,
-      DcCard           = dcCardInterfaces.DcCard;
+const dcEngine  = require("dc-engine"),
+      Car       = dcEngine.Car,
+      Insurance = dcEngine.Insurance,
+      MockCard  = require("./mock-card");
 
 function mockDeckConfig(dcCards, insurances, cars) {
   let deckConfig = {
     dcDeck: [{
-      constructor: DcCard,
+      constructor: MockCard,
       args: [],
       count: dcCards
     }],
