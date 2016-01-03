@@ -1,5 +1,3 @@
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
 var CardDisplay = require("./card-display"),

@@ -2,7 +2,7 @@
   "strict": "global",
   "esversion": 5,
   "node": true,
-  "predef": [ "-console" ],
+  "predef": [ "createjs", "-console" ],
 
   "nocomma": false,
   "unused": true,

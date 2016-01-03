@@ -1,10 +1,8 @@
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
-var consts     = require("../constants"),
-    DcCardDisplay = require("../cards/dc-card-display"),
-    PlayerHand    = require("./player-hand");
+var consts      = require("../constants"),
+    DcCardFront = require("../cards/dc-card-front"),
+    PlayerHand  = require("./player-hand");
 
 function PlayerDcCards(availWidth, cards, isMe) {
   this._availWidth = availWidth;
@@ -20,7 +18,7 @@ var p = createjs.extend(PlayerDcCards, PlayerHand);
 // Overrides superclass
 p._addCards = function(cards) {
   for(var i = 0; i < cards.length; ++i)
-    this._addToOpenSlot(new DcCardDisplay());
+    this._addToOpenSlot(new DcCardFront());
 
   this._rearrangeCards();
 };

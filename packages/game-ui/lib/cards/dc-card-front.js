@@ -1,23 +1,14 @@
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
 var CardDisplay = require("./card-display"),
     consts      = require("../constants"),
     assets      = require("../assets");
 
-function DcCardDisplay(dcCard) {
-  var front;
-  if(dcCard)
-    front = drawFront(dcCard);
-
-  this.CardDisplay_constructor(
-    new createjs.Bitmap(assets.dcCardBack),
-    front
-  );
+function DcCardFront(dcCard) {
+  this.CardDisplay_constructor(drawCard(dcCard));
 }
 
-function drawFront(dcCard) {
+function drawCard(dcCard) {
   var blankBg = new createjs.Bitmap(assets.dcCardBlank);
   var bounds = blankBg.getBounds();
 
@@ -50,6 +41,6 @@ function drawFront(dcCard) {
   return outerContainer;
 }
 
-createjs.extend(DcCardDisplay, CardDisplay);
+createjs.extend(DcCardFront, CardDisplay);
 
-module.exports = createjs.promote(DcCardDisplay, "CardDisplay");
+module.exports = createjs.promote(DcCardFront, "CardDisplay");

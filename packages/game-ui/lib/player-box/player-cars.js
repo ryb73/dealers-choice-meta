@@ -3,7 +3,7 @@
 "use strict";
 
 var consts     = require("../constants"),
-    CarDisplay = require("../cards/car-display"),
+    CarFront   = require("../cards/car-front"),
     PlayerHand = require("./player-hand");
 
 var VERT_SPACING  = 10,
@@ -102,8 +102,7 @@ p._addCards = function(cars) {
 };
 
 p._addCar = function(car) {
-  var dispCar = new CarDisplay(car);
-  dispCar.flip();
+  var dispCar = new CarFront(car);
   return dispCar;
 };
 
