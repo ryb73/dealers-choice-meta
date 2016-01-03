@@ -1,0 +1,20 @@
+{
+  "name": "dc-game-ui",
+  "version": "1.0.0",
+  "description": "Game UI for Dealer's Choice game",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryb73/dealers-choice-game-ui.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-game-ui/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-game-ui#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}
