@@ -5,3 +5,4 @@ module.exports.Decks         = require("./lib/decks");
 module.exports.assets        = require("./lib/assets");
 module.exports.LoadingSplash = require("./lib/loading-splash");
 module.exports.CarFront      = require("./lib/cards/car-front");
+module.exports.DcCardFront   = require("./lib/cards/dc-card-front");

@@ -13,7 +13,7 @@ var q                = require("q"),
     assets           = require("./assets");
 
 var DECK_SPACING = 5,
-    DC_CARD_Y    = consts.cardBreadth / 2 + consts.cardBreadth +
+    DC_CARD_Y    = consts.cardBreadthSm / 2 + consts.cardBreadthSm +
                     DECK_SPACING;
 
 function Decks() {
@@ -25,14 +25,14 @@ function Decks() {
 var p = createjs.extend(Decks, createjs.Container);
 
 p._setup = function() {
-  var totalHeight = consts.cardBreadth * 3 + DECK_SPACING * 2;
-  this.setBounds(0, 0, consts.cardLength, totalHeight);
+  var totalHeight = consts.cardBreadthSm * 3 + DECK_SPACING * 2;
+  this.setBounds(0, 0, consts.cardLengthSm, totalHeight);
   this.regX = 0;
   this.regY = totalHeight / 2; // I think this is sort of an anti-pattern but am not terribly concerned right now
 
   var carDeck = createCardBack(assets.carBack);
   carDeck.x = carDeck.regX;
-  carDeck.y = consts.cardBreadth / 2;
+  carDeck.y = consts.cardBreadthSm / 2;
   this.addChild(carDeck);
 
   var dcDeck = createCardBack(assets.dcCardBack);
@@ -44,8 +44,8 @@ p._setup = function() {
   var insuranceDeck = createCardBack(assets.insuranceBack);
   insuranceDeck.rotation = -90;
   insuranceDeck.x = insuranceDeck.regY;
-  insuranceDeck.y = consts.cardBreadth / 2 +
-                    2 * (consts.cardBreadth + DECK_SPACING);
+  insuranceDeck.y = consts.cardBreadthSm / 2 +
+                    2 * (consts.cardBreadthSm + DECK_SPACING);
   this.addChild(insuranceDeck);
 };
 

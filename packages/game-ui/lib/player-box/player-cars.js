@@ -34,12 +34,12 @@ function getColumnForCar(whichCarIndex, numCars) {
 }
 
 function getRowWidth(numColumns) {
-  return consts.cardLength * numColumns +
+  return consts.cardLengthSm * numColumns +
          HORIZ_SPACING * (numColumns - 1);
 }
 
 function getTotalHeight(numRows) {
-  return numRows * consts.cardBreadth +
+  return numRows * consts.cardBreadthSm +
          (numRows - 1) * VERT_SPACING;
 }
 
@@ -49,8 +49,8 @@ p._getCoordsForCard = function(whichCarIndex) {
   var column = getColumnForCar(whichCarIndex, numCars);
   var row = getRowForCar(whichCarIndex, numCars);
 
-  var y = (consts.cardBreadth + VERT_SPACING) * row +
-           consts.cardBreadth / 2; // reg point is in middle
+  var y = (consts.cardBreadthSm + VERT_SPACING) * row +
+           consts.cardBreadthSm / 2; // reg point is in middle
 
   var totalColumns = getTotalColumns(numCars);
   var rowColumns;
@@ -66,8 +66,8 @@ p._getCoordsForCard = function(whichCarIndex) {
   var rowWidth = getRowWidth(rowColumns);
   var originX = (getRowWidth(totalColumns) - rowWidth) / 2;
 
-  var x = originX + (consts.cardLength + HORIZ_SPACING) * column +
-           consts.cardLength / 2;
+  var x = originX + (consts.cardLengthSm + HORIZ_SPACING) * column +
+           consts.cardLengthSm / 2;
 
   // Rotate so that the user can see the car. While this isn't
   // really how players would lay out their cars in the real

@@ -4,11 +4,11 @@ var CardDisplay = require("./card-display"),
     consts      = require("../constants"),
     assets      = require("../assets");
 
-function DcCardFront(dcCard) {
-  this.CardDisplay_constructor(drawCard(dcCard));
+function DcCardFront(dcCard, fullSize) {
+  this.CardDisplay_constructor(drawCard(dcCard, fullSize));
 }
 
-function drawCard(dcCard) {
+function drawCard(dcCard, fullSize) {
   var blankBg = new createjs.Bitmap(assets.dcCardBlank);
   var bounds = blankBg.getBounds();
 
@@ -28,8 +28,11 @@ function drawCard(dcCard) {
   innerContainer.addChild(blankBg);
   innerContainer.addChild(title);
   innerContainer.addChild(description);
-  innerContainer.scaleX = consts.cardBreadth / bounds.width;
-  innerContainer.scaleY = consts.cardLength / bounds.height;
+
+  var width = (fullSize) ? consts.cardBreadth : consts.cardBreadthSm;
+  var height = (fullSize) ? consts.cardLength : consts.cardLengthSm;
+  innerContainer.scaleX = width / bounds.width;
+  innerContainer.scaleY = height / bounds.height;
 
   // Protect the inner container from being modified by the outside
   var outerContainer = new createjs.Container();

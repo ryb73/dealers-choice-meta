@@ -1,4 +1,6 @@
 {
-  "cardLength":  116,
-  "cardBreadth": 75
+  "cardLengthSm":  116,
+  "cardBreadthSm": 75,
+  "cardLength":  341,
+  "cardBreadth": 220
 }
