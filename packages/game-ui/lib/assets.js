@@ -59,7 +59,9 @@ var assetTable = {
   "/images/cars/23.png" : "car23",
   "/images/cars/23s.png" : "car23s",
   "/images/cars/24.png" : "car24",
-  "/images/cars/24s.png" : "car24s"
+  "/images/cars/24s.png" : "car24s",
+
+  "/images/blue-book-holder.png": "blueBookHolder"
 };
 
 function Assets() {
