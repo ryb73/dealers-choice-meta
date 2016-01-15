@@ -1,0 +1,27 @@
+[submodule "front-end"]
+	path = front-end
+	url = https://github.com/ryb73/dealers-choice-front-end.git
+[submodule "engine"]
+	path = engine
+	url = https://github.com/ryb73/dealers-choice-engine.git
+[submodule "server"]
+	path = server
+	url = https://github.com/ryb73/dealers-choice-server.git
+[submodule "card-pack"]
+	path = card-pack
+	url = https://github.com/ryb73/dealers-choice-card-pack.git
+[submodule "game-states"]
+	path = game-states
+	url = https://github.com/ryb73/dealers-choice-game-states.git
+[submodule "constants"]
+	path = constants
+	url = https://github.com/ryb73/dealers-choice-constants.git
+[submodule "game-factory"]
+	path = game-factory
+	url = https://github.com/ryb73/dealers-choice-game-factory.git
+[submodule "test"]
+	path = test
+	url = https://github.com/ryb73/dealers-choice-test.git
+[submodule "card-interfaces"]
+	path = card-interfaces
+	url = https://github.com/ryb73/dealers-choice-card-interfaces.git
