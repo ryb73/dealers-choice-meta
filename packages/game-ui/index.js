@@ -7,5 +7,6 @@ module.exports = {
   LoadingSplash: require("./lib/loading-splash"),
   CarFront:      require("./lib/cards/car-front"),
   DcCardFront:   require("./lib/cards/dc-card-front"),
-  BlueBook:      require("./lib/blue-book")
+  BlueBook:      require("./lib/blue-book"),
+  MyInsurances:  require("./lib/my-insurances")
 };

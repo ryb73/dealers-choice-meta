@@ -1,14 +1,12 @@
 // Abstract class representing a displayable container of cards
-
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
-function PlayerHand(cardsData) {
+function PlayerHand(cardsData, noRandomize) {
   this.Container_constructor();
 
   this._cardSlots = [];
   this._openSlotIdx = 0;
+  this._randomize = !noRandomize;
 
   this._addCards(cardsData);
 }
@@ -53,7 +51,7 @@ p._rearrangeCards = function(transitionTime) {
     if(!dispCard) continue;
 
     var coords = this._getCoordsForCard(i);
-    randomizeCoords(coords);
+    this._randomizeCoords(coords);
 
     createjs.Tween.get(dispCard, { override: true })
       .to(coords, transitionTime,
@@ -62,10 +60,12 @@ p._rearrangeCards = function(transitionTime) {
 };
 
 // Randomize coords a bit more a slightly more realistic look
-function randomizeCoords(coords) {
-  coords.x += (Math.random() * 9) - 4;
-  coords.y += (Math.random() * 9) - 4;
-  coords.rotation += (Math.random() * 5) - 2;
+p._randomizeCoords = function(coords) {
+  if(this._randomize) {
+    coords.x += (Math.random() * 9) - 4;
+    coords.y += (Math.random() * 9) - 4;
+    coords.rotation += (Math.random() * 5) - 2;
+  }
 }
 
 p.makeSpaceForCard = function(transitionTime) {

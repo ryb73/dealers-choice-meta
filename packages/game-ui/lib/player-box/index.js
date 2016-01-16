@@ -1,12 +1,11 @@
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
 var BOX_WIDTH         = 600,
     BOX_HEIGHT_ME     = 150,
     BOX_HEIGHT_OTHERS = 300;
 
-var PlayerDcCards = require("./player-dc-cards"),
+var q             = require("q"),
+    PlayerDcCards = require("./player-dc-cards"),
     PlayerCars    = require("./player-cars"),
     AvatarDisplay = require("./avatar-display");
 
@@ -27,6 +26,7 @@ p._setup = function(user, isMe, debugMode) {
 
   if(debugMode)
     this._createBackground();
+
   this._createCars(user.player.cars);
   this._createDcCards(user.player.dcCards, isMe);
   if(!isMe)
@@ -149,6 +149,37 @@ p.makeSpaceForDcCard = function(transitionTime) {
 
 p.putDcCardInBlankSpace = function(qNewCard) {
   return this._playerDcCards.putCardInBlankSpace(qNewCard);
+};
+
+p._getCoordsForInsurance = function() {
+  var res = this._playerCars.getFirstCarCoords();
+  if(res) {
+    res.x += this._playerCars.x;
+    res.y += this._playerCars.y;
+    res.rotation += 90;
+    return res;
+  }
+
+  return { x: 0, y: 0 };
+};
+
+p.giveInsurance = function(insuranceDisp, initialCoords, transitionTime) {
+  this.addChildAt(insuranceDisp, 0);
+  insuranceDisp.x = initialCoords.x;
+  insuranceDisp.y = initialCoords.y;
+  insuranceDisp.rotation = initialCoords.rotation;
+
+  var destCoords = this._getCoordsForInsurance();
+
+  var deferred = q.defer();
+  createjs.Tween.get(insuranceDisp)
+    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+    .call(function() {
+      this.removeChild(insuranceDisp);
+      deferred.resolve();
+    }.bind(this));
+
+  return deferred.promise;
 };
 
 module.exports = createjs.promote(PlayerBox, "Container");

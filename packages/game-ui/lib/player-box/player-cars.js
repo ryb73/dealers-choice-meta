@@ -4,7 +4,7 @@
 
 var consts     = require("../constants"),
     CarFront   = require("../cards/car-front"),
-    PlayerHand = require("./player-hand");
+    PlayerHand = require("../player-hand");
 
 var VERT_SPACING  = 10,
     HORIZ_SPACING = 10;
@@ -121,6 +121,17 @@ p.makeSpaceForCard = function(transitionTime) {
   }
 
   return this.PlayerHand_makeSpaceForCard(transitionTime);
+};
+
+p.getFirstCarCoords = function() {
+  if(this._cardSlots.length === 0 ||
+      !this._cardSlots[0]) return null;
+
+  return {
+    x: this._cardSlots[0].x,
+    y: this._cardSlots[0].y,
+    rotation: this._cardSlots[0].rotation
+  };
 };
 
 p.setRotation = function(rotation) {

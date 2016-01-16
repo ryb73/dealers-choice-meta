@@ -1,9 +1,6 @@
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
 var q                = require("q"),
-    _                = require("lodash"),
     consts           = require("./constants"),
     CarFront         = require("./cards/car-front"),
     CardDisplay      = require("./cards/card-display"),
@@ -12,9 +9,11 @@ var q                = require("q"),
     InsuranceDisplay = require("./cards/insurance-display"),
     assets           = require("./assets");
 
-var DECK_SPACING = 5,
-    DC_CARD_Y    = consts.cardBreadthSm / 2 + consts.cardBreadthSm +
-                    DECK_SPACING;
+var DECK_SPACING     = 5,
+    DC_CARD_Y        = consts.cardBreadthSm / 2 + consts.cardBreadthSm +
+                        DECK_SPACING,
+    INSURANCE_CARD_Y = consts.cardBreadthSm / 2 +
+                        2 * (consts.cardBreadthSm + DECK_SPACING);
 
 function Decks() {
   this.Container_constructor();
@@ -32,7 +31,7 @@ p._setup = function() {
 
   var carDeck = createCardBack(assets.carBack);
   carDeck.x = carDeck.regX;
-  carDeck.y = consts.cardBreadthSm / 2;
+  carDeck.y = carDeck.regY;
   this.addChild(carDeck);
 
   var dcDeck = createCardBack(assets.dcCardBack);
@@ -42,15 +41,13 @@ p._setup = function() {
   this.addChild(dcDeck);
 
   var insuranceDeck = createCardBack(assets.insuranceBack);
-  insuranceDeck.rotation = -90;
-  insuranceDeck.x = insuranceDeck.regY;
-  insuranceDeck.y = consts.cardBreadthSm / 2 +
-                    2 * (consts.cardBreadthSm + DECK_SPACING);
+  insuranceDeck.x = insuranceDeck.regX;
+  insuranceDeck.y = INSURANCE_CARD_Y;
   this.addChild(insuranceDeck);
 };
 
 p.giveCar = function(car, destCoords, transitionTime) {
-  var newCard = createCarFront(car);
+  var newCard = createCar(car);
   newCard.flip(transitionTime / 4);
   this.addChild(newCard);
 
@@ -65,7 +62,7 @@ p.giveCar = function(car, destCoords, transitionTime) {
 };
 
 p.giveDcCard = function(dcCard, destCoords, transitionTime, flip) {
-  var newCard = createDcCardFront(dcCard);
+  var newCard = createDcCard(dcCard);
   if(flip) newCard.flip(transitionTime / 4);
   newCard.y = DC_CARD_Y;
   this.addChild(newCard);
@@ -80,6 +77,34 @@ p.giveDcCard = function(dcCard, destCoords, transitionTime, flip) {
   return deferred.promise;
 };
 
+p.giveInsurance = function(insurance, destCoords, transitionTime) {
+  var newCard = createInsurance(insurance);
+  // newCard.flip(transitionTime / 4);
+  newCard.y = INSURANCE_CARD_Y;
+  this.addChild(newCard);
+
+  var deferred = q.defer();
+  createjs.Tween.get(newCard)
+    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+    .call(function() {
+      deferred.resolve(newCard);
+    });
+
+  return deferred.promise;
+};
+
+p.getInsuranceToGive = function() {
+  var card = createInsurance(assets.insuranceBack);
+  return {
+    insuranceDisp: card,
+    coords: {
+      x: card.x,
+      y: INSURANCE_CARD_Y,
+      rotation: card.rotation
+    },
+  };
+};
+
 function createCardBack(image) {
   var back = new CardDisplay(
     new createjs.Bitmap(image)
@@ -90,7 +115,7 @@ function createCardBack(image) {
 
 // car: Optional reference to car. If omitted, creates
 //      a blank car
-function createCarFront(car) {
+function createCar(car) {
   var back = createCardBack(assets.carBack);
   var front = new CarFront(car);
   var flippable = new FlippableCard(back, front);
@@ -99,26 +124,22 @@ function createCarFront(car) {
   return flippable;
 }
 
-function createDcCardFront(dcCard) {
+function createDcCard(dcCard) {
   var back = createCardBack(assets.dcCardBack);
   var front = new DcCardFront(dcCard);
   var flippable = new FlippableCard(back, front);
 
   flippable.rotation = -90;
   flippable.x = flippable.regY; // regY because it's rotated
-  flippable.y = flippable.regX;
 
   return flippable;
 }
 
-// function createInsuranceCard() {
-//   var insuranceDisplay = new InsuranceDisplay();
-//   insuranceDisplay.rotation = -90;
+function createInsurance() {
+  var back = new createCardBack(assets.insuranceBack);
+  back.x = back.regX;
 
-//   // regY because it's rotated
-//   insuranceDisplay.x = insuranceDisplay.regY;
-
-//   return insuranceDisplay;
-// }
+  return back;
+}
 
 module.exports = createjs.promote(Decks, "Container");

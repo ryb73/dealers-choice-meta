@@ -2,7 +2,7 @@
 
 var consts      = require("../constants"),
     DcCardFront = require("../cards/dc-card-front"),
-    PlayerHand  = require("./player-hand");
+    PlayerHand  = require("../player-hand");
 
 function PlayerDcCards(availWidth, cards, isMe) {
   this._availWidth = availWidth;
