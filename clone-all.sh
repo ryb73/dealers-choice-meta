@@ -1,0 +1,10 @@
+git clone https://github.com/ryb73/dealers-choice-card-pack.git
+git clone https://github.com/ryb73/dealers-choice-card-interfaces.git
+git clone https://github.com/ryb73/dealers-choice-engine.git
+git clone https://github.com/ryb73/dealers-choice-test.git
+git clone https://github.com/ryb73/dealers-choice-server.git
+git clone https://github.com/ryb73/dealers-choice-game-factory.git
+git clone https://github.com/ryb73/dealers-choice-game-states.git
+git clone https://github.com/ryb73/dealers-choice-front-end.git
+git clone https://github.com/ryb73/dealers-choice-game-ui.git
+git clone https://github.com/ryb73/dealers-choice-constants.git
