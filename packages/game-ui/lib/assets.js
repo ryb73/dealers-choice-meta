@@ -1,5 +1,3 @@
-/* global createjs */
-/* jshint globalstrict: true */
 "use strict";
 
 var Evemit = require("evemit");
@@ -7,9 +5,9 @@ var Evemit = require("evemit");
 var assetTable = {
   "/images/dc-cards/back.png" : "dcCardBack",
   "/images/dc-cards/blank.png" : "dcCardBlank",
-  "/images/dc-cards/blank-small.png" : "dcCardBlankSm",
 
   "/images/insurance/back.png" : "insuranceBack",
+  "/images/insurance/blank.png" : "insuranceBlank",
 
   "/images/cars/back.png" : "carBack",
   "/images/cars/1.png" : "car1",

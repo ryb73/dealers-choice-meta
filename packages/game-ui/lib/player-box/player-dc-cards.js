@@ -18,7 +18,7 @@ var p = createjs.extend(PlayerDcCards, PlayerHand);
 // Overrides superclass
 p._addCards = function(cards) {
   for(var i = 0; i < cards.length; ++i)
-    this._addToOpenSlot(new DcCardFront());
+    this._addToOpenSlot(new DcCardFront(cards[i]));
 
   this._rearrangeCards();
 };

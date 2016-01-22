@@ -156,7 +156,6 @@ p._getCoordsForInsurance = function() {
   if(res) {
     res.x += this._playerCars.x;
     res.y += this._playerCars.y;
-    res.rotation += 90;
     return res;
   }
 

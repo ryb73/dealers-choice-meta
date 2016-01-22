@@ -1,13 +1,13 @@
 "use strict";
 
-var q                = require("q"),
-    consts           = require("./constants"),
-    CarFront         = require("./cards/car-front"),
-    CardDisplay      = require("./cards/card-display"),
-    FlippableCard    = require("./cards/flippable-card"),
-    DcCardFront      = require("./cards/dc-card-front"),
-    InsuranceDisplay = require("./cards/insurance-display"),
-    assets           = require("./assets");
+var q              = require("q"),
+    consts         = require("./constants"),
+    CarFront       = require("./cards/car-front"),
+    CardDisplay    = require("./cards/card-display"),
+    FlippableCard  = require("./cards/flippable-card"),
+    DcCardFront    = require("./cards/dc-card-front"),
+    InsuranceFront = require("./cards/insurance-front"),
+    assets         = require("./assets");
 
 var DECK_SPACING     = 5,
     DC_CARD_Y        = consts.cardBreadthSm / 2 + consts.cardBreadthSm +
@@ -79,7 +79,7 @@ p.giveDcCard = function(dcCard, destCoords, transitionTime, flip) {
 
 p.giveInsurance = function(insurance, destCoords, transitionTime) {
   var newCard = createInsurance(insurance);
-  // newCard.flip(transitionTime / 4);
+  newCard.flip(transitionTime / 4);
   newCard.y = INSURANCE_CARD_Y;
   this.addChild(newCard);
 
@@ -94,7 +94,7 @@ p.giveInsurance = function(insurance, destCoords, transitionTime) {
 };
 
 p.getInsuranceToGive = function() {
-  var card = createInsurance(assets.insuranceBack);
+  var card = new createCardBack(assets.insuranceBack);
   return {
     insuranceDisp: card,
     coords: {
@@ -135,11 +135,14 @@ function createDcCard(dcCard) {
   return flippable;
 }
 
-function createInsurance() {
+function createInsurance(insurance) {
   var back = new createCardBack(assets.insuranceBack);
-  back.x = back.regX;
+  var front = new InsuranceFront(insurance);
+  var flippable = new FlippableCard(back, front);
 
-  return back;
+  flippable.x = back.regX;
+
+  return flippable;
 }
 
 module.exports = createjs.promote(Decks, "Container");
