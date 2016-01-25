@@ -50,7 +50,7 @@ function drawCard(insurance, fullSize) {
   outerContainer.addChild(innerContainer);
 
   // Cache so that shadow doesn't get applied to children
-  outerContainer.cache(0, 0, bounds.width, bounds.height);
+  outerContainer.cache(0, 0, width, height);
 
   return outerContainer;
 }

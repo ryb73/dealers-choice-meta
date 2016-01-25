@@ -28,16 +28,15 @@ p.flip = function(delay) {
   if(!delay) delay = 0;
 
   createjs.Tween.get(this._back)
-    .to({ scaleX: 0, x: this.regX }, delay / 2)
+    .to({ scaleX: 0 }, delay / 2)
     .call(this._flipToFront.bind(this, delay));
 };
 
 p._flipToFront = function(delay) {
   this._front.scaleX = 0;
-  this._front.x = this._front.regX + this.regX;
   this.addChild(this._front);
   createjs.Tween.get(this._front)
-    .to({ scaleX: 1, x: this._front.regX }, delay / 2);
+    .to({ scaleX: 1 }, delay / 2);
 };
 
 module.exports = createjs.promote(FlippableCard, "Container");
