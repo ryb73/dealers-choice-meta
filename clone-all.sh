@@ -1,5 +1,4 @@
 git clone https://github.com/ryb73/dealers-choice-card-pack.git card-pack
-git clone https://github.com/ryb73/dealers-choice-card-interfaces.git card-interfaces
 git clone https://github.com/ryb73/dealers-choice-engine.git engine
 git clone https://github.com/ryb73/dealers-choice-test.git test
 git clone https://github.com/ryb73/dealers-choice-server.git server
