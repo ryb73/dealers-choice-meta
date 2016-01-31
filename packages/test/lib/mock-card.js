@@ -9,7 +9,6 @@ function MockCard() {
   let supr = _.clone(this);
 
   function play(gameData, choiceProvider, player) {
-    debugger;
     supr.play(gameData, choiceProvider, player);
     return q();
   }
