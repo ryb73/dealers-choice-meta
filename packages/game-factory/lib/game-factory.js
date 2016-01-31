@@ -61,7 +61,7 @@ function GameFactory($deckConfig) {
   this.hashCode = hashCode;
 
   function findPlayerIndex(player) {
-    return _.findIndex(players, "id", player.id);
+    return _.findIndex(players, { id: player.id });
   }
 
   Object.defineProperties(this, {
