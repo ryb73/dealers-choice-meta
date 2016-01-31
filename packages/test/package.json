@@ -1,6 +1,6 @@
 {
   "name": "dc-test",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Dealer's Choice test utils.",
   "main": "index.js",
   "scripts": {
