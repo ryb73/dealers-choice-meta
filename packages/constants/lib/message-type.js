@@ -19,6 +19,8 @@ const MessageType = {
   // S2C
   UserEnteredLobby: "user-entered",
   UserLeftLobby: "user-left",
+  PendingGameUpdated: "pending-game-updated",
+  LobbyUpdated: "lobby-updated",
 
   // In-game commands
   // C2S
