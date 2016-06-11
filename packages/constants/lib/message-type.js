@@ -27,9 +27,12 @@ const MessageType = {
   Leave: "leave",
   Choice: "choice",
   StartGame: "start-game",
+  ActuallyReady: "actually-ready",
+  GetState: "get-state",
 
   // S2C
   PlayerJoined: "player-joined",
+  GameStarted: "game-started",
 
   RockPaperScissors: "rps",
   RpsCountdown: "rpsCountdown",
@@ -51,7 +54,9 @@ const MessageType = {
   NewHighBidder: "new-high-bidder",
 
   PromptAcceptCounterOffer: "prompt-accept",
-  NotifyAcceptedOffer: "notify-accepted"
+  NotifyAcceptedOffer: "notify-accepted",
+
+  DealDcCardToPlayer: "deal-dc-card-to-player"
 };
 
 module.exports = MessageType;
