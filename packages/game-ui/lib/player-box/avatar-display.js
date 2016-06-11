@@ -1,5 +1,5 @@
 /* global createjs */
-/* jshint globalstrict: true */
+/* strict: global */
 "use strict";
 
 var IMAGE_WIDTH  = 100,
@@ -20,20 +20,40 @@ p.setup = function(user) {
   this.regX = 50;
   this.regY = 50;
 
+  if(user.imgSrc) {
+    this._addUserImage(user.imgSrc);
+  } else {
+    this._addPlaceholderRect();
+  }
+
+  var text = new createjs.Text(user.name, "bold 16px Arial", "black");
+  text.textAlign = "center";
+  text.textBaseline = "bottom";
+  text.x = 50;
+  text.y = -10;
+  this.addChild(text);
+};
+
+p._addPlaceholderRect = function() {
   var rect = new createjs.Shape();
   rect.graphics
     .beginFill("#CCC")
     .beginStroke("#444")
     .drawRect(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
   this.addChild(rect);
+};
 
-  var text = new createjs.Text(user.name, "bold 16px Arial",
-                                "black");
-  text.textAlign = "center";
-  text.textBaseline = "bottom";
-  text.x = 50;
-  text.y = -10;
-  this.addChild(text);
+p._addUserImage = function(imgSrc) {
+  var bmp = new createjs.Bitmap(imgSrc);
+  bmp.image.addEventListener("load", function() {
+    var bounds = bmp.getBounds();
+    var rect = new createjs.Shape();
+    rect.graphics
+      .beginStroke("#777")
+      .drawRect(bounds.x - 1, bounds.x - 1, bounds.width + 2, bounds.width + 2);
+    this.addChild(rect);
+  }.bind(this));
+  this.addChild(bmp);
 };
 
 module.exports = createjs.promote(AvatarDisplay, "Container");
