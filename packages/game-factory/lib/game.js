@@ -1,9 +1,11 @@
 "use strict";
 
-const BeginningState = require("dc-game-states").BeginningState,
+const nodeUuid  = require("node-uuid"),
+      BeginningState = require("dc-game-states").BeginningState,
       GameData       = require("dc-engine").GameData;
 
 function Game($players, $deckConfig, $choiceProvider) {
+  let uuid = nodeUuid.v1();
   let choiceProvider, gameData, state;
 
   function initialize() {
@@ -28,6 +30,13 @@ function Game($players, $deckConfig, $choiceProvider) {
   this.doNext = doNext;
 
   Object.defineProperties(this, {
+    id: {
+      enumerable: true,
+      get: function() {
+        return uuid;
+      }
+    },
+
     players: {
       enumerable: true,
       get: function() {
