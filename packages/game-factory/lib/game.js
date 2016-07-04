@@ -1,6 +1,7 @@
 "use strict";
 
-const nodeUuid  = require("node-uuid"),
+const nodeUuid       = require("node-uuid"),
+      _              = require("lodash"),
       BeginningState = require("dc-game-states").BeginningState,
       GameData       = require("dc-engine").GameData;
 
@@ -28,6 +29,11 @@ function Game($players, $deckConfig, $choiceProvider) {
       });
   }
   this.doNext = doNext;
+
+  function getPlayerIndexById(playerId) {
+    return _.findIndex(gameData.players, { id: playerId });
+  }
+  this.getPlayerIndexById = getPlayerIndexById;
 
   Object.defineProperties(this, {
     id: {
