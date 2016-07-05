@@ -2,5 +2,6 @@
   "cardLengthSm":  116,
   "cardBreadthSm": 75,
   "cardLength":  341,
-  "cardBreadth": 220
+  "cardBreadth": 220,
+  "headerColor": "#53412b"
 }

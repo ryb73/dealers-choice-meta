@@ -12,14 +12,12 @@ function drawCard(dcCard, fullSize) {
   var blankBg = new createjs.Bitmap(assets.dcCardBlank);
   var bounds = blankBg.getBounds();
 
-  var title = new createjs.Text(dcCard.title.toUpperCase(),
-    "36px 'DC Card Header'", "#53412b");
+  var title = new createjs.Text(dcCard.title.toUpperCase(), "36px 'DC Card Header'", consts.headerColor);
   title.lineWidth = bounds.width - 32;
   title.x = 16;
   title.y = 10;
 
-  var description = new createjs.Text(dcCard.description,
-    "18px 'DC Card Body'", "#53412b");
+  var description = new createjs.Text(dcCard.description, "18px 'DC Card Body'", consts.headerColor);
   description.lineWidth = bounds.width - 32;
   description.x = 16;
   description.y = 90;
