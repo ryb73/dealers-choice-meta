@@ -26,7 +26,7 @@ p.setup = function(user) {
     this._addPlaceholderRect();
   }
 
-  var text = new createjs.Text(user.name, "bold 16px Arial", "black");
+  var text = new createjs.Text(user.name, "bold 16px 'DC Card Header'", "black");
   text.textAlign = "center";
   text.textBaseline = "bottom";
   text.x = 50;

@@ -10,5 +10,6 @@ module.exports = {
   InsuranceFront: require("./lib/cards/insurance-front"),
   BlueBook:       require("./lib/blue-book"),
   MyInsurances:   require("./lib/my-insurances"),
-  RpsPrompt:      require("./lib/rps/rps-prompt")
+  RpsPrompt:      require("./lib/rps/rps-prompt"),
+  RpsResults:     require("./lib/rps/rps-results")
 };

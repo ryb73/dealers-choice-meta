@@ -4,10 +4,11 @@
 
 var PADDING = 20;
 
-var q         = require("q"),
-    RpsMoves  = require("dc-constants").RpsMoves,
-    consts    = require("../constants"),
-    RpsChoice = require("./rps-choice");
+var q               = require("q"),
+    RpsMoves        = require("dc-constants").RpsMoves,
+    consts          = require("../constants"),
+    ModalBackground = require("../modal-background"),
+    RpsChoice       = require("./rps-choice");
 
 function RpsPrompt() {
   this.Container_constructor();
@@ -21,6 +22,7 @@ p.setup = function() {
   this.defAnswer = q.defer();
 
   var choices = this.createChoices();
+
   var title = createTitle();
   var titleHeight = title.getBounds().height;
 
@@ -44,18 +46,18 @@ p.createChoices = function() {
     scissors: new RpsChoice("scissors")
   };
 
-  choices.rock.on("mouseover", choices.rock.mouseOver);
-  choices.rock.on("mouseout", choices.rock.mouseOut);
+  choices.rock.on("mouseover", choices.rock.highlight);
+  choices.rock.on("mouseout", choices.rock.unhighlight);
   choices.rock.on("click", this.optionSelected.bind(this, RpsMoves.Rock));
   choices.rock.cursor = "pointer";
 
-  choices.paper.on("mouseover", choices.paper.mouseOver);
-  choices.paper.on("mouseout", choices.paper.mouseOut);
+  choices.paper.on("mouseover", choices.paper.highlight);
+  choices.paper.on("mouseout", choices.paper.unhighlight);
   choices.paper.on("click", this.optionSelected.bind(this, RpsMoves.Paper));
   choices.paper.cursor = "pointer";
 
-  choices.scissors.on("mouseover", choices.scissors.mouseOver);
-  choices.scissors.on("mouseout", choices.scissors.mouseOut);
+  choices.scissors.on("mouseover", choices.scissors.highlight);
+  choices.scissors.on("mouseout", choices.scissors.unhighlight);
   choices.scissors.on("click", this.optionSelected.bind(this, RpsMoves.Scissors));
   choices.scissors.cursor = "pointer";
 
@@ -81,11 +83,7 @@ p.drawTitle = function(text, containerWidth) {
 };
 
 p.drawBackground = function(containerWidth, containerHeight) {
-  var rect = new createjs.Shape();
-  rect.graphics
-    .beginFill("rgba(255, 249, 229, 0.75)")
-    .drawRect(0, 0, containerWidth, containerHeight);
-  this.addChild(rect);
+  this.addChild(new ModalBackground(containerWidth, containerHeight));
 };
 
 p.drawChoices = function(choices, yOffset) {

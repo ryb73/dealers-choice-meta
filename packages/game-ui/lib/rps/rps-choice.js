@@ -36,12 +36,12 @@ p.setUpHoverBitmap = function(choiceKey) {
   this.addChild(this.hoverBmp);
 };
 
-p.mouseOver = function() {
+p.highlight = function() {
     this.hoverBmp.visible = true;
     this.mainBmp.visible = false;
 };
 
-p.mouseOut = function() {
+p.unhighlight = function() {
     this.hoverBmp.visible = false;
     this.mainBmp.visible = true;
 };
