@@ -62,8 +62,11 @@ var assetTable = {
   "/images/blue-book-holder.png": "blueBookHolder",
 
   "/images/rps/rock.png": "rock",
+  "/images/rps/rock-hover.png": "rock-hover",
   "/images/rps/paper.png": "paper",
-  "/images/rps/scissors.png": "scissors"
+  "/images/rps/paper-hover.png": "paper-hover",
+  "/images/rps/scissors.png": "scissors",
+  "/images/rps/scissors-hover.png": "scissors-hover"
 };
 
 function Assets() {

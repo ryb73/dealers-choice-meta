@@ -66,7 +66,7 @@ p._randomizeCoords = function(coords) {
     coords.y += (Math.random() * 9) - 4;
     coords.rotation += (Math.random() * 5) - 2;
   }
-}
+};
 
 p.makeSpaceForCard = function(transitionTime) {
   this._cardSlots.push(null);

@@ -4,7 +4,8 @@
 
 var PADDING = 20;
 
-var assets    = require("../assets"),
+var q         = require("q"),
+    RpsMoves  = require("dc-constants").RpsMoves,
     consts    = require("../constants"),
     RpsChoice = require("./rps-choice");
 
@@ -17,7 +18,9 @@ function RpsPrompt() {
 var p = createjs.extend(RpsPrompt, createjs.Container);
 
 p.setup = function() {
-  var choices = createChoices();
+  this.defAnswer = q.defer();
+
+  var choices = this.createChoices();
   var title = createTitle();
   var titleHeight = title.getBounds().height;
 
@@ -34,13 +37,38 @@ p.setup = function() {
   this.drawChoices(choices, titleHeight + PADDING);
 };
 
-function createChoices() {
-  return {
-    rock: new RpsChoice(assets.rock),
-    paper: new RpsChoice(assets.paper),
-    scissors: new RpsChoice(assets.scissors)
+p.createChoices = function() {
+  var choices = {
+    rock: new RpsChoice("rock"),
+    paper: new RpsChoice("paper"),
+    scissors: new RpsChoice("scissors")
   };
-}
+
+  choices.rock.on("mouseover", choices.rock.mouseOver);
+  choices.rock.on("mouseout", choices.rock.mouseOut);
+  choices.rock.on("click", this.optionSelected.bind(this, RpsMoves.Rock));
+  choices.rock.cursor = "pointer";
+
+  choices.paper.on("mouseover", choices.paper.mouseOver);
+  choices.paper.on("mouseout", choices.paper.mouseOut);
+  choices.paper.on("click", this.optionSelected.bind(this, RpsMoves.Paper));
+  choices.paper.cursor = "pointer";
+
+  choices.scissors.on("mouseover", choices.scissors.mouseOver);
+  choices.scissors.on("mouseout", choices.scissors.mouseOut);
+  choices.scissors.on("click", this.optionSelected.bind(this, RpsMoves.Scissors));
+  choices.scissors.cursor = "pointer";
+
+  return choices;
+};
+
+p.optionSelected = function(selection) {
+  this.defAnswer.resolve(selection);
+};
+
+p.getSelection = function() {
+  return this.defAnswer.promise;
+};
 
 function createTitle() {
   return new createjs.Text("ROCK PAPER SCISSORS", "36px 'DC Card Header'", consts.headerColor);
