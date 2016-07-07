@@ -6,9 +6,9 @@ var PADDING = 20,
     CHOICE_WIDTH = 300,
     CHOICE_HEIGHT = 200;
 
-var q               = require("q"),
-    _               = require("lodash"),
-    RpsMoves        = require("dc-constants").RpsMoves,
+var _               = require("lodash"),
+    oxfordJoin      = require("oxford-join"),
+    RpsConclusion   = require("dc-constants").RpsConclusion,
     consts          = require("../constants"),
     ModalBackground = require("../modal-background"),
     RpsChoice       = require("./rps-choice"),
@@ -23,17 +23,21 @@ function RpsResults(users, myChoice) {
 var p = createjs.extend(RpsResults, createjs.Container);
 
 p.setup = function(users, myChoice) {
-  this.userIds = _.map(users, "player.id");
+  this.users = users;
 
   var title = createTitle();
   var titleHeight = title.getBounds().height;
 
   var nameHeaderHeight = this.drawNameHeaders(users, titleHeight);
   this.drawMyChoice(myChoice, PADDING * 3 + titleHeight + nameHeaderHeight);
-  this.drawCountdowns(users.length, PADDING * 3 + titleHeight + nameHeaderHeight);
 
   var containerWidth = PADDING * 2 + users.length * CHOICE_WIDTH;
-  var containerHeight = PADDING * 4 + titleHeight + nameHeaderHeight + CHOICE_HEIGHT;
+
+  var resultRowHeight = this.addResultRow(
+    containerWidth, PADDING * 4 + titleHeight + nameHeaderHeight + CHOICE_HEIGHT
+  );
+
+  var containerHeight = PADDING * 5 + titleHeight + nameHeaderHeight + CHOICE_HEIGHT + resultRowHeight;
 
   this.drawTitle(title, containerWidth);
 
@@ -41,6 +45,21 @@ p.setup = function(users, myChoice) {
   this.regX = containerWidth / 2;
   this.regY = containerHeight / 2;
   this.drawBackground(containerWidth, containerHeight);
+};
+
+p.addResultRow = function(containerWidth, yOffset) {
+  this.resultRow = new createjs.Text("Placeholder", "24px 'DC Card Header'", consts.headerColor);
+  var textBounds = this.resultRow.getBounds();
+  this.resultRow.visible = false;
+  this.resultRow.x = containerWidth / 2 - textBounds.width / 2;
+  this.resultRow.y = yOffset;
+  this.addChild(this.resultRow);
+  return textBounds.height;
+};
+
+p.beginCountdown = function() {
+  var yOffset = this.myChoiceDisp.y;
+  this.drawCountdowns(this.users.length, yOffset);
 };
 
 p.drawNameHeaders = function(users, titleHeight) {
@@ -78,7 +97,9 @@ p.drawCountdowns = function(numPlayers, yOffset) {
   }
 };
 
-p.setAnswers = function(answers, survivors) {
+p.setAnswers = function(answers, survivors, conclusion) {
+  this.updateResultRow(survivors, conclusion);
+
   var yOffset = this.myChoiceDisp.y;
 
   this.removeChild(this.myChoiceDisp);
@@ -93,6 +114,52 @@ p.setAnswers = function(answers, survivors) {
   }.bind(this));
 };
 
+p.updateResultRow = function(survivors, conclusion) {
+  var newText;
+
+  switch(conclusion) {
+    case RpsConclusion.Winner:
+      newText = this.getWinnerText(survivors);
+      break;
+    case RpsConclusion.ShowDown:
+      newText = this.getShowdownText(survivors);
+      break;
+    case RpsConclusion.DoOver:
+      newText = "No winners.";
+      break;
+    case RpsConclusion.NextRound:
+      newText = this.getNextRoundText(survivors);
+      break;
+  }
+
+  this.resultRow.text = newText;
+  var textBounds = this.resultRow.getBounds();
+  this.resultRow.x = this.getBounds().width / 2 - textBounds.width / 2;
+  this.resultRow.visible = true;
+};
+
+p.getWinnerText = function(survivors) {
+  var playerIndex = this.findPlayerIndexById(survivors[0]);
+  var player = this.users[playerIndex];
+  return player.name + " is the winner!";
+};
+
+p.getShowdownText = function(survivors) {
+  var playerNames = survivors.map(function(survivor) {
+    var playerIndex = this.findPlayerIndexById(survivor);
+    var player = this.users[playerIndex];
+    return player.name;
+  });
+
+  return oxfordJoin(playerNames) + " will show down.";
+};
+
+p.getNextRoundText = function(survivors) {
+  var playerIndex = this.findPlayerIndexById(survivors[0]);
+  var player = this.users[playerIndex];
+  return player.name + " won this round. Two out of three!";
+};
+
 p.drawAnswerAtIndex = function(index, move, isSurvivor, yOffset) {
   var rpsChoice = new RpsChoice(choiceIdToKey(move));
   rpsChoice.x = PADDING + CHOICE_WIDTH * index;
@@ -103,7 +170,12 @@ p.drawAnswerAtIndex = function(index, move, isSurvivor, yOffset) {
 };
 
 p.findPlayerIndexById = function(playerId) {
-  return this.userIds.indexOf(playerId);
+  return _.findIndex(this.users,
+    { player: {
+        id: playerId
+      }
+    }
+  );
 };
 
 function choiceIdToKey(choiceId) {

@@ -20,6 +20,7 @@
   "dependencies": {
     "evemit": "^1.0.2",
     "lodash": "4.13.1",
+    "oxford-join": "0.1.0",
     "q": "^1.4.1"
   }
 }
