@@ -48,6 +48,13 @@ function Game($players, $deckConfig, $choiceProvider) {
       get: function() {
         return gameData.players;
       }
+    },
+
+    gameData: {
+      enumerable: false,
+      get: function() {
+        return gameData;
+      }
     }
   });
 
