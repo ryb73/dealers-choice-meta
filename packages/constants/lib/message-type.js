@@ -56,7 +56,9 @@ const MessageType = {
   PromptAcceptCounterOffer: "prompt-accept",
   NotifyAcceptedOffer: "notify-accepted",
 
-  DealDcCardToPlayer: "deal-dc-card-to-player"
+  DealDcCardToPlayer: "deal-dc-card-to-player",
+  DealCarToPlayer: "deal-car-to-player",
+  DealInsuranceToPlayer: "deal-insurance-to-player"
 };
 
 module.exports = MessageType;
