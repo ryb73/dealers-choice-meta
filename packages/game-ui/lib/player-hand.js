@@ -54,17 +54,17 @@ p._rearrangeCards = function(transitionTime) {
     this._randomizeCoords(coords);
 
     createjs.Tween.get(dispCard, { override: true })
-      .to(coords, transitionTime,
-        createjs.Ease.cubicOut);
+      .to(coords, transitionTime, createjs.Ease.cubicOut);
   }
 };
 
-// Randomize coords a bit more a slightly more realistic look
+// Randomize coords a bit for a slightly more realistic look
 p._randomizeCoords = function(coords) {
   if(this._randomize) {
     coords.x += (Math.random() * 9) - 4;
     coords.y += (Math.random() * 9) - 4;
-    coords.rotation += (Math.random() * 5) - 2;
+    // coords.rotation += (Math.random() * 5) - 2;
+    coords.rotation = 0; // TODO: turn back on when Chrome bug is fixed
   }
 };
 
