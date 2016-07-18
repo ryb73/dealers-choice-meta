@@ -22,4 +22,12 @@ function addShadow(dispObj) {
   return dispObj;
 }
 
+p.highlight = function() {
+  this._dispObj.shadow = new createjs.Shadow("#32c9fb", 0, 0, 40);
+};
+
+p.unhighlight = function() {
+  addShadow(this._dispObj);
+};
+
 module.exports = createjs.promote(CardDisplay, "Container");

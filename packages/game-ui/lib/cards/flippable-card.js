@@ -39,4 +39,14 @@ p._flipToFront = function(delay) {
     .to({ scaleX: 1 }, delay / 2);
 };
 
+p.highlight = function() {
+  this._back.highlight();
+  this._front.highlight();
+};
+
+p.unhighlight = function() {
+  this._back.unhighlight();
+  this._front.unhighlight();
+};
+
 module.exports = createjs.promote(FlippableCard, "Container");

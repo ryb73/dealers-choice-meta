@@ -20,6 +20,7 @@ p._addToOpenSlot = function(dispCard) {
 
   dispCard.on("rollover", this._cardMouseOver.bind(this, this._openSlotIdx));
   dispCard.on("rollout", this._cardMouseOut.bind(this, this._openSlotIdx));
+  dispCard.on("click", this._cardClick.bind(this, this._openSlotIdx));
 
   this._cardSlots[this._openSlotIdx++] = dispCard;
   this.addChild(dispCard);
@@ -35,6 +36,13 @@ p._cardMouseOver = function(idx) {
 p._cardMouseOut = function(idx) {
   this.dispatchEvent({
     type: "card-mouseout",
+    cardIndex: idx
+  });
+};
+
+p._cardClick = function(idx) {
+  this.dispatchEvent({
+    type: "card-click",
     cardIndex: idx
   });
 };
@@ -79,6 +87,8 @@ p.putCardInBlankSpace = function(qNewCard) {
     if(this._openSlotIdx === this._cardSlots.length)
       throw new Error("No open slots in car display");
 
+    var openSlot = this._openSlotIdx;
+
     if(newCard.parent)
       newCard.parent.removeChild(newCard);
 
@@ -88,7 +98,16 @@ p.putCardInBlankSpace = function(qNewCard) {
     newCard.rotation = coords.rotation;
 
     this._addToOpenSlot(newCard);
+    return openSlot;
   }.bind(this));
+};
+
+p.highlightCard = function(cardIndex) {
+  this._cardSlots[cardIndex].highlight();
+};
+
+p.unhighlightCard = function(cardIndex) {
+  this._cardSlots[cardIndex].unhighlight();
 };
 
 p._addCards = unimplemented;

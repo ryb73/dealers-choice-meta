@@ -157,7 +157,7 @@ p.getShowdownText = function(survivors) {
 p.getNextRoundText = function(survivors) {
   var playerIndex = this.findPlayerIndexById(survivors[0]);
   var player = this.users[playerIndex];
-  return player.name + " won this round. Two out of three!";
+  return player.name + " won this round.";
 };
 
 p.drawAnswerAtIndex = function(index, move, isSurvivor, yOffset) {

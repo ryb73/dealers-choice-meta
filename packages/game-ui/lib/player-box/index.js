@@ -9,16 +9,19 @@ var q             = require("q"),
     PlayerCars    = require("./player-cars"),
     AvatarDisplay = require("./avatar-display");
 
-function PlayerBox(user, isMe, debugMode) {
+function PlayerBox(user, isMe, debugMode, callbacks) {
   this.Container_constructor();
 
-  this._setup(user, isMe, debugMode);
+  this._setup(user, isMe, debugMode, callbacks);
 }
 
 var p = createjs.extend(PlayerBox, createjs.Container);
 createjs.EventDispatcher.initialize(p);
 
-p._setup = function(user, isMe, debugMode) {
+p._setup = function(user, isMe, debugMode, callbacks) {
+  this._callbacks = callbacks;
+  this._player = user.player; // TODO: refactor this to be safer
+
   var height = (isMe) ? BOX_HEIGHT_ME : BOX_HEIGHT_OTHERS;
   this.setBounds(0, 0, BOX_WIDTH, height);
   this.regX = BOX_WIDTH / 2;
@@ -98,6 +101,20 @@ p._dcCardMouseOut = function(e) {
   });
 };
 
+p._dcCardClick = function(e) {
+  if(!this.defPlayedCardId)
+    return;
+
+  var card = this._player.dcCards[e.cardIndex];
+  this._callbacks.canPlayDcCard(card.id)
+    .done(function(canPlay) {
+      if(!canPlay) return;
+
+      this.defPlayedCardId.resolve(card.id);
+      this.defPlayedCardId = null;
+    });
+};
+
 p._createAvatar = function(user) {
   // Reg point is center of picture
   var avatarDisplay = new AvatarDisplay(user);
@@ -148,7 +165,18 @@ p.makeSpaceForDcCard = function(transitionTime) {
 };
 
 p.putDcCardInBlankSpace = function(qNewCard) {
-  return this._playerDcCards.putCardInBlankSpace(qNewCard);
+  return this._playerDcCards.putCardInBlankSpace(qNewCard)
+    .tap(this.highlightNewCard.bind(this));
+};
+
+p.highlightNewCard = function(cardIndex) {
+  // If a new card is added and we're highlighting playable cards, highlight the new one if applicable
+  if(!this.defPlayedCardId)
+    return;
+
+  var card = this._player.dcCards[cardIndex];
+  this._callbacks.canPlayDcCard(card.id)
+    .done(this._highlightDcCardIfCanPlay.bind(this, cardIndex));
 };
 
 p._getCoordsForInsurance = function() {
@@ -179,6 +207,36 @@ p.giveInsurance = function(insuranceDisp, initialCoords, transitionTime) {
     }.bind(this));
 
   return deferred.promise;
+};
+
+p.askForDcCardToPlay = function() {
+  this._highlightPlayableCards();
+  this.defPlayedCardId = q.defer();
+  return this.defPlayedCardId.promise;
+};
+
+p.stopAskingForDcCard = function() {
+  this._unhighlightPlayableCards();
+  this.defPlayedCardId.reject();
+  this.defPlayedCardId = null;
+};
+
+p._highlightDcCardIfCanPlay = function(idx, canPlay) {
+  if(canPlay)
+    this._playerDcCards.highlightCard(idx);
+};
+
+p._highlightPlayableCards = function() {
+  for(var i = 0; i < this._player.dcCards.length; ++i) {
+    this._callbacks.canPlayDcCard(this._player.dcCards[i].id)
+      .done(this._highlightDcCardIfCanPlay.bind(this, i));
+  }
+};
+
+p._unhighlightPlayableCards = function() {
+  for(var i = 0; i < this._player.dcCards.length; ++i) {
+    this._playerDcCards.unhighlightCard(i);
+  }
 };
 
 module.exports = createjs.promote(PlayerBox, "Container");
