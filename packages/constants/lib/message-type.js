@@ -29,6 +29,7 @@ const MessageType = {
   StartGame: "start-game",
   ActuallyReady: "actually-ready",
   GetState: "get-state",
+  CanPlayDcCard: "can-play-dc-card",
 
   // S2C
   PlayerJoined: "player-joined",
