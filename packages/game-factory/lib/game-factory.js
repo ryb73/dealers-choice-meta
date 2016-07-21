@@ -3,8 +3,8 @@
 const _        = require("lodash"),
       nodeUuid = require("node-uuid"),
       assert   = require("chai").assert,
-      Game     = require("./game"),
-      Player   = require("dc-engine").Player;
+      Player   = require("dc-engine").Player,
+      Game     = require("./game");
 
 const STARTING_MONEY = 17000;
 const MAX_PLAYERS = 6;
@@ -43,9 +43,15 @@ function GameFactory($deckConfig) {
   }
   this.removePlayer = removePlayer;
 
-  function createGame(choiceProvider) {
+  function createGame(choiceProvider, preset) {
     assert.equal(status(), PendingGameStatus.ReadyToStart);
-    return new Game(players, deckConfig, choiceProvider);
+
+    let game = new Game(players, deckConfig, choiceProvider);
+
+    if(preset)
+      game.applyPreset(preset);
+
+    return game;
   }
   this.createGame = createGame;
 
