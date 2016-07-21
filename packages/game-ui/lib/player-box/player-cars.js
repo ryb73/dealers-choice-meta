@@ -93,6 +93,7 @@ p._resetBounds = function() {
 
 // Overrides superclass
 p._addCards = function(cars) {
+  console.log(cars);
   for(var i = 0; i < cars.length; ++i) {
     var dispCar = this._addCar(cars[i]);
     this._addToOpenSlot(dispCar);
