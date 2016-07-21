@@ -7,4 +7,5 @@ module.exports = {
   ResponseCode: require("./lib/response-code"),
   RpsMoves: require("./lib/rps-moves"),
   RpsConclusion: require("./lib/rps-conclusion"),
+  Symbols: require("./lib/symbols")
 };
