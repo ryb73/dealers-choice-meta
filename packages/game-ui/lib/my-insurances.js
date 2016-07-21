@@ -1,12 +1,13 @@
 "use strict";
 
-var consts     = require("./constants"),
-    PlayerHand = require("./player-hand");
+var consts         = require("./constants"),
+    PlayerHand     = require("./player-hand"),
+    InsuranceFront = require("./cards/insurance-front");
 
 var CARD_SPACING = 10;
 
-function MyInsurances() {
-  this.PlayerHand_constructor(null, true);
+function MyInsurances(insurances) {
+  this.PlayerHand_constructor(insurances, true);
 
   this.setBounds(0, 0, consts.cardLength, 0);
 }
@@ -14,8 +15,16 @@ function MyInsurances() {
 var p = createjs.extend(MyInsurances, PlayerHand);
 
 // Overrides superclass
-p._addCards = function(cars) {
-  // TODO: implement
+p._addCards = function(insurances) {
+  var cardDisp;
+
+  for(var i = 0; i < insurances.length; ++i) {
+    cardDisp = new InsuranceFront(insurances[i]);
+
+    this._addToOpenSlot(cardDisp);
+  }
+
+  this._rearrangeCards();
 };
 
 p._getCoordsForCard = function(index) {

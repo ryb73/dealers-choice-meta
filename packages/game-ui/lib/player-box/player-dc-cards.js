@@ -2,7 +2,9 @@
 
 var consts      = require("../constants"),
     DcCardFront = require("../cards/dc-card-front"),
-    PlayerHand  = require("../player-hand");
+    CardDisplay = require("../cards/card-display"),
+    PlayerHand  = require("../player-hand"),
+    assets      = require("../assets");
 
 function PlayerDcCards(availWidth, cards, isMe) {
   this._availWidth = availWidth;
@@ -17,9 +19,16 @@ var p = createjs.extend(PlayerDcCards, PlayerHand);
 
 // Overrides superclass
 p._addCards = function(cards) {
-  console.log(cards);
-  for(var i = 0; i < cards.length; ++i)
-    this._addToOpenSlot(new DcCardFront(cards[i]));
+  var cardDisp;
+
+  for(var i = 0; i < cards.length; ++i) {
+    if(this._isMe)
+      cardDisp = new DcCardFront(cards[i]);
+    else
+      cardDisp = new CardDisplay(new createjs.Bitmap(assets.dcCardBack));
+
+    this._addToOpenSlot(cardDisp);
+  }
 
   this._rearrangeCards();
 };
