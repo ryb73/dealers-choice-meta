@@ -222,6 +222,7 @@ p.stopAskingForDcCard = function() {
 };
 
 p._highlightDcCardIfCanPlay = function(idx, canPlay) {
+  console.log("? ", idx, canPlay);
   if(canPlay)
     this._playerDcCards.highlightCard(idx);
 };
