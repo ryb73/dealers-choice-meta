@@ -12,8 +12,6 @@ function drawCard(dcCard, fullSize) {
   var blankBg = new createjs.Bitmap(assets.dcCardBlank);
   var bounds = blankBg.getBounds();
 
-  console.log(dcCard);
-
   var title = new createjs.Text(dcCard.title.toUpperCase(), "36px 'DC Card Header'", consts.headerColor);
   title.lineWidth = bounds.width - 32;
   title.x = 16;
