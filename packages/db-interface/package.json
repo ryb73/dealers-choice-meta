@@ -1,0 +1,23 @@
+{
+  "name": "dc-db-interface",
+  "version": "1.0.0",
+  "description": "DB interface for Dealer's Choice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryb73/dealers-choice-db-interface.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-db-interface/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-db-interface#readme",
+  "dependencies": {
+    "lodash": "4.14.1",
+    "q": "1.4.1"
+  }
+}
