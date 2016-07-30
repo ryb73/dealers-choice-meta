@@ -47,21 +47,15 @@ function PresetHelper(preset, gameData, choiceProvider) {
         playerPreset.insurances.forEach(
             adjustCards.bind(null, player.gainInsurance, gameData.insuranceDeck)
         );
-
-        console.log("final cards ", player.dcCards);
     }
     this.adjustPlayer = adjustPlayer;
 
     function adjustCards(gainCard, cards, cardPreset) {
         let card;
-        if(cardPreset === Symbols.random) {
+        if(cardPreset === Symbols.random)
             card = cards.pop();
-            console.log("popped card ", card);
-        }
-        else {
+        else
             card = cards.pickCard(cardPreset);
-            console.log("picked " + cardPreset + " ", card);
-        }
 
         gainCard(card);
     }
