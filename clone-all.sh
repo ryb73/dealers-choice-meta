@@ -7,3 +7,4 @@ git clone https://github.com/ryb73/dealers-choice-game-states.git game-states
 git clone https://github.com/ryb73/dealers-choice-front-end.git front-end
 git clone https://github.com/ryb73/dealers-choice-game-ui.git game-ui
 git clone https://github.com/ryb73/dealers-choice-constants.git constants
+git clone https://github.com/ryb73/dealers-choice-db-interface.git db-interface
