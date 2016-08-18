@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-test",
   "dependencies": {
-    "lodash": "4.7.0",
+    "lodash": "4.15.0",
     "q": "^1.4.1"
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "mocha": "^2.2.5"
+    "mocha": "3.0.2"
   }
 }
