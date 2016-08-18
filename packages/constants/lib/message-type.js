@@ -15,6 +15,7 @@ const MessageType = {
   JoinGame: "join",
   ListGames: "list-games",
   RegisterUser: "register-user",
+  GetPresets: "get-presets",
 
   // S2C
   UserEnteredLobby: "user-entered",
