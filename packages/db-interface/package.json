@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "DB interface for Dealer's Choice",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ryb73/dealers-choice-db-interface.git"
@@ -17,7 +14,8 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-db-interface#readme",
   "dependencies": {
-    "lodash": "4.14.1",
+    "lodash": "4.15.0",
+    "mongodb": "2.2.6",
     "q": "1.4.1"
   }
 }
