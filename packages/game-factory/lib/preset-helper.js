@@ -4,7 +4,7 @@ const Symbols = require("dc-constants").Symbols;
 
 function PresetHelper(preset, gameData, choiceProvider) {
     function createStateFromPreset() {
-        return new preset.state.class(...evaluateStateArgs());
+        return new preset.state.stateClass(...evaluateStateArgs());
     }
     this.createStateFromPreset = createStateFromPreset;
 
