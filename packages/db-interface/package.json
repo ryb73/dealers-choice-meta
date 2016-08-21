@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "DB interface for Dealer's Choice",
   "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --harmony --harmony-proxies --recursive"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ryb73/dealers-choice-db-interface.git"
@@ -14,8 +17,13 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-db-interface#readme",
   "dependencies": {
+    "config": "1.21.0",
     "lodash": "4.15.0",
-    "mongodb": "2.2.6",
-    "q": "1.4.1"
+    "q": "1.4.1",
+    "rethinkdbdash": "2.3.21"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "3.0.2"
   }
 }
