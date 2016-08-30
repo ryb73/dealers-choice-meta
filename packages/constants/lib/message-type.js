@@ -60,7 +60,9 @@ const MessageType = {
 
   DealDcCardToPlayer: "deal-dc-card-to-player",
   DealCarToPlayer: "deal-car-to-player",
-  DealInsuranceToPlayer: "deal-insurance-to-player"
+  DealInsuranceToPlayer: "deal-insurance-to-player",
+
+  ChooseOwnCar: "choose-own-car"
 };
 
 module.exports = MessageType;
