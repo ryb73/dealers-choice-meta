@@ -57,6 +57,7 @@ p._createCars = function(cars) {
 
   playerCars.on("card-mouseover", this._carMouseOver.bind(this));
   playerCars.on("card-mouseout", this._carMouseOut.bind(this));
+  playerCars.on("card-click", this._carClick.bind(this));
 
   this._playerCars = playerCars;
 };
@@ -75,6 +76,15 @@ p._carMouseOut = function(e) {
   });
 };
 
+p._carClick = function(e) {
+  if(!this.defCarId)
+    return;
+
+  var card = this._player.cars[e.cardIndex];
+  this.defCarId.resolve(card.id);
+  this.defCarId = null;
+};
+
 p._createDcCards = function(dcCards, isMe) {
   // Reg point is 0,0
   var playerDcCards = new PlayerDcCards(BOX_WIDTH, dcCards, isMe);
@@ -83,6 +93,7 @@ p._createDcCards = function(dcCards, isMe) {
 
   playerDcCards.on("card-mouseover", this._dcCardMouseOver.bind(this));
   playerDcCards.on("card-mouseout", this._dcCardMouseOut.bind(this));
+  playerDcCards.on("card-click", this._dcCardClick.bind(this));
 
   this._playerDcCards = playerDcCards;
 };
@@ -112,7 +123,7 @@ p._dcCardClick = function(e) {
 
       this.defPlayedCardId.resolve(card.id);
       this.defPlayedCardId = null;
-    });
+    }.bind(this));
 };
 
 p._createAvatar = function(user) {
@@ -209,20 +220,50 @@ p.giveInsurance = function(insuranceDisp, initialCoords, transitionTime) {
   return deferred.promise;
 };
 
+p.removeCar = function(carIdx, transitionTime) {
+  var carDisp = this._playerCars.removeCard(carIdx, transitionTime);
+  var coords = carDisp.getBounds();
+  coords = this._playerCars.localToLocal(coords.x, coords.y, this);
+  return {
+    carDisp: carDisp,
+    coords: {
+      x: coords.x + carDisp.regX,
+      y: coords.y + carDisp.regY
+    }
+  };
+};
+
 p.askForDcCardToPlay = function() {
   this._highlightPlayableCards();
   this.defPlayedCardId = q.defer();
-  return this.defPlayedCardId.promise;
+  return this.defPlayedCardId.promise
+    .tap(this.stopAskingForDcCard.bind(this));
 };
 
 p.stopAskingForDcCard = function() {
   this._unhighlightPlayableCards();
-  this.defPlayedCardId.reject();
+
+  if(this.defPlayedCardId)
+    this.defPlayedCardId.reject();
   this.defPlayedCardId = null;
 };
 
+p.askForCar = function() {
+  this._highlightCars();
+  this.defCarId = q.defer();
+  return this.defCarId.promise
+    .tap(this.stopAskingForCar.bind(this));
+};
+
+p.stopAskingForCar = function() {
+  this._unhighlightCars();
+
+  if(this.defCarId)
+    this.defCarId.reject();
+  this.defCarId = null;
+};
+
 p._highlightDcCardIfCanPlay = function(idx, canPlay) {
-  console.log("? ", idx, canPlay);
   if(canPlay)
     this._playerDcCards.highlightCard(idx);
 };
@@ -237,6 +278,18 @@ p._highlightPlayableCards = function() {
 p._unhighlightPlayableCards = function() {
   for(var i = 0; i < this._player.dcCards.length; ++i) {
     this._playerDcCards.unhighlightCard(i);
+  }
+};
+
+p._highlightCars = function() {
+  for(var i = 0; i < this._player.cars.length; ++i) {
+    this._playerCars.highlightCard(i);
+  }
+};
+
+p._unhighlightCars = function() {
+  for(var i = 0; i < this._player.cars.length; ++i) {
+    this._playerCars.unhighlightCard(i);
   }
 };
 

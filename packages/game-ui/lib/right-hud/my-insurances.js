@@ -1,8 +1,8 @@
 "use strict";
 
-var consts         = require("./constants"),
-    PlayerHand     = require("./player-hand"),
-    InsuranceFront = require("./cards/insurance-front");
+var consts         = require("../constants"),
+    PlayerHand     = require("../player-hand"),
+    InsuranceFront = require("../cards/insurance-front");
 
 var CARD_SPACING = 10;
 

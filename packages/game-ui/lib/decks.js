@@ -105,6 +105,31 @@ p.getInsuranceToGive = function() {
   };
 };
 
+p.discardCar = function(carDisp, startingCoords, transitionTime) {
+  carDisp.parent.removeChild(carDisp);
+  // carDisp.set(startingCoords);
+  carDisp.x = startingCoords.x;
+  carDisp.y = startingCoords.y;
+  carDisp.rotation = startingCoords.rotation;
+  this.addChildAt(carDisp, 0);
+
+  var destCoords = {
+    x: carDisp.regX,
+    y: carDisp.regY,
+    rotation: 0
+  };
+
+  var deferred = q.defer();
+  createjs.Tween.get(carDisp)
+    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+    .call(function() {
+      this.removeChild(carDisp);
+      deferred.resolve();
+    }.bind(this));
+
+  return deferred.promise;
+};
+
 function createCardBack(image) {
   var back = new CardDisplay(
     new createjs.Bitmap(image)

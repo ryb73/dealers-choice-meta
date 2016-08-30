@@ -1,7 +1,7 @@
 "use strict";
 
-var consts = require("./constants"),
-    assets = require("./assets");
+var consts = require("../constants"),
+    assets = require("../assets");
 
 function BlueBook() {
   this.Container_constructor();

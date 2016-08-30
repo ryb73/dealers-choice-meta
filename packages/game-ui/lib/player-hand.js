@@ -102,12 +102,21 @@ p.putCardInBlankSpace = function(qNewCard) {
   }.bind(this));
 };
 
+p.removeCard = function(cardIdx, transitionTime) {
+  var oldCardDisp = this._cardSlots.splice(cardIdx, 1)[0];
+  --this._openSlotIdx;
+  this._rearrangeCards(transitionTime);
+  return oldCardDisp;
+};
+
 p.highlightCard = function(cardIndex) {
   this._cardSlots[cardIndex].highlight();
+  this._cardSlots[cardIndex].cursor = "pointer";
 };
 
 p.unhighlightCard = function(cardIndex) {
   this._cardSlots[cardIndex].unhighlight();
+  this._cardSlots[cardIndex].cursor = "default";
 };
 
 p._addCards = unimplemented;

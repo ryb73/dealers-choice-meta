@@ -8,8 +8,9 @@ module.exports = {
   CarFront:       require("./lib/cards/car-front"),
   DcCardFront:    require("./lib/cards/dc-card-front"),
   InsuranceFront: require("./lib/cards/insurance-front"),
-  BlueBook:       require("./lib/blue-book"),
-  MyInsurances:   require("./lib/my-insurances"),
+  BlueBook:       require("./lib/right-hud/blue-book"),
+  MyInsurances:   require("./lib/right-hud/my-insurances"),
+  MyMoney:        require("./lib/right-hud/my-money"),
   RpsPrompt:      require("./lib/rps/rps-prompt"),
   RpsResults:     require("./lib/rps/rps-results")
 };
