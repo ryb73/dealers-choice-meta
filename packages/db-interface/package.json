@@ -4,7 +4,7 @@
   "description": "DB interface for Dealer's Choice",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --harmony --harmony-proxies --recursive"
+    "test": "NODE_ENV=test mocha --harmony --recursive"
   },
   "repository": {
     "type": "git",
