@@ -1,6 +1,6 @@
 {
   "strict": "global",
-  "esversion": 5,
+  "esnext": true,
   "node": true,
   "predef": [ "createjs", "-console" ],
 

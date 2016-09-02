@@ -44,17 +44,20 @@ function getTotalHeight(numRows) {
 }
 
 p._getCoordsForCard = function(whichCarIndex) {
-  var numCars = this._cardSlots.length;
+  let numCars = this._cardSlots.length;
 
-  var column = getColumnForCar(whichCarIndex, numCars);
-  var row = getRowForCar(whichCarIndex, numCars);
+  let column = getColumnForCar(whichCarIndex, numCars);
+  let row = getRowForCar(whichCarIndex, numCars);
 
-  var y = (consts.cardBreadthSm + VERT_SPACING) * row +
+  let totalRows = getTotalRows(numCars);
+  let originY = -((consts.cardBreadthSm + VERT_SPACING) * totalRows - VERT_SPACING);
+
+  let y = originY + (consts.cardBreadthSm + VERT_SPACING) * row +
            consts.cardBreadthSm / 2; // reg point is in middle
 
-  var totalColumns = getTotalColumns(numCars);
-  var rowColumns;
-  if(row === getTotalRows(numCars) - 1) { // if last row
+  let totalColumns = getTotalColumns(numCars);
+  let rowColumns;
+  if(row === totalRows - 1) { // if last row
     rowColumns = numCars % totalColumns;  // it might be shorter
     if(rowColumns === 0) rowColumns = totalColumns;
   } else {
@@ -63,16 +66,16 @@ p._getCoordsForCard = function(whichCarIndex) {
 
   // Find the width of this particular row. If it's the
   // "short row", we'll start placing cars at an offset
-  var rowWidth = getRowWidth(rowColumns);
-  var originX = (getRowWidth(totalColumns) - rowWidth) / 2;
+  let rowWidth = getRowWidth(rowColumns);
+  let originX = -rowWidth / 2;
 
-  var x = originX + (consts.cardLengthSm + HORIZ_SPACING) * column +
+  let x = originX + (consts.cardLengthSm + HORIZ_SPACING) * column +
            consts.cardLengthSm / 2;
 
   // Rotate so that the user can see the car. While this isn't
   // really how players would lay out their cars in the real
   // world, it makes it easier for the current player
-  var rotation = 0;
+  let rotation = 0;
   if(this._rotation >= 90 && this._rotation <= 270)
     rotation = 180;
 
@@ -87,8 +90,13 @@ p._resetBounds = function() {
   var columns = getTotalColumns(this._cardSlots.length);
   var rows = getTotalRows(this._cardSlots.length);
 
-  this.setBounds(0, 0, getRowWidth(columns),
-                       getTotalHeight(rows));
+  let newWidth = getRowWidth(columns);
+  let newHeight = getTotalHeight(rows);
+
+  let bounds = this.getBounds();
+  if(bounds.width !== newWidth || bounds.height !== newHeight){
+    this.setBounds(0, 0, newWidth, newHeight);
+  }
 };
 
 // Overrides superclass
@@ -108,19 +116,16 @@ p._addCar = function(car) {
 
 // Overrides superclass
 p.makeSpaceForCard = function(transitionTime) {
-  var newCarNum = this._cardSlots.length + 1;
+  let result = this.PlayerHand_makeSpaceForCard(transitionTime);
+  this._resetBounds();
+  return result;
+};
 
-  // Resize if necessary
-  var newColumns = getTotalColumns(newCarNum);
-  var newRows = getTotalRows(newCarNum);
-  if(newColumns !== getTotalColumns(newCarNum - 1) ||
-     newRows !== getTotalRows(newCarNum - 1))
-  {
-    this.setBounds(0, 0, getRowWidth(newColumns),
-                         getTotalHeight(newRows));
-  }
-
-  return this.PlayerHand_makeSpaceForCard(transitionTime);
+// Overrides superclass
+p.removeCard = function(cardIdx, transitionTime) {
+  let result = this.PlayerHand_removeCard(cardIdx, transitionTime);
+  this._resetBounds();
+  return result;
 };
 
 p.getFirstCarCoords = function() {

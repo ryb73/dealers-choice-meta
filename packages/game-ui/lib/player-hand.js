@@ -52,13 +52,15 @@ p._hasOpenSlot = function() {
 };
 
 p._rearrangeCards = function(transitionTime) {
-  if(transitionTime === undefined) transitionTime = 0;
+  transitionTime = transitionTime || 0;
+
+  // debugger;
 
   for(var i = 0; i < this._cardSlots.length; ++i) {
-    var dispCard = this._cardSlots[i];
+    let dispCard = this._cardSlots[i];
     if(!dispCard) continue;
 
-    var coords = this._getCoordsForCard(i);
+    let coords = this._getCoordsForCard(i);
     this._randomizeCoords(coords);
 
     createjs.Tween.get(dispCard, { override: true })

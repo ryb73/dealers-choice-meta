@@ -50,7 +50,7 @@ p._createBackground = function() {
 p._createCars = function(cars) {
   // Reg point is 0,0
   var playerCars = new PlayerCars(cars);
-  var carCoords = getCoordsForCars(playerCars);
+  var carCoords = getCoordsForCars();
   playerCars.x = carCoords.x;
   playerCars.y = carCoords.y;
   this.addChild(playerCars);
@@ -146,22 +146,28 @@ p.setRotation = function(rotationDeg) {
 };
 
 p.makeSpaceForCar = function(transitionTime) {
-  var coords = this._playerCars.makeSpaceForCard(transitionTime);
-  var carDispCoords = getCoordsForCars(this._playerCars);
-  createjs.Tween.get(this._playerCars)
-    .to(carDispCoords, transitionTime);
+  let coords = this._playerCars.makeSpaceForCard(transitionTime);
+  this._moveCarsCoords(transitionTime);
 
   // We'll get the coords in relation to the playerCars
   // Return them in relation to the playerBox
+  let carDispCoords = getCoordsForCars();
   coords.x += carDispCoords.x;
   coords.y += carDispCoords.y;
   return coords;
 };
 
-function getCoordsForCars(playerCars) {
+// Stupid. Basically playerCars resizes itself and we need to account for that
+p._moveCarsCoords = function(transitionTime) {
+  let carDispCoords = getCoordsForCars();
+  createjs.Tween.get(this._playerCars)
+    .to(carDispCoords, transitionTime);
+};
+
+function getCoordsForCars() {
   return {
-    x: (BOX_WIDTH - playerCars.getBounds().width) / 2,
-    y: 50 - playerCars.getBounds().height
+    x: BOX_WIDTH / 2,
+    y: 50
   };
 }
 
@@ -221,8 +227,10 @@ p.giveInsurance = function(insuranceDisp, initialCoords, transitionTime) {
 };
 
 p.removeCar = function(carIdx, transitionTime) {
-  var carDisp = this._playerCars.removeCard(carIdx, transitionTime);
-  var coords = carDisp.getBounds();
+  let carDisp = this._playerCars.removeCard(carIdx, transitionTime);
+  this._moveCarsCoords(transitionTime);
+
+  let coords = carDisp.getBounds();
   coords = this._playerCars.localToLocal(coords.x, coords.y, this);
   return {
     carDisp: carDisp,
