@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-test",
   "dependencies": {
-    "lodash": "4.15.0",
     "q": "^1.4.1"
   },
   "devDependencies": {

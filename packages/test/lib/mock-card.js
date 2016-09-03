@@ -1,15 +1,12 @@
 "use strict";
 
-const _      = require("lodash"),
-      q      = require("q"),
-      DcCard = require("dc-engine").DcCard;
+const q            = require("q"),
+      giveUniqueId = require("give-unique-id");
 
 function MockCard() {
-  DcCard.call(this);
-  let supr = _.clone(this);
+  giveUniqueId(this);
 
   function play(gameData, choiceProvider, player) {
-    supr.play(gameData, choiceProvider, player);
     return q();
   }
   this.play = play;

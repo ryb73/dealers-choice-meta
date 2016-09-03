@@ -1,6 +1,6 @@
 "use strict";
 
-let test = {};
-test.mockDeckConfig = require("./lib/mock-deck-config");
-
-module.exports = test;
+module.exports = {
+    mockDeckConfig: require("./lib/mock-deck-config"),
+    MockCard:       require("./lib/mock-card"),
+};
