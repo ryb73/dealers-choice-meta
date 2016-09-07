@@ -230,13 +230,13 @@ p.removeCar = function(carIdx, transitionTime) {
   let carDisp = this._playerCars.removeCard(carIdx, transitionTime);
   this._moveCarsCoords(transitionTime);
 
-  let coords = carDisp.getBounds();
-  coords = this._playerCars.localToLocal(coords.x, coords.y, this);
+  let coords = this._playerCars.localToLocal(carDisp.x, carDisp.y, this);
+
   return {
     carDisp: carDisp,
     coords: {
-      x: coords.x + carDisp.regX,
-      y: coords.y + carDisp.regY
+      x: coords.x,
+      y: coords.y
     }
   };
 };
@@ -244,14 +244,13 @@ p.removeCar = function(carIdx, transitionTime) {
 p.removeDcCard = function(carIdx, transitionTime) {
   let cardDisp = this._playerDcCards.removeCard(carIdx, transitionTime);
 
-  let coords = cardDisp.getBounds();
-  coords = this._playerDcCards.localToLocal(coords.x, coords.y, this);
+  let coords = this._playerDcCards.localToLocal(cardDisp.x, cardDisp.y, this);
 
   return {
     cardDisp: cardDisp,
     coords: {
-      x: cardDisp.x + cardDisp.regX,
-      y: cardDisp.y + cardDisp.regY
+      x: coords.x,
+      y: coords.y
     }
   };
 };
