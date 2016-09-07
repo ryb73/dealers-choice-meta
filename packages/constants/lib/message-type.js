@@ -62,7 +62,10 @@ const MessageType = {
   DealCarToPlayer: "deal-car-to-player",
   DealInsuranceToPlayer: "deal-insurance-to-player",
 
-  ChooseOwnCar: "choose-own-car"
+  ChooseOwnCar: "choose-own-car",
+
+  CarSoldToBank: "car-sold-to-bank",
+  CardPlayed: "card-played",
 };
 
 module.exports = MessageType;
