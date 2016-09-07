@@ -106,24 +106,38 @@ p.getInsuranceToGive = function() {
 };
 
 p.discardCar = function(carDisp, startingCoords, transitionTime) {
-  carDisp.parent.removeChild(carDisp);
-  // carDisp.set(startingCoords);
-  carDisp.x = startingCoords.x;
-  carDisp.y = startingCoords.y;
-  carDisp.rotation = startingCoords.rotation;
-  this.addChildAt(carDisp, 0);
-
-  var destCoords = {
+  let destCoords = {
     x: carDisp.regX,
     y: carDisp.regY,
     rotation: 0
   };
 
-  var deferred = q.defer();
-  createjs.Tween.get(carDisp)
+  return this._genericDiscard(carDisp, startingCoords, destCoords, transitionTime);
+};
+
+p.discardDcCard = function(cardDisp, startingCoords, transitionTime) {
+  let destCoords = {
+    x: cardDisp.regY,
+    y: DC_CARD_Y,
+    rotation: -90
+  };
+
+  return this._genericDiscard(cardDisp, startingCoords, destCoords, transitionTime);
+};
+
+p._genericDiscard = function (cardDisp, startingCoords, destCoords, transitionTime) {
+  cardDisp.parent.removeChild(cardDisp);
+  // cardDisp.set(startingCoords);
+  cardDisp.x = startingCoords.x;
+  cardDisp.y = startingCoords.y;
+  cardDisp.rotation = startingCoords.rotation;
+  this.addChildAt(cardDisp, 0);
+
+  let deferred = q.defer();
+  createjs.Tween.get(cardDisp)
     .to(destCoords, transitionTime, createjs.Ease.cubicOut)
     .call(function() {
-      this.removeChild(carDisp);
+      this.removeChild(cardDisp);
       deferred.resolve();
     }.bind(this));
 

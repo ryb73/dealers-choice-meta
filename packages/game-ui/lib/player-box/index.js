@@ -241,6 +241,26 @@ p.removeCar = function(carIdx, transitionTime) {
   };
 };
 
+p.removeDcCard = function(carIdx, transitionTime) {
+  let cardDisp = this._playerDcCards.removeCard(carIdx, transitionTime);
+
+  let coords = cardDisp.getBounds();
+  coords = this._playerDcCards.localToLocal(coords.x, coords.y, this);
+
+  return {
+    cardDisp: cardDisp,
+    coords: {
+      x: cardDisp.x + cardDisp.regX,
+      y: cardDisp.y + cardDisp.regY
+    }
+  };
+};
+
+p.removeRandomDcCard = function(transitionTime) {
+  let cardIdx = Math.floor(Math.random() * this._player.dcCards.length);
+  return this.removeDcCard(cardIdx, transitionTime);
+};
+
 p.askForDcCardToPlay = function() {
   this._highlightPlayableCards();
   this.defPlayedCardId = q.defer();
