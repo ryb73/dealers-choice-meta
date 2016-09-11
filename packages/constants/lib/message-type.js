@@ -66,6 +66,8 @@ const MessageType = {
 
   CarSoldToBank: "car-sold-to-bank",
   CardPlayed: "card-played",
+
+  AllowSecondDcCard: "allow-second-dc-card",
 };
 
 module.exports = MessageType;
