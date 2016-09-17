@@ -1,6 +1,8 @@
 // Abstract class representing a displayable container of cards
 "use strict";
 
+const q = require("q");
+
 function PlayerHand(cardsData, noRandomize) {
   this.Container_constructor();
 
@@ -112,8 +114,9 @@ p.removeCard = function(cardIdx, transitionTime) {
 };
 
 p.highlightCard = function(cardIndex) {
-  this._cardSlots[cardIndex].highlight();
-  this._cardSlots[cardIndex].cursor = "pointer";
+  let cardDisp = this._cardSlots[cardIndex];
+  cardDisp.highlight();
+  cardDisp.cursor = "pointer";
 };
 
 p.unhighlightCard = function(cardIndex) {

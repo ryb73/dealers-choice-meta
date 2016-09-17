@@ -5,6 +5,7 @@ var BOX_WIDTH         = 600,
     BOX_HEIGHT_OTHERS = 300;
 
 var q             = require("q"),
+    _             = require("lodash"),
     PlayerDcCards = require("./player-dc-cards"),
     PlayerCars    = require("./player-cars"),
     AvatarDisplay = require("./avatar-display");
@@ -13,6 +14,8 @@ function PlayerBox(user, isMe, debugMode, callbacks) {
   this.Container_constructor();
 
   this._setup(user, isMe, debugMode, callbacks);
+
+  this._disabledDcCards = {};
 }
 
 var p = createjs.extend(PlayerBox, createjs.Container);
@@ -114,6 +117,9 @@ p._dcCardMouseOut = function(e) {
 
 p._dcCardClick = function(e) {
   if(!this.defPlayedCardId)
+    return;
+
+  if(this._disabledDcCards[e.cardIndex])
     return;
 
   var card = this._player.dcCards[e.cardIndex];
@@ -241,8 +247,10 @@ p.removeCar = function(carIdx, transitionTime) {
   };
 };
 
-p.removeDcCard = function(carIdx, transitionTime) {
-  let cardDisp = this._playerDcCards.removeCard(carIdx, transitionTime);
+p.removeDcCard = function(cardIdx, transitionTime) {
+  this._disabledDcCards[cardIdx] = false;
+
+  let cardDisp = this._playerDcCards.removeCard(cardIdx, transitionTime);
 
   let coords = this._playerDcCards.localToLocal(cardDisp.x, cardDisp.y, this);
 
@@ -255,8 +263,18 @@ p.removeDcCard = function(carIdx, transitionTime) {
   };
 };
 
+p.disableDcCard = function(cardIdx) {
+  this._disabledDcCards[cardIdx] = true;
+};
+
 p.removeRandomDcCard = function(transitionTime) {
-  let cardIdx = Math.floor(Math.random() * this._player.dcCards.length);
+  let possibleIndices = [];
+  for(let i = 0; i < this._player.dcCards.length; ++i) {
+    if(!this._disabledDcCards[i])
+      possibleIndices.push(i);
+  }
+
+  let cardIdx = _.sample(possibleIndices);
   return this.removeDcCard(cardIdx, transitionTime);
 };
 
@@ -290,15 +308,25 @@ p.stopAskingForCar = function() {
   this.defCarId = null;
 };
 
-p._highlightDcCardIfCanPlay = function(idx, canPlay) {
+p._getDcCardIdxFromId = function(cardId) {
+  return _.findIndex(this._player.dcCards, { id: cardId });
+};
+
+p._highlightDcCardIfCanPlay = function(cardId, canPlay) {
+  let idx = this._getDcCardIdxFromId(cardId);
+
   if(canPlay)
     this._playerDcCards.highlightCard(idx);
 };
 
 p._highlightPlayableCards = function() {
-  for(var i = 0; i < this._player.dcCards.length; ++i) {
-    this._callbacks.canPlayDcCard(this._player.dcCards[i].id)
-      .done(this._highlightDcCardIfCanPlay.bind(this, i));
+  for(let i = 0; i < this._player.dcCards.length; ++i) {
+    if(this._disabledDcCards[i])
+      continue;
+
+    let id = this._player.dcCards[i].id;
+    this._callbacks.canPlayDcCard(id)
+      .done(this._highlightDcCardIfCanPlay.bind(this, id));
   }
 };
 
