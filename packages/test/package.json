@@ -19,7 +19,8 @@
   "homepage": "https://github.com/ryb73/dealers-choice-test",
   "dependencies": {
     "give-unique-id": "1.0.0",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "dc-engine": "1.0.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",

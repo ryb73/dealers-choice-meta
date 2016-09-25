@@ -19,7 +19,8 @@
   "homepage": "https://github.com/ryb73/dealers-choice-game-states",
   "dependencies": {
     "lodash": "4.15.0",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "dc-constants": "1.0.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -27,6 +28,7 @@
     "dc-test": "1.1.1",
     "istanbul": "0.4.4",
     "mocha": "3.0.2",
-    "sinon": "1.17.5"
+    "sinon": "1.17.5",
+    "dc-engine": "1.0.0"
   }
 }

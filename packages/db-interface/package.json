@@ -20,7 +20,9 @@
     "config": "1.21.0",
     "lodash": "4.15.0",
     "q": "1.4.1",
-    "rethinkdbdash": "2.3.21"
+    "rethinkdbdash": "2.3.21",
+    "dc-game-states": "1.0.0",
+    "dc-constants": "1.0.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
