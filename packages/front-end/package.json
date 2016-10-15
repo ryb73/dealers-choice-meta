@@ -9,17 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryb73/dealers-choice-front-end.git"
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
   },
-  "author": {
-    "name": "Ryan Biwer",
-    "url": "http://rpb.life/"
-  },
+  "author": "Ryan Biwer",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-front-end/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-front-end",
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/front-end",
   "devDependencies": {
     "babel-core": "6.14.0",
     "babel-loader": "6.2.5",

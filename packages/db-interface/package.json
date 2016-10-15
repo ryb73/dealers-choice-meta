@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryb73/dealers-choice-db-interface.git"
+    "url": "git+https://github.com/ryb73/dealers-choice-meta.git"
   },
   "author": "Ryan Biwer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-db-interface/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-db-interface#readme",
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/db-interface",
   "dependencies": {
     "config": "1.21.0",
     "lodash": "4.15.0",

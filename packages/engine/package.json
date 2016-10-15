@@ -9,22 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryb73/dealers-choice-engine.git"
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
   },
   "keywords": [
     "dealer's choice",
     "board game",
     "game"
   ],
-  "author": {
-    "name": "Ryan Biwer",
-    "url": "http://rpb.life/"
-  },
+  "author": "Ryan Biwer",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-engine/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-engine",
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/engine",
   "dependencies": {
     "bind-array": "^1.0.0",
     "chai": "3.5.0",

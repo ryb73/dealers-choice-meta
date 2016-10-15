@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryb73/dealers-choice-test.git"
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
   },
   "author": "Ryan Biwer",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-test/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-test",
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/test",
   "dependencies": {
     "give-unique-id": "1.0.0",
     "q": "^1.4.1",

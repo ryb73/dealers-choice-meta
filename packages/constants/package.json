@@ -5,12 +5,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryb73/dealers-choice-constants.git"
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
   },
   "author": "Ryan Biwer",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-constants/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-constants"
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/constants"
 }

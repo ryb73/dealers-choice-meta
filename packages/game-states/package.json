@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryb73/dealers-choice-game-states.git"
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
   },
   "author": "Ryan Biwer",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-game-states/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-game-states",
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/game-states",
   "dependencies": {
     "lodash": "4.15.0",
     "q": "^1.4.1",

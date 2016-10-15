@@ -5,14 +5,14 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryb73/dealers-choice-game-ui.git"
+    "url": "git+https://github.com/ryb73/dealers-choice-meta.git"
   },
   "author": "Ryan Biwer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ryb73/dealers-choice-game-ui/issues"
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
   },
-  "homepage": "https://github.com/ryb73/dealers-choice-game-ui#readme",
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/game-ui",
   "devDependencies": {
     "chai": "^3.4.1",
     "mocha": "3.0.2"
