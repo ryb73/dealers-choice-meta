@@ -1,0 +1,16 @@
+{
+  "name": "dc-constants",
+  "version": "1.0.0",
+  "description": "Dealer's Choice constants",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/constants"
+}

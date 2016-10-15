@@ -1,0 +1,139 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="/components/neon-animation/neon-animations.html">
+
+<dom-module id="pending-game">
+  <template>
+    <div>
+      <div id="gameName">{{game.name}}</div>
+      <div class="player-list">
+        <template is="dom-repeat" items="{{game.users}}">
+          <img src$="{{item.imgSrc}}" alt$="{{item.name}}" title$="{{item.name}}">
+        </template>
+
+        <div class="buttons">
+          <template is="dom-if" if="{{isMyGame}}">
+            <button id="start-game" on-click="_startGame">Start Game</button>
+          </template>
+
+          <button id="leave-game" on-click="_leaveGame">Leave</button>
+        </div>
+      </div>
+    </div>
+
+    <template is="dom-if" if="{{debugMenuShown}}">
+      <div id="pending-game-debug-menu">
+        <template is="dom-repeat" items="{{presets}}">
+          <button class="preset-link" on-click="_presetClicked">
+            {{item.name}}
+          </button>
+        </template>
+      </div>
+    </template>
+  </template>
+
+  <style>
+    img {
+      padding: 10px;
+    }
+
+    button {
+      padding: 10px;
+
+      color: #777;
+      background: #fff;
+      border: 1px solid var(--game-border);
+      font-size: 1em;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    :host > div {
+      padding: 10px;
+      background-color: var(--game-bg);
+      border: 1px solid var(--game-border);
+      color: #777;
+      text-align: center;
+    }
+
+    #pending-game-debug-menu button {
+      margin-top: 5px;
+    }
+  </style>
+
+  <script>
+    (function() {
+      "use strict";
+
+      Polymer({
+        is: "pending-game",
+        behaviors: [
+          Polymer.NeonAnimatableBehavior
+        ],
+
+        properties: {
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'fade-in-animation',
+                  node: this
+                },
+
+                'exit': {
+                  name: 'fade-out-animation',
+                  node: this
+                }
+              };
+            }
+          },
+
+          sharedElements: {
+            value: function() {
+              return {
+                hero: this,
+                gameName: this.$$("#gameName")
+              };
+            }
+          },
+
+          game: Object,
+          isMyGame: Boolean,
+          debugMenuShown: Boolean,
+
+          callbacks: Object,
+          presets: Array
+        },
+
+        _startGame: function(e) {
+          if(this._testForDebugMenu(e))
+            this._showDebugMenu();
+          else
+            this.fire("start-game");
+        },
+
+        _testForDebugMenu: function(e) {
+          return e.shiftKey && e.altKey && e.metaKey;
+        },
+
+        _showDebugMenu: function() {
+          this.debugMenuShown = true;
+          console.log(this.callbacks);
+          this.callbacks.getPresets()
+            .done(function(presets) {
+              this.presets = presets;
+            }.bind(this));
+        },
+
+        _leaveGame: function() {
+          this.fire("leave-game");
+        },
+
+        _presetClicked: function(e) {
+          this.fire("start-game", { presetId: e.model.item.id} );
+        }
+      });
+    }());
+  </script>
+</dom-module>

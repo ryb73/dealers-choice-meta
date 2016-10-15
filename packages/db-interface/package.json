@@ -1,0 +1,31 @@
+{
+  "name": "dc-db-interface",
+  "version": "1.0.0",
+  "description": "DB interface for Dealer's Choice",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --harmony --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryb73/dealers-choice-meta.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/db-interface",
+  "dependencies": {
+    "config": "1.21.0",
+    "lodash": "4.15.0",
+    "q": "1.4.1",
+    "rethinkdbdash": "2.3.21",
+    "dc-game-states": "1.0.0",
+    "dc-constants": "1.0.0"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "3.0.2"
+  }
+}

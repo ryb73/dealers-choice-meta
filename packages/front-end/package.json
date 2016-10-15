@@ -1,0 +1,44 @@
+{
+  "name": "dc-front-end",
+  "version": "1.0.0",
+  "description": "Front end for Dealer's Choice game",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --config webpack/webpack.config.js",
+    "watch": "webpack --progress --config webpack/webpack.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/front-end",
+  "devDependencies": {
+    "babel-core": "6.14.0",
+    "babel-loader": "6.2.5",
+    "babel-preset-es2015": "6.14.0",
+    "babel-preset-es2016": "6.11.3",
+    "babel-preset-es2017": "6.14.0",
+    "bower": "1.7.9",
+    "clean-webpack-plugin": "0.1.10",
+    "copy-webpack-plugin": "3.0.1",
+    "css-loader": "0.24.0",
+    "extract-text-webpack-plugin": "1.0.1",
+    "json-loader": "0.5.4",
+    "less": "2.7.1",
+    "less-loader": "2.2.3",
+    "raw-loader": "0.5.1",
+    "style-loader": "0.13.1",
+    "webpack": "1.13.2"
+  },
+  "dependencies": {
+    "evemit": "^1.0.2",
+    "jquery": "2.2.3",
+    "lodash": "4.13.1",
+    "socket.io-client": "1.4.6"
+  }
+}

@@ -1,0 +1,145 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="/components/neon-animation/neon-animations.html">
+
+<dom-module id="game-list">
+  <template>
+    <template is="dom-repeat" items="{{games}}">
+      <div class="game-list-game" data-game-id$="{{item.id}}" on-click="_joinGame">
+        <div class="game-list-players">
+          <template is="dom-repeat" items="{{item.users}}">
+            <img src$="{{item.imgSrc}}" alt$="{{item.name}}" title$="{{item.name}}">
+          </template>
+        </div>
+
+        <span class="game-list-name">{{item.name}}</span>
+      </div>
+    </template>
+
+    <div class="game-list-game" on-click="_newGame">
+      <p class="plus">+</p>
+      <p class="subtext">New Game</p>
+    </div>
+  </template>
+
+  <style>
+    .game-list-game {
+      position: relative;
+      display: inline-block;
+      vertical-align: top;
+      width: 150px;
+      height: 150px;
+      padding: 10px;
+      margin: 15px;
+
+      cursor: pointer;
+      background-color: var(--game-bg);
+      border: 1px solid var(--game-border);
+      color: #777;
+
+      outline: 0 #fff;
+      transition-property: outline-color, background-color, color;
+      transition-duration: 0.1s;
+    }
+
+    .game-list-name {
+       position: absolute;
+       bottom: 0;
+       left: 0;
+       width: 100%;
+       padding-bottom: inherit;
+    }
+
+    .game-list-game .plus {
+      margin-top: calc(75px - 0.75em);
+      margin-bottom: 0;
+      font-size: 24px;
+    }
+
+    .game-list-game .subtext {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .game-list-game:hover {
+      outline: 1px solid var(--game-border-hover);
+      background-color: var(--game-bg-hover);
+      color: #666;
+    }
+
+    .game-list-players img {
+      width: auto;
+      height: 50px;
+    }
+
+    :host {
+      display: block;
+      overflow: hidden;
+      text-align: center;
+    }
+  </style>
+
+  <script>
+    (function() {
+      "use strict";
+
+      Polymer({
+        is: "game-list",
+        behaviors: [
+          Polymer.NeonAnimatableBehavior
+        ],
+
+        properties: {
+          games: {
+            type: Array,
+            value: null
+          },
+
+          animationConfig: {
+            value: function() {
+              return {
+                'entry': {
+                  name: 'hero-animation',
+                  toPage: this,
+                  id: "hero"
+                },
+
+                'exit': {
+                  name: "fade-out-animation",
+                  node: this
+                }
+              };
+            }
+          },
+
+          sharedElements: {
+            value: null
+          }
+        },
+
+        attached: function() {
+          if(!this.games) this.games = [];
+        },
+
+        _newGame: function(e) {
+          this.sharedElements = {
+            hero: e.currentTarget,
+            gameName: $(e.currentTarget).children(".subtext")[0]
+          };
+
+          this.fire("new-game");
+        },
+
+        _joinGame: function(e) {
+          this.sharedElements = {
+            hero: e.currentTarget,
+            gameName: $(e.currentTarget).children(".game-list-name")[0]
+          };
+
+          var gameId = $(e.currentTarget).data("game-id");
+          this.fire("join-game", gameId);
+        }
+      });
+    }());
+  </script>
+</dom-module>

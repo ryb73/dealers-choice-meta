@@ -1,0 +1,29 @@
+{
+  "name": "dc-test",
+  "version": "1.1.1",
+  "description": "Dealer's Choice test utils.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --harmony --recursive",
+    "cover": "node --harmony ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryb73/dealers-choice-meta.git"
+  },
+  "author": "Ryan Biwer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryb73/dealers-choice-meta/issues"
+  },
+  "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/test",
+  "dependencies": {
+    "give-unique-id": "1.0.0",
+    "q": "^1.4.1",
+    "dc-engine": "1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "3.0.2"
+  }
+}

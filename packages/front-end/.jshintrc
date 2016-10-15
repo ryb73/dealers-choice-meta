@@ -1,0 +1,13 @@
+{
+  "strict": true,
+  "esnext": true,
+  "browser": true,
+  "predef": [ "require", "module", "console", "FB" ],
+
+  "nocomma": false,
+  "unused": "var",
+  "bitwise": true,
+  "eqeqeq": true,
+  "latedef": "nofunc",
+  "newcap": false
+}

@@ -1,0 +1,23 @@
+{
+  "name": "dealers-choice-front-end",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ryb73/dealers-choice-front-end",
+  "authors": [
+    "Ryan Biwer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "EaselJS": "easeljs#0.8.2",
+    "polymer": "1.4.0",
+    "TweenJS": "0.6.2",
+    "PreloadJS": "0.6.2",
+    "neon-animation": "^1.2.0"
+  }
+}
