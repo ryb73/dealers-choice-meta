@@ -12,8 +12,12 @@ module.exports = {
     },
 
     testing: true,
-    logLevel: "warn",
     deckConfig: mockDeckConfig(100, 100, 100),
     validateUserId: () => q(true)
-  }
+  },
+
+  "rpb-logging": {
+    outputToFile: false,
+    stdoutLevel: "warn",
+  },
 };

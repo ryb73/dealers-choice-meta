@@ -1,9 +1,7 @@
 "use strict";
 
-const config             = require("config").get("dc-server"),
-      assert             = require("chai").assert,
-      rpbLogging         = require("rpb-logging"),
-      log                = rpbLogging("dc-server", config.logLevel),
+const assert             = require("chai").assert,
+      log                = require("rpb-logging")("dc-server"),
       RockPaperScissors  = require("./rock-paper-scissors"),
       BuyFromExchange    = require("./buy-from-exchange"),
       TurnChoiceProvider = require("./turn-choice-provider"),

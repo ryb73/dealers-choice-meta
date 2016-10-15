@@ -24,7 +24,11 @@ module.exports = {
 
   "dc-db-interface": {
     db: "dc"
-  }
+  },
+
+  "rpb-logging": {
+    outputToFile: true,
+  },
 };
 
 function createDeckConfig() {

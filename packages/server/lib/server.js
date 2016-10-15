@@ -3,8 +3,7 @@
 const config            = require("config").get("dc-server"),
       IoServer          = require("socket.io"),
       emitter           = require("component-emitter"),
-      rpbLogging        = require("rpb-logging"),
-      log               = rpbLogging("dc-server", config.logLevel),
+      log               = require("rpb-logging")("dc-server"),
       ConnectionHandler = require("./connection-handler");
 
 function Server() {
