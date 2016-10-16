@@ -26,7 +26,11 @@ module.exports = (srcFile, buildDir) => {
         },
 
         resolve: {
-            extensions: ["", ".js", ".json"]
+            extensions: ["", ".js", ".json"],
+        },
+
+        resolveLoader: {
+          root: path.join(__dirname, "../node_modules"),
         },
     };
 };

@@ -39,6 +39,8 @@
     "evemit": "^1.0.2",
     "jquery": "2.2.3",
     "lodash": "4.13.1",
-    "socket.io-client": "1.4.6"
+    "socket.io-client": "1.4.6",
+    "dc-constants": "1.0.0",
+    "dc-game-ui": "1.0.0"
   }
 }

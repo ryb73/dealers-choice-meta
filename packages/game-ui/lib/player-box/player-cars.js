@@ -87,14 +87,14 @@ p._getCoordsForCard = function(whichCarIndex) {
 };
 
 p._resetBounds = function() {
-  var columns = getTotalColumns(this._cardSlots.length);
-  var rows = getTotalRows(this._cardSlots.length);
+  let columns = getTotalColumns(this._cardSlots.length);
+  let rows = getTotalRows(this._cardSlots.length);
 
   let newWidth = getRowWidth(columns);
   let newHeight = getTotalHeight(rows);
 
   let bounds = this.getBounds();
-  if(bounds.width !== newWidth || bounds.height !== newHeight){
+  if(!bounds || bounds.width !== newWidth || bounds.height !== newHeight){
     this.setBounds(0, 0, newWidth, newHeight);
   }
 };
