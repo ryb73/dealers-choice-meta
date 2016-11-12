@@ -15,13 +15,13 @@
   "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/game-ui",
   "devDependencies": {
     "chai": "^3.4.1",
-    "mocha": "3.0.2"
+    "mocha": "3.1.2"
   },
   "dependencies": {
+    "dc-constants": "1.0.0",
     "evemit": "^1.0.2",
-    "lodash": "4.15.0",
+    "lodash": "4.16.6",
     "oxford-join": "0.1.0",
-    "q": "^1.4.1",
-    "dc-constants": "1.0.0"
+    "q": "^1.4.1"
   }
 }
