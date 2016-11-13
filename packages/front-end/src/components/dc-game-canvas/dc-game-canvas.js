@@ -2,22 +2,22 @@
 /* jshint globalstrict: true */
 "use strict";
 
-var q                  = require("q"),
-    gameUi             = require("dc-game-ui"),
-    Decks              = gameUi.Decks,
-    PlayerBox          = gameUi.PlayerBox,
-    LoadingSplash      = gameUi.LoadingSplash,
-    CarFront           = gameUi.CarFront,
-    DcCardFront        = gameUi.DcCardFront,
-    InsuranceFront     = gameUi.InsuranceFront,
-    BlueBook           = gameUi.BlueBook,
-    MyInsurances       = gameUi.MyInsurances,
-    MyMoney            = gameUi.MyMoney,
-    RpsPrompt          = gameUi.RpsPrompt,
-    RpsResults         = gameUi.RpsResults,
-    assets             = gameUi.assets,
-    TurnChoice         = require("dc-constants").TurnChoice,
-    AnimationThrottler = require("./animation-throttler");
+const q                  = require("q"),
+      shmutex            = require("shmutex"),
+      gameUi             = require("dc-game-ui"),
+      Decks              = gameUi.Decks,
+      PlayerBox          = gameUi.PlayerBox,
+      LoadingSplash      = gameUi.LoadingSplash,
+      CarFront           = gameUi.CarFront,
+      DcCardFront        = gameUi.DcCardFront,
+      InsuranceFront     = gameUi.InsuranceFront,
+      BlueBook           = gameUi.BlueBook,
+      MyInsurances       = gameUi.MyInsurances,
+      MyMoney            = gameUi.MyMoney,
+      RpsPrompt          = gameUi.RpsPrompt,
+      RpsResults         = gameUi.RpsResults,
+      TurnChoice         = require("dc-constants").TurnChoice,
+      AnimationThrottler = require("./animation-throttler");
 
 var TRANSITION_TIME = 500;
 
@@ -25,6 +25,8 @@ var stage; // assume only one canvas per page
 var decks, blueBook, bgBmp, myInsurances, myMoney;
 var displayedCard, modal;
 var animationThrottler = new AnimationThrottler(300);
+
+const mutexDcCards = shmutex();
 
 // Given an object and point relating to that object,
 // returns a set of coords representing the same point with
@@ -190,19 +192,28 @@ var proto = {
 
   //TODO: this looks very similar to giveCarFromDeck. refactor?
   giveDcCardFromDeck: animated(function(userIdx, dcCard) {
-    var user = this.gameState.users[userIdx];
-    user.player.dcCards.push(dcCard);
+    let deferred = q.defer();
 
-    // Make room for the new card
-    var playerBox = user.dispObjs.playerBox;
-    var cardCoords = playerBox.makeSpaceForDcCard(TRANSITION_TIME);
-    cardCoords = normalizeCoords(playerBox, cardCoords);
-    cardCoords.x -= decks.x - decks.regX;
-    cardCoords.y -= decks.y - decks.regY;
+    mutexDcCards.lock(() => {
+      console.log("Throwing card");
+      var user = this.gameState.users[userIdx];
+      user.player.dcCards.push(dcCard);
 
-    var qNewCard = decks.giveDcCard(dcCard, cardCoords, TRANSITION_TIME,
-                                     this._isMe(userIdx));
-    return playerBox.putDcCardInBlankSpace(qNewCard);
+      // Make room for the new card
+      var playerBox = user.dispObjs.playerBox;
+      var cardCoords = playerBox.makeSpaceForDcCard(TRANSITION_TIME);
+      cardCoords = normalizeCoords(playerBox, cardCoords);
+      cardCoords.x -= decks.x - decks.regX;
+      cardCoords.y -= decks.y - decks.regY;
+
+      var qNewCard = decks.giveDcCard(dcCard, cardCoords, TRANSITION_TIME,
+                                       this._isMe(userIdx));
+      return playerBox.putDcCardInBlankSpace(qNewCard)
+        .then(deferred.resolve)
+        .catch(deferred.reject);
+    });
+
+    return deferred.promise;
   }),
 
   giveInsuranceFromDeck: animated(function(userIdx, insurance) {
@@ -533,15 +544,22 @@ var proto = {
   },
 
   getTurnChoice: function() {
-    var playerBox = this._getMyUser().dispObjs.playerBox;
-    var qDcCardId = playerBox.askForDcCardToPlay();
-    return qDcCardId
-      .then(function(cardId) {
-        return {
-          selection: TurnChoice.DcCard,
-          cardId: cardId
-        };
-      });
+    let deferred = q.defer();
+
+    mutexDcCards.lock(() => {
+      console.log("Getting turn choice");
+      var playerBox = this._getMyUser().dispObjs.playerBox;
+      var qDcCardId = playerBox.askForDcCardToPlay();
+      return qDcCardId
+        .then((cardId) => {
+          deferred.resolve({
+            selection: TurnChoice.DcCard,
+            cardId: cardId
+          });
+        });
+    }, true);
+
+    return deferred.promise;
   },
 
   allowSecondDcCard: function() {

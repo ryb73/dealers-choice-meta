@@ -1,10 +1,9 @@
 /* jshint strict: global */
-/* global Polymer, DcShell, $ */
+/* global Polymer, DcShell */
 "use strict";
 
 var dcConstants  = require("dc-constants"),
     MessageType  = dcConstants.MessageType,
-    ResponseCode = dcConstants.ResponseCode,
     q            = require("q"),
     _            = require("lodash");
 
