@@ -57,6 +57,15 @@ function addPlayerListeners(callbacks, player) {
             insurance: card
         });
     });
+
+    player.buyCar = spyback(player.buyCar, null, ([ car, amount ]) => {
+        callbacks.broadcast("action", {
+            cmd: MessageType.CarBoughtFromBank,
+            playerId: player.id,
+            car,
+            amount
+        });
+    });
 }
 
 module.exports = addGameStateListeners;

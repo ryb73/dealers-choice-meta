@@ -86,6 +86,9 @@ let proto = {
       case MessageType.CarSoldToBank:
         this._carSoldToBank(msg);
         break;
+      case MessageType.CarBoughtFromBank:
+        this._carBoughtFromBank(msg);
+        break;
       case MessageType.CardPlayed:
         this._cardPlayed(msg);
         break;
@@ -234,6 +237,15 @@ let proto = {
     let carIdx = this._getCarIdxFromId(user.player, msg.carId);
     canvas.discardCar(playerIdx, carIdx);
     canvas.giveMoneyFromBank(playerIdx, msg.amount);
+  },
+
+  _carBoughtFromBank: function(msg) {
+    let playerIdx = this._getPlayerIdxFromId(msg.playerId);
+
+    let name = this._getDisplayableName(playerIdx);
+    canvas.addChat(name + " bought #" + msg.car.id + " for $" + msg.amount + ".");
+
+    canvas.giveCarFromDeck(playerIdx, msg.car);
   },
 
   _cardPlayed(msg) {

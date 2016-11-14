@@ -65,6 +65,7 @@ const MessageType = {
   ChooseOwnCar: "choose-own-car",
 
   CarSoldToBank: "car-sold-to-bank",
+  CarBoughtFromBank: "car-bought-from-bank",
   CardPlayed: "card-played",
 
   AllowSecondDcCard: "allow-second-dc-card",
