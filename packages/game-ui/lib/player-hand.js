@@ -75,8 +75,8 @@ p._randomizeCoords = function(coords) {
   if(this._randomize) {
     coords.x += (Math.random() * 9) - 4;
     coords.y += (Math.random() * 9) - 4;
-    // coords.rotation += (Math.random() * 5) - 2;
-    coords.rotation = 0; // TODO: turn back on when Chrome bug is fixed
+    coords.rotation += (Math.random() * 5) - 2;
+    // coords.rotation = 0; // TODO: turn back on when Chrome bug is fixed
   }
 };
 

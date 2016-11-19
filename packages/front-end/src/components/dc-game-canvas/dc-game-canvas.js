@@ -173,7 +173,8 @@ var proto = {
         this.refresh();
     },
 
-    giveCarFromDeck: animated(function(userIdx, car) {
+    giveCarFromDeck: function(userIdx, car) { return this.giveCarFromDeckImpl(userIdx, car); },
+    giveCarFromDeckImpl: animated(function(userIdx, car) {
         var user = this.gameState.users[userIdx];
         user.player.cars.push(car);
 
@@ -191,11 +192,11 @@ var proto = {
     }),
 
     //TODO: this looks very similar to giveCarFromDeck. refactor?
-    giveDcCardFromDeck: animated(function(userIdx, dcCard) {
+    giveDcCardFromDeck: function(userIdx, dcCard) { return this.giveDcCardFromDeckImpl(userIdx, dcCard); },
+    giveDcCardFromDeckImpl: animated(function(userIdx, dcCard) {
         let deferred = q.defer();
 
         mutexDcCards.lock(() => {
-            console.log("Throwing card");
             var user = this.gameState.users[userIdx];
             user.player.dcCards.push(dcCard);
 
@@ -217,7 +218,8 @@ var proto = {
         return deferred.promise;
     }),
 
-    giveInsuranceFromDeck: animated(function(userIdx, insurance) {
+    giveInsuranceFromDeck: function(userIdx, insurance) { return this.giveInsuranceFromDeckImpl(userIdx, insurance); },
+    giveInsuranceFromDeckImpl: animated(function(userIdx, insurance) {
         var user = this.gameState.users[userIdx];
         user.player.insurances.push(insurance);
 
@@ -244,7 +246,8 @@ var proto = {
         }
     }),
 
-    discardCar: animated(function(userIdx, carIdx) {
+    discardCar: function(userIdx, carIdx) { return this.discardCarImpl(userIdx, carIdx); },
+    discardCarImpl: animated(function(userIdx, carIdx) {
         let user = this.gameState.users[userIdx];
         let playerBox = user.dispObjs.playerBox;
         let carAnimData = playerBox.removeCar(carIdx, TRANSITION_TIME);
