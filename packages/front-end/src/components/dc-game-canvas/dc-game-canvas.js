@@ -381,8 +381,8 @@ var proto = {
         myMoney.y = blueBook.y - 10 - moneyBounds.height;
         myMoney.updateMoney();
 
-        myInsurances.x = moneyBounds.x;
-        myInsurances.y = moneyBounds.y - 10;
+        myInsurances.x = myMoney.x;
+        myInsurances.y = myMoney.y - 10;
     },
 
     _createPlayers: function() {
