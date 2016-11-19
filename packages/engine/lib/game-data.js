@@ -34,14 +34,14 @@ function GameData($players, $deckConfig) {
 
   function dealCar(player) {
     let car = carDeck.pop();
-    player.buyCar(car, 0);
+    player.gainCar(car);
     return car;
   }
   this.dealCar = dealCar;
 
   function dealInsurance(player) {
     let insurance = insuranceDeck.pop();
-    player.buyInsurance(insurance, 0);
+    player.gainInsurance(insurance);
     return insurance;
   }
   this.dealInsurance = dealInsurance;

@@ -50,14 +50,6 @@ function addPlayerListeners(callbacks, player) {
         });
     });
 
-    player.gainInsurance = spyback(player.gainInsurance, null, ([ card ]) => {
-        callbacks.broadcast("action", {
-            cmd: MessageType.DealInsuranceToPlayer,
-            playerId: player.id,
-            insurance: card
-        });
-    });
-
     player.buyCar = spyback(player.buyCar, null, ([ car, amount ]) => {
         callbacks.broadcast("action", {
             cmd: MessageType.CarBoughtFromBank,
