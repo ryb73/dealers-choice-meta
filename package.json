@@ -11,6 +11,6 @@
   "license": "MIT",
   "homepage": "https://github.com/ryb73/dealers-choice-meta/",
   "devDependencies": {
-    "lerna": "2.0.0-beta.29"
+    "lerna": "2.0.0-beta.30"
   }
 }
