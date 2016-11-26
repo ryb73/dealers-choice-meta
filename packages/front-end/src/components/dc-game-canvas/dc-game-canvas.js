@@ -287,6 +287,11 @@ var proto = {
         this._refreshRightHud();
     },
 
+    giveMoneyToBank: function(playerIdx, amount) {
+        this._getPlayer(playerIdx).money -= amount;
+        this._refreshRightHud();
+    },
+
     // Determines whether the player at the given index
     // is the current (i.e. local) player
     _isMe: function(idx) {

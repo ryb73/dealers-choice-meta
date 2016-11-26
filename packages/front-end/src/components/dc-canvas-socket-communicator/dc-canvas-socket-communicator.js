@@ -246,6 +246,7 @@ let proto = {
     canvas.addChat(name + " bought #" + msg.car.id + " for $" + msg.amount + ".");
 
     canvas.giveCarFromDeck(playerIdx, msg.car);
+    canvas.giveMoneyToBank(playerIdx, msg.amount);
   },
 
   _cardPlayed(msg) {

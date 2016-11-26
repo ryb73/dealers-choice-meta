@@ -41,7 +41,7 @@ function addPlayerListeners(callbacks, player) {
         });
     });
 
-    player.play = spyback(player.play, null, ({ 2: card }) => {
+    player.play = spyback(player.play, ({ 2: card }) => {
         callbacks.broadcast("action", {
             cmd: MessageType.CardPlayed,
             playerId: player.id,
