@@ -5,7 +5,7 @@ const _            = require("lodash"),
 
 function LotClosed() {
     giveUniqueId(this);
-  this.canPlay = _.constant(false);
+    this.canPlay = _.constant(false);
 }
 
 module.exports = LotClosed;
