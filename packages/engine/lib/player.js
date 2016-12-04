@@ -101,6 +101,12 @@ function Player(startingMoney) {
   }
   this.hasDcCard = hasDcCard;
 
+  function takeDcCard(fromPlayer, card) {
+    fromPlayer.loseDcCard(card);
+    gainDcCard(card);
+  }
+  this.takeDcCard = takeDcCard;
+
   const play = (gameData, choiceProvider, card) => {
     loseDcCard(card);
     return card.play(gameData, choiceProvider, this);

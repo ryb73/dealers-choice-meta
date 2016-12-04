@@ -7,4 +7,5 @@ module.exports = {
     SellForBlueBookPlusN:    require("./lib/sell-for-blue-book-plus-n"),
     SellForListPlusN:        require("./lib/sell-for-list-plus-n"),
     LotClosed:               require("./lib/lot-closed"),
+    TakeN:                   require("./lib/take-n"),
 };
