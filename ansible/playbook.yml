@@ -1,0 +1,32 @@
+---
+- hosts: all
+  tasks:
+    - name: Update apt-cache
+      apt: update_cache=yes
+      become: yes
+
+    - name: Install zsh, git
+      apt: name=zsh,git state=latest
+      become: yes
+
+    - name: Install/update oh-my-zsh
+      git:
+        repo=https://github.com/robbyrussell/oh-my-zsh
+        dest=~/.oh-my-zsh
+
+    - name: Copy .zshrc
+      template:
+        src=templates/zshrc.j2
+        dest=~/.zshrc
+
+    - name: Ensure zsh custom themes dir exists
+      file: path=~/.oh-my-zsh/custom/themes state=directory
+
+    - name: Copying zsh theme
+      template:
+        src=templates/theunraveler-cyan.j2
+        dest=~/.oh-my-zsh/custom/themes/theunraveler-cyan.zsh-theme
+
+    - name: Set zsh as default shell
+      user: name=ryan shell=/usr/bin/zsh
+      become: yes
