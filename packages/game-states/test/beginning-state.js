@@ -3,8 +3,8 @@
 
 const chai           = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
-      q              = require("q"),
       _              = require("lodash"),
+      q              = require("q"),
       dcTest         = require("dc-test"),
       mockDeckConfig = dcTest.mockDeckConfig,
       dcEngine       = require("dc-engine"),

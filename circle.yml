@@ -1,6 +1,9 @@
 machine:
   node:
     version: 7
+  post:
+    - echo $MYNPM >> ~/.npmrc
+    - git config --global user.email "rpbiwer+bot@gmail.com"
 
 dependencies:
   cache_directories:
@@ -28,3 +31,9 @@ test:
           NODE_ENV: ""
           MOCHA_OPTIONS: -R mocha-junit-reporter
           MOCHA_FILE_DIR: $CIRCLE_TEST_REPORTS/junit/
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - deployment/try-publish.sh
