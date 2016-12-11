@@ -20,7 +20,7 @@
   "dependencies": {
     "give-unique-id": "1.0.0",
     "q": "^1.4.1",
-    "dc-engine": "1.0.0"
+    "dc-engine": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^3.0.0",
