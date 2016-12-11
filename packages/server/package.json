@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --harmony --recursive",
+    "tdb": "node debug ./node_modules/.bin/_mocha",
     "cover": "NODE_ENV=test istanbul cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive",
     "start": "node --harmony ."
   },

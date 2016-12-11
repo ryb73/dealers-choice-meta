@@ -56,7 +56,9 @@ function GameFactory($deckConfig) {
     this.createGame = createGame;
 
     function status() {
-        if(players.length < 2) return PendingGameStatus.NotEnoughPlayers;
+        if(players.length < 2)
+            return PendingGameStatus.NotEnoughPlayers;
+
         return PendingGameStatus.ReadyToStart;
     }
     this.status = status;

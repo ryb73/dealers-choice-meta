@@ -1,5 +1,4 @@
 "use strict";
-/* jshint mocha: true */
 
 const chai           = require("chai"),
       chaiAsPromised = require("chai-as-promised"),

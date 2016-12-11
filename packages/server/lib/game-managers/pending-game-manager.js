@@ -20,8 +20,16 @@ function PendingGameManager() {
 
     let proxy = new SwappableProxy(this);
 
-    let factory = new GameFactory(config.deckConfig),
+    let factory,
         owner;
+
+    function initialize() {
+        let deckConfig = _.clone(config.deckConfig);
+        if(!deckConfig.blueBookDeck)
+            deckConfig.blueBookDeck = dbInterface.getBlueBookConfig();
+
+        factory = new GameFactory(config.deckConfig);
+    }
 
     // callback is used to send messages to
     // the players in the game
@@ -127,9 +135,11 @@ function PendingGameManager() {
     Object.defineProperties(this, {
         id: {
             enumerable: true,
-            get: factory.hashCode
+            get: () => factory.hashCode()
         }
     });
+
+    initialize();
 
     return proxy.instance;
 }

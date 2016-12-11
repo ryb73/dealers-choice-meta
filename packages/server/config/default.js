@@ -33,9 +33,16 @@ module.exports = {
 
 function createDeckConfig() {
   return {
-    dcDeck: [{
+    dcDeck: createDcCardConfig(),
+    carDeck: createCarConfig(),
+    insuranceDeck: createInsuranceConfig()
+  };
+}
+
+function createDcCardConfig() {
+  return [{
       constructor: Attack,
-      args: [Attack.fire],
+      args: [ Attack.fire ],
       count: 3,
       additionalProperties: {
         key: "fire",
@@ -45,7 +52,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: Attack,
-      args: [Attack.collision],
+      args: [ Attack.collision ],
       count: 3,
       additionalProperties: {
         key: "collision",
@@ -55,7 +62,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: Attack,
-      args: [Attack.theft],
+      args: [ Attack.theft ],
       count: 2,
       additionalProperties: {
         key: "theft",
@@ -65,7 +72,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: Attack,
-      args: [Attack.rancidPopcorn],
+      args: [ Attack.rancidPopcorn ],
       count: 1,
       additionalProperties: {
         key: "rancid",
@@ -74,7 +81,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: BuyFromAutoExchangeForN, // Buy for 200
-      args: [200],
+      args: [ 200 ],
       count: 3,
       additionalProperties: {
         key: "buy200",
@@ -92,7 +99,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: SellForBlueBookPlusN, // BB + 3
-      args: [3000],
+      args: [ 3000 ],
       count: 1,
       additionalProperties: {
         key: "bb3",
@@ -101,7 +108,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: SellForBlueBookPlusN, // BB
-      args: [0],
+      args: [ 0 ],
       count: 4,
       additionalProperties: {
         key: "bb",
@@ -110,7 +117,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: SellForListPlusN, // List
-      args: [0],
+      args: [ 0 ],
       count: 4,
       additionalProperties: {
         key: "list",
@@ -119,7 +126,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: SellForListPlusN, // List + 2
-      args: [2000],
+      args: [ 2000 ],
       count: 2,
       additionalProperties: {
         key: "list2",
@@ -128,7 +135,7 @@ function createDeckConfig() {
       }
     }, {
       constructor: SellForListPlusN, // List + 3
-      args: [3000],
+      args: [ 3000 ],
       count: 1,
       additionalProperties: {
         key: "list3",
@@ -145,11 +152,56 @@ function createDeckConfig() {
         description: "No deal required.\nMay be used to cancel either a \"FORCED SALE\" or \"BUY\" " +
                       "card when it is played on you."
       }
-    }],
+    }];
+}
 
-    carDeck: createCarConfig(),
+function createCarConfig() {
+  let cars = {
+    1: 5000,
+    2: 3000,
+    3: 9000,
+    4: 2000,
+    5: 10000,
+    6: 6000,
+    7: 3000,
+    8: 4000,
+    9: 5000,
+    10: 8000,
+    11: 6000,
+    12: 4000,
+    13: 9000,
+    14: 2000,
+    15: 8000,
+    16: 4000,
+    17: 2000,
+    18: 8000,
+    19: 3000,
+    20: 5000,
+    21: 4000,
+    22: 2000,
+    23: 3000,
+    24: 6000
+  };
 
-    insuranceDeck: [{
+  let result = [];
+  for(let id in cars) {
+    result.push({
+      constructor: Car,
+      args: [ id, cars[id] ],
+      count: 1,
+      additionalProperties: {
+        key: +id,
+        image: "car" + id,
+        imageSm: "car" + id + "s"
+      }
+    });
+  }
+
+  return result;
+}
+
+function createInsuranceConfig() {
+  [{
       constructor: Insurance,
       args: [ Insurance.protections.Fire ],
       count: 2, // TODO: figure out actual number
@@ -217,51 +269,5 @@ function createDeckConfig() {
         title: "Collision",
         value: "Collect List Price"
       }
-    }]
-  };
-}
-
-function createCarConfig() {
-  let cars = {
-    1: 5000,
-    2: 3000,
-    3: 9000,
-    4: 2000,
-    5: 10000,
-    6: 6000,
-    7: 3000,
-    8: 4000,
-    9: 5000,
-    10: 8000,
-    11: 6000,
-    12: 4000,
-    13: 9000,
-    14: 2000,
-    15: 8000,
-    16: 4000,
-    17: 2000,
-    18: 8000,
-    19: 3000,
-    20: 5000,
-    21: 4000,
-    22: 2000,
-    23: 3000,
-    24: 6000
-  };
-
-  let result = [];
-  for(let id in cars) {
-    result.push({
-      constructor: Car,
-      args: [ id, cars[id] ],
-      count: 1,
-      additionalProperties: {
-        key: +id,
-        image: "car" + id,
-        imageSm: "car" + id + "s"
-      }
-    });
-  }
-
-  return result;
+    }];
 }

@@ -1,5 +1,4 @@
 "use strict";
-/* jshint mocha: true */
 
 const chai                      = require("chai"),
       chaiAsPromised            = require("chai-as-promised"),
@@ -49,7 +48,8 @@ function doSetup(option) {
       constructor: Car,
       args: [ 1, 3000 ],
       count: 1
-    }]
+    }],
+    blueBookDeck: []
   };
 
   let player = new Player(5000);
