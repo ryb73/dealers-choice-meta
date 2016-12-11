@@ -2,8 +2,8 @@
 
 const chai                      = require("chai"),
       chaiAsPromised            = require("chai-as-promised"),
-      q                         = require("q"),
       _                         = require("lodash"),
+      q                         = require("q"),
       dcEngine                  = require("dc-engine"),
       Player                    = dcEngine.Player,
       GameData                  = dcEngine.GameData,
