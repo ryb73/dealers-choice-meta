@@ -1,0 +1,30 @@
+machine:
+  node:
+    version: 7
+
+dependencies:
+  cache_directories:
+    - "node_modules"
+    - "packages/card-pack/node_modules"
+    - "packages/db-interface/node_modules"
+    - "packages/engine/node_modules"
+    - "packages/front-end/node_modules"
+    - "packages/game-factory/node_modules"
+    - "packages/game-states/node_modules"
+    - "packages/game-ui/node_modules"
+    - "packages/server/node_modules"
+    - "packages/test/node_modules"
+  post:
+    - npm install mocha mocha-junit-reporter
+    - lerna bootstrap:
+        environment:
+          # Lerna suppresses output when NODE_ENV is set to test
+          NODE_ENV: ""
+
+test:
+  override:
+    - lerna run test:
+        environment:
+          NODE_ENV: ""
+          MOCHA_OPTIONS: -R mocha-junit-reporter
+          MOCHA_FILE_DIR: $CIRCLE_TEST_REPORTS/junit/

@@ -4,10 +4,10 @@
   "description": "Server for Dealer's Choice game.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --harmony --recursive",
-    "tdb": "node debug ./node_modules/.bin/_mocha",
-    "cover": "NODE_ENV=test istanbul cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive",
-    "start": "node --harmony ."
+    "test": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-server.xml\" NODE_ENV=test mocha --recursive $MOCHA_OPTIONS",
+    "tdb": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-server.xml\" node debug ./node_modules/.bin/_mocha -- recursive $MOCHA_OPTIONS",
+    "cover": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-server.xml\" NODE_ENV=test istanbul cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive $MOCHA_OPTIONS",
+    "start": "node ."
   },
   "repository": {
     "type": "git",

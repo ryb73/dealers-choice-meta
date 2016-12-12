@@ -4,8 +4,8 @@
   "description": "Dealer's Choice test utils.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --harmony --recursive",
-    "cover": "node --harmony ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive"
+    "test": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-test.xml\" mocha --recursive $MOCHA_OPTIONS",
+    "cover": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-test.xml\" node ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive $MOCHA_OPTIONS"
   },
   "repository": {
     "type": "git",
