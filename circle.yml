@@ -28,3 +28,13 @@ test:
           NODE_ENV: ""
           MOCHA_OPTIONS: -R mocha-junit-reporter
           MOCHA_FILE_DIR: $CIRCLE_TEST_REPORTS/junit/
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - lerna publish --yes --repo-version=$(node deployment/get-next-version.js)
+  test:
+    branch: publishing
+    commands:
+      - lerna publish --yes --repo-version=$(node deployment/get-next-version.js)
