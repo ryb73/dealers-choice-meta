@@ -2,7 +2,6 @@ machine:
   node:
     version: 7
   post:
-    - cat ~/.npmrc
     - echo $MYNPM >> ~/.npmrc
 
 dependencies:
