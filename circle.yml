@@ -3,6 +3,7 @@ machine:
     version: 7
   post:
     - echo $MYNPM >> ~/.npmrc
+    - git config --global user.email "rpbiwer+bot@gmail.com"
 
 dependencies:
   cache_directories:
