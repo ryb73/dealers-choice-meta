@@ -4,7 +4,7 @@
   "description": "DB interface for Dealer's Choice",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --harmony --recursive"
+    "test": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-db-interface.xml\" NODE_ENV=test mocha --recursive $MOCHA_OPTIONS"
   },
   "repository": {
     "type": "git",
