@@ -36,10 +36,8 @@ deployment:
   production:
     branch: master
     commands:
-      - lerna publish --yes --repo-version=$(node deployment/get-next-version.js)
+      - deployment/try-publish.sh
   test:
     branch: publishing
     commands:
-      - lerna publish --yes --repo-version=$(node deployment/get-next-version.js):
-          environment:
-            NODE_ENV: ""
+      - deployment/try-publish.sh
