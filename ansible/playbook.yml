@@ -30,3 +30,23 @@
     - name: Set zsh as default shell
       user: name=ryan shell=/usr/bin/zsh
       become: yes
+
+    - name: Download node
+      shell: curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+
+    - name: Install node
+      apt: name=nodejs
+      become: yes
+
+    - name: Set node module install path
+      shell: npm config set prefix /usr/local
+
+    - name: chown /usr/local/lib
+      file: path=/usr/local/lib owner=ryan
+      become: yes
+
+    - name: Install dc-server
+      npm:
+        name: dc-server
+        global: yes
+        production: yes
