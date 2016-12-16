@@ -1,10 +1,9 @@
 "use strict";
 
-const buildDir   = "./build-dev/",
-      srcDir     = "./src/",
+const srcDir     = "./src/",
       bowerDir   = "./bower_components/";
 
-module.exports = [
+module.exports = (buildDir) => [
     require("./static.config")(srcDir, buildDir, bowerDir),
     require("./less.config")(srcDir, buildDir),
 
