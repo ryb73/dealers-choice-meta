@@ -1,0 +1,24 @@
+- name: Download node
+  get_url:
+    url: https://deb.nodesource.com/setup_7.x
+    dest: ~/
+  register: downloaded_node
+
+- name: Node setup script
+  shell: bash setup_7.x
+  become: yes
+  when: downloaded_node
+
+- name: Install node
+  apt: name=nodejs
+  become: yes
+
+- name: Set node module install path
+  shell: npm config set prefix /usr/local
+
+- name: chown /usr/local/ dirs
+  file: path=/usr/local/{{ item }} owner=ryan
+  with_items:
+    - lib
+    - bin
+  become: yes

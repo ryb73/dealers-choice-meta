@@ -1,0 +1,24 @@
+---
+- hosts: all
+  tasks:
+    - name: Update apt-cache
+      apt: update_cache=yes
+      become: yes
+
+    - include: zsh.yml
+    - include: node.yml
+
+    - name: Install dc-server
+      npm:
+        name: dc-server
+        global: yes
+        production: yes
+
+    - name: Make dc dir
+      file: path=~/dealers-choice state=directory
+
+    - name: Install dc-front-end
+      npm:
+        name: dc-front-end
+        path: ~/dealers-choice
+        production: yes
