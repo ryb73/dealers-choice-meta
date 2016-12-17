@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress --config webpack/prod.config.js",
     "watch": "webpack --progress --config webpack/dev.config.js --watch",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build && bower install"
   },
   "repository": {
     "type": "git",
@@ -34,9 +34,7 @@
     "less-loader": "2.2.3",
     "raw-loader": "0.5.1",
     "style-loader": "0.13.1",
-    "webpack": "1.13.3"
-  },
-  "dependencies": {
+    "webpack": "1.13.3",
     "dc-constants": "^1.1.1",
     "dc-game-ui": "^1.1.1",
     "evemit": "^1.0.2",
