@@ -1,0 +1,5 @@
+- name: Install dc-server
+  npm:
+    name: dc-server
+    global: yes
+    production: yes

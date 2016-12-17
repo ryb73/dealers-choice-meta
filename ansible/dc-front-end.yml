@@ -1,0 +1,28 @@
+- name: Make dc dir
+  file: path=~/dealers-choice state=directory
+
+- name: Install dc-front-end
+  npm:
+    name: dc-front-end
+    path: ~/dealers-choice
+    production: yes
+
+- name: Install nginx
+  apt: name=nginx state=latest
+  become: yes
+
+- name: Remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  become: yes
+
+- name: Add nginx site config
+  template:
+    src=templates/dealers-choice.conf.j2
+    dest=/etc/nginx/sites-enabled/dealers-choice.conf
+  become: yes
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: restarted
+  become: yes

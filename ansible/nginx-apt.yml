@@ -1,0 +1,14 @@
+- name: NGINX | Adding NGINX signing key
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present
+
+- name: NGINX | Adding sources.list deb url for NGINX
+  lineinfile:
+    dest: /etc/apt/sources.list
+    line: "deb http://nginx.org/packages/mainline/ubuntu/ {{ ansible_distribution_release }} nginx"
+
+- name: NGINX Plus | Adding sources.list deb-src url for NGINX
+  lineinfile:
+    dest: /etc/apt/sources.list
+    line: "deb-src http://nginx.org/packages/mainline/ubuntu/ {{ ansible_distribution_release }} nginx"
