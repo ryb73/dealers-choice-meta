@@ -8,4 +8,5 @@ module.exports = {
     SellForListPlusN:        require("./lib/sell-for-list-plus-n"),
     LotClosed:               require("./lib/lot-closed"),
     TakeN:                   require("./lib/take-n"),
+    Cancel:                  require("./lib/cancel"),
 };
