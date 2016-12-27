@@ -8,7 +8,7 @@
     "test": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-server.xml\" NODE_ENV=test mocha --recursive $MOCHA_OPTIONS",
     "tdb": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-server.xml\" node debug ./node_modules/.bin/_mocha -- recursive $MOCHA_OPTIONS",
     "cover": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-server.xml\" NODE_ENV=test istanbul cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive $MOCHA_OPTIONS",
-    "start": "dc-server"
+    "start": "node ."
   },
   "bin": {
     "dc-server": "./index.js"
