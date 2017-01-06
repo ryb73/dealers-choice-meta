@@ -69,6 +69,8 @@ const MessageType = {
   CardPlayed: "card-played",
 
   AllowSecondDcCard: "allow-second-dc-card",
+
+  AllowTakeCard: "allow-take-card",
 };
 
 module.exports = MessageType;

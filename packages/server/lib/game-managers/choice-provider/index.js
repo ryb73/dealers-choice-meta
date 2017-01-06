@@ -10,7 +10,8 @@ const assert             = require("chai").assert,
       HandleBidding      = require("./handle-bidding"),
       DecideFinalOffer   = require("./decide-final-offer"),
       ChooseOwnCar       = require("./choose-own-car"),
-      PickSecondDcCard   = require("./pick-second-dc-card");
+      PickSecondDcCard   = require("./pick-second-dc-card"),
+      AllowTakeCard      = require("./allow-take-card");
 
 function ChoiceProvider($callbacks) {
   let callbacks;
@@ -71,6 +72,11 @@ function ChoiceProvider($callbacks) {
     return handleGeneric(new PickSecondDcCard(player));
   }
   this.pickSecondDcCard = pickSecondDcCard;
+
+  function allowTakeCard(player) {
+    return handleGeneric(new AllowTakeCard(game, player));
+  }
+  this.allowTakeCard = allowTakeCard;
 
   function handleGeneric(handler) {
     // Create handler and store reference to it so that

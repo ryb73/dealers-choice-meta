@@ -11,7 +11,7 @@ function GameData($players, $deckConfig) {
         dcDeck = new Deck($deckConfig.dcDeck);
         insuranceDeck = new Deck($deckConfig.insuranceDeck);
         carDeck = new Deck($deckConfig.carDeck);
-        blueBookDeck = new Deck($deckConfig.blueBookDeck);
+        // blueBookDeck = new Deck($deckConfig.blueBookDeck);
 
         $players = $deckConfig = null;
     }

@@ -157,7 +157,7 @@ function createDcCardConfig() {
     }, {
       constructor: TakeN,
       args: [ 3 ],
-      count: 1,
+      count: 3, // 1
       additionalProperties: {
         key: "take-3",
         title: "Take 3",
@@ -222,7 +222,7 @@ function createCarConfig() {
 }
 
 function createInsuranceConfig() {
-  [{
+  return [{
       constructor: Insurance,
       args: [ Insurance.protections.Fire ],
       count: 2, // TODO: figure out actual number

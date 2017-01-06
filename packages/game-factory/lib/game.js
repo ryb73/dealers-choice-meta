@@ -4,7 +4,7 @@ const nodeUuid       = require("node-uuid"),
       _              = require("lodash"),
       BeginningState = require("dc-game-states").BeginningState,
       GameData       = require("dc-engine").GameData,
-      PresetHelper   = require("./preset-helper");
+      libApplyPreset = require("./apply-preset");
 
 function Game($players, $deckConfig, $choiceProvider) {
   let uuid = nodeUuid.v1();
@@ -37,13 +37,7 @@ function Game($players, $deckConfig, $choiceProvider) {
   this.getPlayerIndexById = getPlayerIndexById;
 
   function applyPreset(preset) {
-    let helper = new PresetHelper(preset, gameData, choiceProvider);
-    state = helper.createStateFromPreset();
-
-    for(let i = 0; i < gameData.players.length; ++i) {
-      if(preset.players[i])
-        helper.adjustPlayer(gameData.players[i], preset.players[i], gameData);
-    }
+    state = libApplyPreset(preset, gameData, choiceProvider);
   }
   this.applyPreset = applyPreset;
 

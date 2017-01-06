@@ -29,10 +29,8 @@ function PickSecondDcCard($player) {
   this.handleIt = handleIt;
 
   function giveAnswer(answeringPlayer, answer) {
-    console.log("giveAnswer", answer);
     if(answeringPlayer !== player) return;
     if(!validateAnswer(answer)) return;
-
 
     if(answer.skip) {
       deferred.resolve(null);

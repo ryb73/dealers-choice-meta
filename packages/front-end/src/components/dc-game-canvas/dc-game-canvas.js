@@ -1,30 +1,30 @@
 /* global Polymer, createjs, $ */
-/* jshint globalstrict: true */
 "use strict";
 
 const q                  = require("q"),
-            shmutex            = require("shmutex"),
-            gameUi             = require("dc-game-ui"),
-            Decks              = gameUi.Decks,
-            PlayerBox          = gameUi.PlayerBox,
-            LoadingSplash      = gameUi.LoadingSplash,
-            CarFront           = gameUi.CarFront,
-            DcCardFront        = gameUi.DcCardFront,
-            InsuranceFront     = gameUi.InsuranceFront,
-            BlueBook           = gameUi.BlueBook,
-            MyInsurances       = gameUi.MyInsurances,
-            MyMoney            = gameUi.MyMoney,
-            RpsPrompt          = gameUi.RpsPrompt,
-            RpsResults         = gameUi.RpsResults,
-            TurnChoice         = require("dc-constants").TurnChoice,
-            AnimationThrottler = require("./animation-throttler");
+      _                  = require("lodash"),
+      shmutex            = require("shmutex"),
+      gameUi             = require("dc-game-ui"),
+      Decks              = gameUi.Decks,
+      PlayerBox          = gameUi.PlayerBox,
+      LoadingSplash      = gameUi.LoadingSplash,
+      CarFront           = gameUi.CarFront,
+      DcCardFront        = gameUi.DcCardFront,
+      InsuranceFront     = gameUi.InsuranceFront,
+      BlueBook           = gameUi.BlueBook,
+      MyInsurances       = gameUi.MyInsurances,
+      MyMoney            = gameUi.MyMoney,
+      RpsPrompt          = gameUi.RpsPrompt,
+      RpsResults         = gameUi.RpsResults,
+      TurnChoice         = require("dc-constants").TurnChoice,
+      AnimationThrottler = require("./animation-throttler");
 
-var TRANSITION_TIME = 500;
+const TRANSITION_TIME = 500;
 
-var stage; // assume only one canvas per page
-var decks, blueBook, bgBmp, myInsurances, myMoney;
-var displayedCard, modal;
-var animationThrottler = new AnimationThrottler(300);
+let stage; // assume only one canvas per page
+let decks, blueBook, bgBmp, myInsurances, myMoney;
+let displayedCard, modal;
+let animationThrottler = new AnimationThrottler(300);
 
 const mutexDcCards = shmutex();
 
@@ -571,12 +571,32 @@ var proto = {
     },
 
     allowSecondDcCard: function() {
-        var playerBox = this._getMyUser().dispObjs.playerBox;
-        var qDcCardId = playerBox.askForDcCardToPlay();
-        return qDcCardId
-            .then(function(cardId) {
-                return cardId;
-            });
+        let playerBox = this._getMyUser().dispObjs.playerBox;
+        mutexDcCards.lock(() => {
+            return playerBox.askForDcCardToPlay()
+                .then(function(cardId) {
+                    return cardId;
+                });
+        });
+    },
+
+    chooseOpponentCard: function() {
+        mutexDcCards.lock(() => {
+            let otherPlayerBoxes = this.getOtherPlayerBoxes();
+            let qCards = this.mapAskDcCard(otherPlayerBoxes);
+            return q.race(qCards)
+                .get("playerIdx");
+        });
+    },
+
+    getOtherPlayerBoxes: function() {
+        return _(this.gameState.users)
+            .tail()
+            .map("dispObjs.playerBox");
+    },
+
+    mapAskDcCard: function(playerBoxes) {
+
     },
 
     chooseOwnCar: function() {
