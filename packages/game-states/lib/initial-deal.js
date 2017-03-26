@@ -20,9 +20,9 @@ function InitialDeal(gameData, choiceProvider, firstPlayerIdx) {
             dealToPlayers.bind(null, gameData.players, firstPlayerIdx, gameData.dealInsurance)
         );
 
-        _.times(1,
-            dealToPlayers.bind(null, gameData.players, firstPlayerIdx, gameData.dealBlueBook)
-        );
+        // _.times(1,
+        //     dealToPlayers.bind(null, gameData.players, firstPlayerIdx, gameData.dealBlueBook)
+        // );
 
         return q(new CheckReplenish(gameData, choiceProvider, firstPlayerIdx));
     }
