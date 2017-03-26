@@ -4,6 +4,7 @@
   "description": "DB interface for Dealer's Choice",
   "main": "index.js",
   "scripts": {
+    "out": "npm out || exit 0",
     "test": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-db-interface.xml\" NODE_ENV=test mocha --recursive $MOCHA_OPTIONS"
   },
   "repository": {
@@ -17,16 +18,16 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/db-interface",
   "dependencies": {
-    "config": "1.24.0",
+    "config": "1.25.1",
     "dc-constants": "^1.1.1",
-    "dc-game-states": "^1.1.5",
     "dc-engine": "^1.1.5",
-    "lodash": "4.16.6",
-    "q": "1.4.1",
-    "rethinkdbdash": "2.3.26"
+    "dc-game-states": "^1.1.5",
+    "lodash": "4.17.4",
+    "q": "1.5.0",
+    "rethinkdbdash": "2.3.28"
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "mocha": "3.1.2"
+    "mocha": "3.2.0"
   }
 }

@@ -4,6 +4,7 @@
   "description": "Front end for Dealer's Choice game",
   "main": "index.js",
   "scripts": {
+    "out": "npm out || exit 0",
     "build": "webpack --progress --config webpack/prod.config.js",
     "watch": "webpack --progress --config webpack/dev.config.js --watch",
     "prepublish": "npm run build && bower install"

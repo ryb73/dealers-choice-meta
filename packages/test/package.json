@@ -4,6 +4,7 @@
   "description": "Dealer's Choice test utils.",
   "main": "index.js",
   "scripts": {
+    "out": "npm out || exit 0",
     "test": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-test.xml\" mocha --recursive $MOCHA_OPTIONS",
     "cover": "MOCHA_FILE=\"${MOCHA_FILE_DIR}/dc-test.xml\" node ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --recursive $MOCHA_OPTIONS"
   },
@@ -18,12 +19,12 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/test",
   "dependencies": {
+    "dc-engine": "^1.1.5",
     "give-unique-id": "1.0.0",
-    "q": "^1.4.1",
-    "dc-engine": "^1.1.5"
+    "q": "1.5.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "mocha": "3.1.2"
+    "mocha": "3.2.0"
   }
 }
