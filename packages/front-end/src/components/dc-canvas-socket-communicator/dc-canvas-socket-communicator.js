@@ -198,10 +198,15 @@ let proto = {
 
     _allowTakeCard: function(msg) {
         canvas.chooseOpponentCard()
-            .done(this._sendAnswer.bind(this, msg.handlerId));
+            .done((playerId) => {
+                this._sendAnswer({
+                    playerId,
+                    handlerId: msg.handlerId
+                });
+            });
     },
 
-    _sendAnswer: function(handlerId, answer) {
+    _sendAnswer: function(answer) {
         let msg = {
             cmd: MessageType.Choice,
             answer: answer

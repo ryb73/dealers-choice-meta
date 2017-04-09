@@ -553,50 +553,45 @@ var proto = {
     },
 
     getTurnChoice: function() {
-        let deferred = q.defer();
-
-        mutexDcCards.lock(() => {
+        return mutexDcCards.lock(() => {
             var playerBox = this._getMyUser().dispObjs.playerBox;
             var qDcCardId = playerBox.askForDcCardToPlay();
             return qDcCardId
                 .then((cardId) => {
-                    deferred.resolve({
+                    return {
                         selection: TurnChoice.DcCard,
                         cardId: cardId
-                    });
+                    };
                 });
         }, true);
-
-        return deferred.promise;
     },
 
     allowSecondDcCard: function() {
-        let playerBox = this._getMyUser().dispObjs.playerBox;
-        mutexDcCards.lock(() => {
+        return mutexDcCards.lock(() => {
+            let playerBox = this._getMyUser().dispObjs.playerBox;
+
             return playerBox.askForDcCardToPlay()
                 .then(function(cardId) {
                     return cardId;
                 });
-        });
+        }, true);
     },
 
     chooseOpponentCard: function() {
-        mutexDcCards.lock(() => {
+        return mutexDcCards.lock(() => {
             let otherPlayerBoxes = this.getOtherPlayerBoxes();
-            let qCards = this.mapAskDcCard(otherPlayerBoxes);
+            let qCards = _.invokeMap(otherPlayerBoxes, "askForDcCard");
             return q.race(qCards)
+                .tap(() => _.invokeMap(otherPlayerBoxes, "stopAskingForDcCard"))
                 .get("playerIdx");
-        });
+        }, true);
     },
 
     getOtherPlayerBoxes: function() {
         return _(this.gameState.users)
             .tail()
-            .map("dispObjs.playerBox");
-    },
-
-    mapAskDcCard: function(playerBoxes) {
-
+            .map("dispObjs.playerBox")
+            .value();
     },
 
     chooseOwnCar: function() {

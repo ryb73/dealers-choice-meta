@@ -5,6 +5,9 @@ function CardDisplay(dispObj) {
 
   this._dispObj = addShadow(dispObj);
   this.addChild(this._dispObj);
+
+  this._isHighlighted = false;
+
   this._updateBounds();
 }
 
@@ -23,11 +26,17 @@ function addShadow(dispObj) {
 }
 
 p.highlight = function() {
+  this._isHighlighted = true;
   this._dispObj.shadow = new createjs.Shadow("#32c9fb", 0, 0, 40);
 };
 
 p.unhighlight = function() {
+  this._isHighlighted = false;
   addShadow(this._dispObj);
+};
+
+p.isHighlighted = function() {
+  return this._isHighlighted;
 };
 
 module.exports = createjs.promote(CardDisplay, "Container");

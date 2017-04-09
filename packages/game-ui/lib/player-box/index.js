@@ -1,14 +1,14 @@
 "use strict";
 
-var BOX_WIDTH         = 600,
+const BOX_WIDTH         = 600,
     BOX_HEIGHT_ME     = 150,
     BOX_HEIGHT_OTHERS = 300;
 
-var q             = require("q"),
-    _             = require("lodash"),
-    PlayerDcCards = require("./player-dc-cards"),
-    PlayerCars    = require("./player-cars"),
-    AvatarDisplay = require("./avatar-display");
+const q             = require("q"),
+      _             = require("lodash"),
+      PlayerDcCards = require("./player-dc-cards"),
+      PlayerCars    = require("./player-cars"),
+      AvatarDisplay = require("./avatar-display");
 
 function PlayerBox(user, isMe, debugMode, callbacks) {
   this.Container_constructor();
@@ -18,14 +18,14 @@ function PlayerBox(user, isMe, debugMode, callbacks) {
   this._disabledDcCards = {};
 }
 
-var p = createjs.extend(PlayerBox, createjs.Container);
+let p = createjs.extend(PlayerBox, createjs.Container);
 createjs.EventDispatcher.initialize(p);
 
 p._setup = function(user, isMe, debugMode, callbacks) {
   this._callbacks = callbacks;
   this._player = user.player; // TODO: refactor this to be safer
 
-  var height = (isMe) ? BOX_HEIGHT_ME : BOX_HEIGHT_OTHERS;
+  let height = (isMe) ? BOX_HEIGHT_ME : BOX_HEIGHT_OTHERS;
   this.setBounds(0, 0, BOX_WIDTH, height);
   this.regX = BOX_WIDTH / 2;
   this.regY = height / 2;
@@ -40,7 +40,7 @@ p._setup = function(user, isMe, debugMode, callbacks) {
 };
 
 p._createBackground = function() {
-  var bg = new createjs.Shape();
+  let bg = new createjs.Shape();
   bg.graphics
     .beginFill("#D5EBD5")
     .drawRect(0, 0, this.getBounds().width, this.getBounds().height);
@@ -52,8 +52,8 @@ p._createBackground = function() {
 
 p._createCars = function(cars) {
   // Reg point is 0,0
-  var playerCars = new PlayerCars(cars);
-  var carCoords = getCoordsForCars();
+  let playerCars = new PlayerCars(cars);
+  let carCoords = getCoordsForCars();
   playerCars.x = carCoords.x;
   playerCars.y = carCoords.y;
   this.addChild(playerCars);
@@ -83,14 +83,14 @@ p._carClick = function(e) {
   if(!this.defCarId)
     return;
 
-  var card = this._player.cars[e.cardIndex];
+  let card = this._player.cars[e.cardIndex];
   this.defCarId.resolve(card.id);
   this.defCarId = null;
 };
 
 p._createDcCards = function(dcCards, isMe) {
   // Reg point is 0,0
-  var playerDcCards = new PlayerDcCards(BOX_WIDTH, dcCards, isMe);
+  let playerDcCards = new PlayerDcCards(BOX_WIDTH, dcCards, isMe);
   playerDcCards.y = 60;
   this.addChild(playerDcCards);
 
@@ -116,25 +116,28 @@ p._dcCardMouseOut = function(e) {
 };
 
 p._dcCardClick = function(e) {
-  if(!this.defPlayedCardId)
+  if(!this.defSelectedCardId)
     return;
 
   if(this._disabledDcCards[e.cardIndex])
     return;
 
-  var card = this._player.dcCards[e.cardIndex];
-  this._callbacks.canPlayDcCard(card.id)
-    .done(function(canPlay) {
-      if(!canPlay) return;
+  if(!this._playerDcCards.isCardHighlighted(e.cardIndex))
+    return;
 
-      this.defPlayedCardId.resolve(card.id);
-      this.defPlayedCardId = null;
-    }.bind(this));
+  // If this is another player, we don't actually have card data
+  let card = this._player.dcCards[e.cardIndex];
+  if(card)
+    this.defSelectedCardId.resolve(card.id);
+  else
+    this.defSelectedCardId.resolve(this._player.id);
+
+  this.defSelectedCardId = null;
 };
 
 p._createAvatar = function(user) {
   // Reg point is center of picture
-  var avatarDisplay = new AvatarDisplay(user);
+  let avatarDisplay = new AvatarDisplay(user);
   avatarDisplay.x = BOX_WIDTH / 2;
   avatarDisplay.y = this._playerDcCards.y +
                     this._playerDcCards.getBounds().height + 40 +
@@ -182,7 +185,7 @@ p.putCarInBlankSpace = function(qNewCar) {
 };
 
 p.makeSpaceForDcCard = function(transitionTime) {
-  var coords = this._playerDcCards.makeSpaceForCard(transitionTime);
+  let coords = this._playerDcCards.makeSpaceForCard(transitionTime);
   coords.y += this._playerDcCards.y;
   return coords;
 };
@@ -194,16 +197,16 @@ p.putDcCardInBlankSpace = function(qNewCard) {
 
 p.highlightNewCard = function(cardIndex) {
   // If a new card is added and we're highlighting playable cards, highlight the new one if applicable
-  if(!this.defPlayedCardId)
+  if(!this.defSelectedCardId)
     return;
 
-  var card = this._player.dcCards[cardIndex];
+  let card = this._player.dcCards[cardIndex];
   this._callbacks.canPlayDcCard(card.id)
     .done(this._highlightDcCardIfCanPlay.bind(this, cardIndex));
 };
 
 p._getCoordsForInsurance = function() {
-  var res = this._playerCars.getFirstCarCoords();
+  let res = this._playerCars.getFirstCarCoords();
   if(res) {
     res.x += this._playerCars.x;
     res.y += this._playerCars.y;
@@ -219,9 +222,9 @@ p.giveInsurance = function(insuranceDisp, initialCoords, transitionTime) {
   insuranceDisp.y = initialCoords.y;
   insuranceDisp.rotation = initialCoords.rotation;
 
-  var destCoords = this._getCoordsForInsurance();
+  let destCoords = this._getCoordsForInsurance();
 
-  var deferred = q.defer();
+  let deferred = q.defer();
   createjs.Tween.get(insuranceDisp)
     .to(destCoords, transitionTime, createjs.Ease.cubicOut)
     .call(function() {
@@ -280,17 +283,24 @@ p.removeRandomDcCard = function(transitionTime) {
 
 p.askForDcCardToPlay = function() {
   this._highlightPlayableCards();
-  this.defPlayedCardId = q.defer();
-  return this.defPlayedCardId.promise
+  this.defSelectedCardId = q.defer();
+  return this.defSelectedCardId.promise
+    .tap(this.stopAskingForDcCard.bind(this));
+};
+
+p.askForDcCard = function() {
+  this._highlightDcCards();
+  this.defSelectedCardId = q.defer();
+  return this.defSelectedCardId.promise
     .tap(this.stopAskingForDcCard.bind(this));
 };
 
 p.stopAskingForDcCard = function() {
-  this._unhighlightPlayableCards();
+  this._unhighlightDcCards();
 
-  if(this.defPlayedCardId)
-    this.defPlayedCardId.reject();
-  this.defPlayedCardId = null;
+  if(this.defSelectedCardId)
+    this.defSelectedCardId.reject();
+  this.defSelectedCardId = null;
 };
 
 p.askForCar = function() {
@@ -330,20 +340,29 @@ p._highlightPlayableCards = function() {
   }
 };
 
-p._unhighlightPlayableCards = function() {
-  for(var i = 0; i < this._player.dcCards.length; ++i) {
+p._highlightDcCards = function() {
+  for(let i = 0; i < this._player.dcCards.length; ++i) {
+    if(this._disabledDcCards[i])
+      continue;
+
+    this._playerDcCards.highlightCard(i);
+  }
+};
+
+p._unhighlightDcCards = function() {
+  for(let i = 0; i < this._player.dcCards.length; ++i) {
     this._playerDcCards.unhighlightCard(i);
   }
 };
 
 p._highlightCars = function() {
-  for(var i = 0; i < this._player.cars.length; ++i) {
+  for(let i = 0; i < this._player.cars.length; ++i) {
     this._playerCars.highlightCard(i);
   }
 };
 
 p._unhighlightCars = function() {
-  for(var i = 0; i < this._player.cars.length; ++i) {
+  for(let i = 0; i < this._player.cars.length; ++i) {
     this._playerCars.unhighlightCard(i);
   }
 };
