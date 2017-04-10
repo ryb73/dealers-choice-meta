@@ -32,7 +32,7 @@ function addGameStateListeners(gameData, callbacks) {
 }
 
 function addPlayerListeners(callbacks, player) {
-    player.sellCarToBank = spyback(player.sellCarToBank, null, ([ car, amount ]) => {
+    player.sellCarToBank = spyback(player.sellCarToBank, ([ car, amount ]) => {
         callbacks.broadcast("action", {
             cmd: MessageType.CarSoldToBank,
             playerId: player.id,
@@ -50,12 +50,21 @@ function addPlayerListeners(callbacks, player) {
         });
     });
 
-    player.buyCar = spyback(player.buyCar, null, ([ car, amount ]) => {
+    player.buyCar = spyback(player.buyCar, ([ car, amount ]) => {
         callbacks.broadcast("action", {
             cmd: MessageType.CarBoughtFromBank,
             playerId: player.id,
             car,
             amount
+        });
+    });
+
+    player.takeDcCard = spyback(player.takeDcCard, ([ fromPlayer, card ]) => {
+        callbacks.broadcast("action". {
+            cmd: MessageType.MoveCardBetweenPlayers,
+            fromPlayerId: fromPlayer.id,
+            toPlayerId: toPlayerId.id,
+            dcCard: card
         });
     });
 }

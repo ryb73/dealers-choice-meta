@@ -4,7 +4,8 @@
 const dcConstants  = require("dc-constants"),
       MessageType  = dcConstants.MessageType,
       q            = require("q"),
-      _            = require("lodash");
+      _            = require("lodash"),
+      sentenceCase = require("sentence-case");
 
 let canvas, socket;
 
@@ -96,6 +97,9 @@ let proto = {
                 break;
             case MessageType.AllowTakeCard:
                 this._allowTakeCard(msg);
+                break;
+            case MessageType.MoveCardBetweenPlayers:
+                this._moveCardBetweenPlayers(msg);
                 break;
             default:
                 console.log("Unexpected message type: " + msg.cmd);
@@ -251,7 +255,7 @@ let proto = {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
         let user = this._getUserByIdx(playerIdx);
 
-        let name = this._getDisplayableName(playerIdx);
+        let name = sentenceCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " sold #" + msg.carId + " for $" + msg.amount + ".");
 
         let carIdx = this._getCarIdxFromId(user.player, msg.carId);
@@ -262,7 +266,7 @@ let proto = {
     _carBoughtFromBank: function(msg) {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
 
-        let name = this._getDisplayableName(playerIdx);
+        let name = sentenceCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " bought #" + msg.car.id + " for $" + msg.amount + ".");
 
         canvas.giveCarFromDeck(playerIdx, msg.car);
@@ -273,7 +277,7 @@ let proto = {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
         let user = this._getUserByIdx(playerIdx);
 
-        let name = this._getDisplayableName(playerIdx);
+        let name = sentenceCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " played " + msg.cardTitle + ".");
 
         if(this._isMe(playerIdx)) {
@@ -284,9 +288,27 @@ let proto = {
         }
     },
 
+    _moveCardBetweenPlayers(msg) {
+        let fromPlayerIdx = this._getPlayerIdxFromId(msg.fromPlayerId);
+        let toPlayerIdx = this._getPlayerIdxFromId(msg.toPlayerId);
+
+        let fromName = sentenceCase(this._getDisplayableName(fromPlayerIdx));
+        let toName = this._getDisplayableName(toPlayerIdx);
+
+        let cardTitle;
+        if(!this._isMe(fromPlayerIdx) && !this._isMe(toPlayerIdx))
+            cardTitle = "Dealer's Choice";
+        else
+            cardTitle = msg.dcCard.title;
+
+        canvas.addChat(`${fromName} gave ${toName} a ${cardTitle} card.`);
+
+        canvas.moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, msg.dcCard);
+    },
+
     _getDisplayableName(userIdx) {
         if(userIdx === 0)
-            return "You";
+            return "you";
         else
             return this._getUserByIdx(userIdx).name;
     },

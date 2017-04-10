@@ -582,8 +582,7 @@ var proto = {
             let otherPlayerBoxes = this.getOtherPlayerBoxes();
             let qCards = _.invokeMap(otherPlayerBoxes, "askForDcCard");
             return q.race(qCards)
-                .tap(() => _.invokeMap(otherPlayerBoxes, "stopAskingForDcCard"))
-                .get("playerIdx");
+                .tap(() => _.invokeMap(otherPlayerBoxes, "stopAskingForDcCard"));
         }, true);
     },
 
@@ -599,9 +598,11 @@ var proto = {
         return playerBox.askForCar();
     },
 
-    _highlightDcCards: function() {
-        this._getMyUser().dispObjs.playerBox._highlightPlayableCards();
-    },
+    // moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, card) {
+    //     mutexDcCards.lock(() => {
+
+    //     }, true);
+    // },
 
     _getMyUser: function() {
         return this.gameState.users[0];

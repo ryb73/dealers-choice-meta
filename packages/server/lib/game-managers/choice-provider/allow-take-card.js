@@ -40,12 +40,11 @@ function AllowTakeCard($game, $player) {
     this.giveAnswer = giveAnswer;
 
     function getTargetPlayer(answer) {
-        let playerIdx = !!game.getPlayerIndexById(answer);
-        let player = game.players[playerIdx];
-        if(!playerIdx || !player)
-            return false;
+        let playerIdx = game.getPlayerIndexById(answer.playerId);
+        if(!playerIdx)
+            return null;
 
-        return player.dcCards.length > 0;
+        return game.players[playerIdx];
     }
 }
 
