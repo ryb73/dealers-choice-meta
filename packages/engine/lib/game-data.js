@@ -3,7 +3,7 @@
 const Deck = require("./deck");
 
 function GameData($players, $deckConfig) {
-    let players, dcDeck, insuranceDeck, carDeck, blueBookDeck;
+    let players, dcDeck, insuranceDeck, carDeck/*, blueBookDeck*/;
 
     function initialize() {
         players = $players;
@@ -47,11 +47,11 @@ function GameData($players, $deckConfig) {
     }
     this.dealInsurance = dealInsurance;
 
-    function dealBlueBook(player) {
-        let blueBook = blueBookDeck.pop();
-        player.setBlueBook(blueBook);
-        return insurance;
-    }
+    // function dealBlueBook(player) {
+    //     let blueBook = blueBookDeck.pop();
+    //     player.setBlueBook(blueBook);
+    //     return insurance;
+    // }
 
     Object.defineProperties(this, {
         players: {

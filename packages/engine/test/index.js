@@ -1,9 +1,7 @@
 "use strict";
-/* jshint mocha: true */
 
 const chai           = require("chai"),
       chaiAsPromised = require("chai-as-promised"),
-      _              = require("lodash"),
       dcEngine       = require(".."),
       Player         = dcEngine.Player,
       Insurance      = dcEngine.Insurance,

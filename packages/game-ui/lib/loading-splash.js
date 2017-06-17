@@ -1,5 +1,4 @@
 /* global createjs */
-/* jshint strict: global */
 "use strict";
 
 var WIDTH               = 400,

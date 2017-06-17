@@ -152,6 +152,10 @@ function createCardBack(image) {
   return back;
 }
 
+p.createDcCardBack = function() {
+  return createCardBack(assets.dcCardBack);
+};
+
 // car: Optional reference to car. If omitted, creates
 //      a blank car
 function createCar(car) {

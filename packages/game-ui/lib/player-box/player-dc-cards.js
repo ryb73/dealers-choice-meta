@@ -1,10 +1,11 @@
 "use strict";
 
-var consts      = require("../constants"),
-    DcCardFront = require("../cards/dc-card-front"),
-    CardDisplay = require("../cards/card-display"),
-    PlayerHand  = require("../player-hand"),
-    assets      = require("../assets");
+var consts        = require("../constants"),
+    DcCardFront   = require("../cards/dc-card-front"),
+    CardDisplay   = require("../cards/card-display"),
+    FlippableCard = require("../cards/flippable-card"),
+    PlayerHand    = require("../player-hand"),
+    assets        = require("../assets");
 
 function PlayerDcCards(availWidth, cards, isMe) {
   this._availWidth = availWidth;
@@ -22,10 +23,14 @@ p._addCards = function(cards) {
   var cardDisp;
 
   for(var i = 0; i < cards.length; ++i) {
-    if(this._isMe)
-      cardDisp = new DcCardFront(cards[i]);
-    else
-      cardDisp = new CardDisplay(new createjs.Bitmap(assets.dcCardBack));
+    let back = new CardDisplay(new createjs.Bitmap(assets.dcCardBack));
+
+    if(this._isMe) {
+      cardDisp = new FlippableCard(back, new DcCardFront(cards[i]));
+      cardDisp.flip();
+    } else {
+      cardDisp = back;
+    }
 
     this._addToOpenSlot(cardDisp);
   }

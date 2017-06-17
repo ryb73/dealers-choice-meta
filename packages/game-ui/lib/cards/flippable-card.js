@@ -1,16 +1,23 @@
 "use strict";
 
+const FRONT = 1,
+      BACK = 2;
+
 function FlippableCard(back, front) {
   this.Container_constructor();
 
   back.x = back.regX;
   back.y = back.regY;
+  this.addChild(back);
+
   front.x = front.regX;
   front.y = front.regY;
-  this.addChild(back);
+  front.scaleX = 0;
+  this.addChild(front);
 
   this._back = back;
   this._front = front;
+  this._orientation = BACK;
   this._updateBounds();
 }
 
@@ -23,19 +30,29 @@ p._updateBounds = function() {
   this.regY = bounds.height / 2;
 };
 
-// Only support back to front for now
 p.flip = function(delay) {
   if(!delay) delay = 0;
 
-  createjs.Tween.get(this._back)
-    .to({ scaleX: 0 }, delay / 2)
-    .call(this._flipToFront.bind(this, delay));
+  if(this._orientation === BACK) {
+    createjs.Tween.get(this._back)
+      .to({scaleX: 0}, delay / 2)
+      .call(this._flipToFront.bind(this, delay));
+  } else {
+    createjs.Tween.get(this._front)
+      .to({scaleX: 0}, delay / 2)
+      .call(this._flipToBack.bind(this, delay));
+  }
 };
 
 p._flipToFront = function(delay) {
-  this._front.scaleX = 0;
-  this.addChild(this._front);
+  this._orientation = FRONT;
   createjs.Tween.get(this._front)
+    .to({ scaleX: 1 }, delay / 2);
+};
+
+p._flipToBack = function(delay) {
+  this._orientation = BACK;
+  createjs.Tween.get(this._back)
     .to({ scaleX: 1 }, delay / 2);
 };
 
@@ -47,6 +64,10 @@ p.highlight = function() {
 p.unhighlight = function() {
   this._back.unhighlight();
   this._front.unhighlight();
+};
+
+p.isHighlighted = function() {
+  return this._back.isHighlighted();
 };
 
 module.exports = createjs.promote(FlippableCard, "Container");

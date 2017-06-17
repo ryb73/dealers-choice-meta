@@ -121,26 +121,6 @@ let proto = {
         canvas.giveInsuranceFromDeck(playerIdx, msg.insurance);
     },
 
-    _getPlayerIdxFromId: function(playerId) {
-        return _.findIndex(this.gameState.users, {
-            player: {
-                id: playerId
-            }
-        });
-    },
-
-    _getCarIdxFromId: function(player, carId) {
-        return _.findIndex(player.cars, { id: carId });
-    },
-
-    _getDcCardIdxFromId: function(player, cardId) {
-        return _.findIndex(player.dcCards, { id: cardId });
-    },
-
-    _getUserByIdx: function(idx) {
-        return this.gameState.users[idx];
-    },
-
     _doRockPaperScissors: function(msg) {
         if(!this.startedRps) {
             this.startedRps = true;
@@ -303,7 +283,31 @@ let proto = {
 
         canvas.addChat(`${fromName} gave ${toName} a ${cardTitle} card.`);
 
-        canvas.moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, msg.dcCard);
+        // Get the card index. Note that this only works if the from player is the current player for now
+        let fromUser = this._getUserByIdx(fromPlayerIdx);
+        let cardIdx = this._getDcCardIdxFromId(fromUser.player, msg.dcCard.id);
+
+        canvas.moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, msg.dcCard, cardIdx);
+    },
+
+    _getPlayerIdxFromId: function(playerId) {
+        return _.findIndex(this.gameState.users, {
+            player: {
+                id: playerId
+            }
+        });
+    },
+
+    _getCarIdxFromId: function(player, carId) {
+        return _.findIndex(player.cars, { id: carId });
+    },
+
+    _getDcCardIdxFromId: function(player, cardId) {
+        return _.findIndex(player.dcCards, { id: cardId });
+    },
+
+    _getUserByIdx: function(idx) {
+        return this.gameState.users[idx];
     },
 
     _getDisplayableName(userIdx) {

@@ -11,6 +11,7 @@ const q                  = require("q"),
       CarFront           = gameUi.CarFront,
       DcCardFront        = gameUi.DcCardFront,
       InsuranceFront     = gameUi.InsuranceFront,
+      FlippableCard      = gameUi.FlippableCard,
       BlueBook           = gameUi.BlueBook,
       MyInsurances       = gameUi.MyInsurances,
       MyMoney            = gameUi.MyMoney,
@@ -24,6 +25,7 @@ const TRANSITION_TIME = 500;
 let stage; // assume only one canvas per page
 let decks, blueBook, bgBmp, myInsurances, myMoney;
 let displayedCard, modal;
+let lastSelectedOpponentCardIdx;
 let animationThrottler = new AnimationThrottler(300);
 
 const mutexDcCards = shmutex();
@@ -173,8 +175,7 @@ var proto = {
         this.refresh();
     },
 
-    giveCarFromDeck: function(userIdx, car) { return this.giveCarFromDeckImpl(userIdx, car); },
-    giveCarFromDeckImpl: animated(function(userIdx, car) {
+    giveCarFromDeck: animated(function(userIdx, car) {
         var user = this.gameState.users[userIdx];
         user.player.cars.push(car);
 
@@ -192,8 +193,7 @@ var proto = {
     }),
 
     //TODO: this looks very similar to giveCarFromDeck. refactor?
-    giveDcCardFromDeck: function(userIdx, dcCard) { return this.giveDcCardFromDeckImpl(userIdx, dcCard); },
-    giveDcCardFromDeckImpl: animated(function(userIdx, dcCard) {
+    giveDcCardFromDeck: animated(function(userIdx, dcCard) {
         let deferred = q.defer();
 
         mutexDcCards.lock(() => {
@@ -218,8 +218,7 @@ var proto = {
         return deferred.promise;
     }),
 
-    giveInsuranceFromDeck: function(userIdx, insurance) { return this.giveInsuranceFromDeckImpl(userIdx, insurance); },
-    giveInsuranceFromDeckImpl: animated(function(userIdx, insurance) {
+    giveInsuranceFromDeck: animated(function(userIdx, insurance) {
         var user = this.gameState.users[userIdx];
         user.player.insurances.push(insurance);
 
@@ -582,7 +581,11 @@ var proto = {
             let otherPlayerBoxes = this.getOtherPlayerBoxes();
             let qCards = _.invokeMap(otherPlayerBoxes, "askForDcCard");
             return q.race(qCards)
-                .tap(() => _.invokeMap(otherPlayerBoxes, "stopAskingForDcCard"));
+                .tap(() => _.invokeMap(otherPlayerBoxes, "stopAskingForDcCard"))
+                .then(({ playerId, cardIdx }) => {
+                    lastSelectedOpponentCardIdx = cardIdx; // I hate this
+                    return playerId;
+                });
         }, true);
     },
 
@@ -598,11 +601,48 @@ var proto = {
         return playerBox.askForCar();
     },
 
-    // moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, card) {
-    //     mutexDcCards.lock(() => {
+    moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, card, cardIdx) {
+        mutexDcCards.lock(() => {
+            let fromUser = this.gameState.users[fromPlayerIdx];
+            let fromPlayerBox = fromUser.dispObjs.playerBox;
 
-    //     }, true);
-    // },
+            let toUser = this.gameState.users[toPlayerIdx];
+            let toPlayerBox = toUser.dispObjs.playerBox;
+
+            if(cardIdx < 0)
+                cardIdx = lastSelectedOpponentCardIdx;
+
+            fromUser.player.dcCards.splice(cardIdx, 1);
+            toUser.player.dcCards.push(card);
+
+            let { cardDisp, coords: fromCoords } = fromPlayerBox.removeDcCard(cardIdx, TRANSITION_TIME);
+            fromCoords = normalizeCoords(fromPlayerBox, fromCoords);
+            fromCoords = denormalizeCoords(toPlayerBox, fromCoords);
+            fromCoords.y -= cardDisp.regY;
+
+            let needToFlip = this._isMe(fromPlayerIdx) || this._isMe(toPlayerIdx);
+            if(needToFlip && !this._isMe(fromPlayerIdx))
+                cardDisp = this._makeFlippableDcCard(card);
+
+            cardDisp.set(fromCoords);
+
+            toPlayerBox.makeSpaceForDcCard(TRANSITION_TIME);
+            let res = toPlayerBox.putDcCardInBlankSpace(cardDisp, TRANSITION_TIME);
+
+            if(needToFlip)
+                cardDisp.flip(TRANSITION_TIME / 4);
+            else
+                console.log("it ain't me");
+
+            return res;
+        }, true).done();
+    },
+
+    _makeFlippableDcCard(card) {
+        let back = decks.createDcCardBack();
+        let front = new DcCardFront(card);
+        return new FlippableCard(back, front);
+    },
 
     _getMyUser: function() {
         return this.gameState.users[0];
@@ -631,6 +671,10 @@ var proto = {
             x: this._width() / 2,
             y: this._height() / 2 + 25
         };
+    },
+
+    _getPlayerBoxByIndex: function(playerIdx) {
+        return this.gameState.users[playerIdx].dispObjs.playerBox;
     },
 
     _getCoordsForPlayer: function(playerIndex) {

@@ -130,7 +130,10 @@ p._dcCardClick = function(e) {
   if(card)
     this.defSelectedCardId.resolve(card.id);
   else
-    this.defSelectedCardId.resolve(this._player.id);
+    this.defSelectedCardId.resolve({
+        playerId: this._player.id,
+        cardIdx: e.cardIndex
+    });
 
   this.defSelectedCardId = null;
 };
@@ -190,8 +193,8 @@ p.makeSpaceForDcCard = function(transitionTime) {
   return coords;
 };
 
-p.putDcCardInBlankSpace = function(qNewCard) {
-  return this._playerDcCards.putCardInBlankSpace(qNewCard)
+p.putDcCardInBlankSpace = function(qNewCard, transitionTime) {
+  return this._playerDcCards.putCardInBlankSpace(qNewCard, transitionTime)
     .tap(this.highlightNewCard.bind(this));
 };
 

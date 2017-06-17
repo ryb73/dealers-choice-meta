@@ -61,6 +61,7 @@ const MessageType = {
   DealDcCardToPlayer: "deal-dc-card-to-player",
   DealCarToPlayer: "deal-car-to-player",
   DealInsuranceToPlayer: "deal-insurance-to-player",
+  MoveCardBetweenPlayers: "move-card-between-players",
 
   ChooseOwnCar: "choose-own-car",
 

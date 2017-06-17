@@ -60,10 +60,10 @@ function addPlayerListeners(callbacks, player) {
     });
 
     player.takeDcCard = spyback(player.takeDcCard, ([ fromPlayer, card ]) => {
-        callbacks.broadcast("action". {
+        callbacks.broadcast("action", {
             cmd: MessageType.MoveCardBetweenPlayers,
             fromPlayerId: fromPlayer.id,
-            toPlayerId: toPlayerId.id,
+            toPlayerId: player.id,
             dcCard: card
         });
     });

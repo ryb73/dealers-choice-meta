@@ -1,6 +1,8 @@
 // Abstract class representing a displayable container of cards
 "use strict";
 
+const q = require("q");
+
 function PlayerHand(cardsData, noRandomize) {
   this.Container_constructor();
 
@@ -83,24 +85,39 @@ p.makeSpaceForCard = function(transitionTime) {
   return this._getCoordsForCard(this._cardSlots.length - 1);
 };
 
-p.putCardInBlankSpace = function(qNewCard) {
-  return qNewCard.then(function(newCard) {
-    if(this._openSlotIdx === this._cardSlots.length)
-      throw new Error("No open slots in car display");
+p.putCardInBlankSpace = function(qNewCard, transitionTime) {
+  if(qNewCard.then)
+    return qNewCard.then(this._putCardInBlankSpace.bind(this, transitionTime));
 
-    var openSlot = this._openSlotIdx;
+  return this._putCardInBlankSpace(transitionTime, qNewCard);
+};
 
-    if(newCard.parent)
-      newCard.parent.removeChild(newCard);
+p._putCardInBlankSpace = function(transitionTime, newCard) {
+  if(this._openSlotIdx === this._cardSlots.length)
+    throw new Error("No open slots in car display");
 
-    var coords = this._getCoordsForCard(this._openSlotIdx);
+  var openSlot = this._openSlotIdx;
+
+  if(newCard.parent)
+    newCard.parent.removeChild(newCard);
+
+  let deferred = q.defer();
+
+  let coords = this._getCoordsForCard(this._openSlotIdx);
+
+  if(transitionTime) {
+    createjs.Tween.get(newCard)
+      .to(coords, transitionTime, createjs.Ease.cubicOut)
+      .call(() => deferred.resolve());
+  } else {
     newCard.x = coords.x;
     newCard.y = coords.y;
     newCard.rotation = coords.rotation;
+    deferred.resolve();
+  }
 
-    this._addToOpenSlot(newCard);
-    return openSlot;
-  }.bind(this));
+  this._addToOpenSlot(newCard);
+  return deferred.promise.thenResolve(openSlot);
 };
 
 p.removeCard = function(cardIdx, transitionTime) {

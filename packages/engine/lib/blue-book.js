@@ -3,7 +3,7 @@
 const _ = require("lodash");
 
 function BlueBook($carPrices) {
-    carPrices = _.cloneDeep($carPrices);
+    let carPrices = _.cloneDeep($carPrices);
 
     // Gets the price for the given car
     // Returns undefined if car isn't in blue book
