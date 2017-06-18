@@ -616,6 +616,7 @@ var proto = {
             toUser.player.dcCards.push(card);
 
             let { cardDisp, coords: fromCoords } = fromPlayerBox.removeDcCard(cardIdx, TRANSITION_TIME);
+            cardDisp.parent.removeChild(cardDisp);
             fromCoords = normalizeCoords(fromPlayerBox, fromCoords);
             fromCoords = denormalizeCoords(toPlayerBox, fromCoords);
             fromCoords.y -= cardDisp.regY;

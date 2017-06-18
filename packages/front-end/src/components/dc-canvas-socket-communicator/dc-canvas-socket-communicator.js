@@ -5,7 +5,7 @@ const dcConstants  = require("dc-constants"),
       MessageType  = dcConstants.MessageType,
       q            = require("q"),
       _            = require("lodash"),
-      sentenceCase = require("sentence-case");
+      titleCase = require("title-case");
 
 let canvas, socket;
 
@@ -235,7 +235,7 @@ let proto = {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
         let user = this._getUserByIdx(playerIdx);
 
-        let name = sentenceCase(this._getDisplayableName(playerIdx));
+        let name = titleCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " sold #" + msg.carId + " for $" + msg.amount + ".");
 
         let carIdx = this._getCarIdxFromId(user.player, msg.carId);
@@ -246,7 +246,7 @@ let proto = {
     _carBoughtFromBank: function(msg) {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
 
-        let name = sentenceCase(this._getDisplayableName(playerIdx));
+        let name = titleCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " bought #" + msg.car.id + " for $" + msg.amount + ".");
 
         canvas.giveCarFromDeck(playerIdx, msg.car);
@@ -257,7 +257,7 @@ let proto = {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
         let user = this._getUserByIdx(playerIdx);
 
-        let name = sentenceCase(this._getDisplayableName(playerIdx));
+        let name = titleCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " played " + msg.cardTitle + ".");
 
         if(this._isMe(playerIdx)) {
@@ -272,7 +272,7 @@ let proto = {
         let fromPlayerIdx = this._getPlayerIdxFromId(msg.fromPlayerId);
         let toPlayerIdx = this._getPlayerIdxFromId(msg.toPlayerId);
 
-        let fromName = sentenceCase(this._getDisplayableName(fromPlayerIdx));
+        let fromName = titleCase(this._getDisplayableName(fromPlayerIdx));
         let toName = this._getDisplayableName(toPlayerIdx);
 
         let cardTitle;

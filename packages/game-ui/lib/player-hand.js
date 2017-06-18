@@ -16,16 +16,26 @@ function PlayerHand(cardsData, noRandomize) {
 var p = createjs.extend(PlayerHand, createjs.Container);
 createjs.EventDispatcher.initialize(p);
 
+p._rebindEventListeners = function () {
+    this._cardSlots.forEach((dispCard, i) => {
+        if(!dispCard)
+            return;
+
+        dispCard.removeAllEventListeners();
+        dispCard.on("rollover", this._cardMouseOver.bind(this, i));
+        dispCard.on("rollout", this._cardMouseOut.bind(this, i));
+        dispCard.on("click", this._cardClick.bind(this, i));
+    });
+};
+
 p._addToOpenSlot = function(dispCard) {
     if(!this._hasOpenSlot())
         this._cardSlots.push(null);
 
-    dispCard.on("rollover", this._cardMouseOver.bind(this, this._openSlotIdx));
-    dispCard.on("rollout", this._cardMouseOut.bind(this, this._openSlotIdx));
-    dispCard.on("click", this._cardClick.bind(this, this._openSlotIdx));
-
     this._cardSlots[this._openSlotIdx++] = dispCard;
     this.addChild(dispCard);
+
+    this._rebindEventListeners();
 };
 
 p._cardMouseOver = function(idx) {
@@ -122,6 +132,7 @@ p.removeCard = function(cardIdx, transitionTime) {
     var oldCardDisp = this._cardSlots.splice(cardIdx, 1)[0];
     --this._openSlotIdx;
     this._rearrangeCards(transitionTime);
+    this._rebindEventListeners();
     return oldCardDisp;
 };
 
