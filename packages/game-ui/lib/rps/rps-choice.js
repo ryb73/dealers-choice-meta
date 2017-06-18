@@ -8,32 +8,32 @@ var WIDTH  = 300,
 var assets = require("../assets");
 
 function RpsChoice(choiceKey) {
-  this.Container_constructor();
+    this.Container_constructor();
 
-  this.setup(choiceKey);
+    this.setup(choiceKey);
 }
 
 var p = createjs.extend(RpsChoice, createjs.Container);
 
 p.setup = function(choiceKey) {
-  this.setBounds(0, 0, WIDTH, HEIGHT);
+    this.setBounds(0, 0, WIDTH, HEIGHT);
 
-  this.setUpMainBitmap(choiceKey);
-  this.setUpHoverBitmap(choiceKey);
-  this.setUpHitArea();
+    this.setUpMainBitmap(choiceKey);
+    this.setUpHoverBitmap(choiceKey);
+    this.setUpHitArea();
 };
 
 p.setUpMainBitmap = function(choiceKey) {
-  this.mainBmp = new createjs.Bitmap(assets[choiceKey]);
-  this.mainBmp.x = (WIDTH - this.mainBmp.getBounds().width) / 2;
-  this.addChild(this.mainBmp);
+    this.mainBmp = new createjs.Bitmap(assets[choiceKey]);
+    this.mainBmp.x = (WIDTH - this.mainBmp.getBounds().width) / 2;
+    this.addChild(this.mainBmp);
 };
 
 p.setUpHoverBitmap = function(choiceKey) {
-  this.hoverBmp = new createjs.Bitmap(assets[choiceKey + "-hover"]);
-  this.hoverBmp.x = (WIDTH - this.hoverBmp.getBounds().width) / 2;
-  this.hoverBmp.visible = false;
-  this.addChild(this.hoverBmp);
+    this.hoverBmp = new createjs.Bitmap(assets[choiceKey + "-hover"]);
+    this.hoverBmp.x = (WIDTH - this.hoverBmp.getBounds().width) / 2;
+    this.hoverBmp.visible = false;
+    this.addChild(this.hoverBmp);
 };
 
 p.highlight = function() {
