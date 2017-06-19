@@ -6,7 +6,7 @@ function PresetHelper($preset, $gameData, $choiceProvider) {
     let preset = $preset,
         gameData = $gameData,
         choiceProvider = $choiceProvider;
-    $preset = $gameData = $choiceProvider;
+    $preset = $gameData = $choiceProvider = null;
 
     function apply() {
         adjustPlayers();
