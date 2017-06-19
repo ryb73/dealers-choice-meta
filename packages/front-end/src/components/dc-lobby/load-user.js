@@ -1,4 +1,4 @@
-/* jshint strict: global */
+/* global FB */
 "use strict";
 
 var q = require("q");

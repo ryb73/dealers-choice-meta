@@ -2,7 +2,7 @@
 
 const _         = require("lodash"),
       bindArray = require("bind-array"),
-      log       = require("rpb-logging")("dc-engine"),
+      // log       = require("rpb-logging")("dc-engine"),
       assert    = require("chai").assert;
 
 function Deck($cardSelection) {

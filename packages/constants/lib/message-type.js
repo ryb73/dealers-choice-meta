@@ -61,6 +61,7 @@ const MessageType = {
   DealDcCardToPlayer: "deal-dc-card-to-player",
   DealCarToPlayer: "deal-car-to-player",
   DealInsuranceToPlayer: "deal-insurance-to-player",
+  MoveCardBetweenPlayers: "move-card-between-players",
 
   ChooseOwnCar: "choose-own-car",
 
@@ -69,6 +70,8 @@ const MessageType = {
   CardPlayed: "card-played",
 
   AllowSecondDcCard: "allow-second-dc-card",
+
+  AllowTakeCard: "allow-take-card",
 };
 
 module.exports = MessageType;

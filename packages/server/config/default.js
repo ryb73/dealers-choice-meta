@@ -7,6 +7,8 @@ const cardPack                = require("dc-card-pack"),
       SellForBlueBookPlusN    = cardPack.SellForBlueBookPlusN,
       SellForListPlusN        = cardPack.SellForListPlusN,
       LotClosed               = cardPack.LotClosed,
+      TakeN                   = cardPack.TakeN,
+      Cancel                  = cardPack.Cancel,
       dcEngine                = require("dc-engine"),
       Car                     = dcEngine.Car,
       Insurance               = dcEngine.Insurance;
@@ -152,6 +154,25 @@ function createDcCardConfig() {
         description: "No deal required.\nMay be used to cancel either a \"FORCED SALE\" or \"BUY\" " +
                       "card when it is played on you."
       }
+    }, {
+      constructor: TakeN,
+      args: [ 3 ],
+      count: 3, // 1
+      additionalProperties: {
+        key: "take-3",
+        title: "Take 3",
+        description: "Take three Dealer's choice cards from any players. Can be used on any player " +
+                      "or multiple players."
+      }
+    }, {
+      constructor: Cancel,
+      args: [ ],
+      count: 2,
+      additionalProperties: {
+        key: "cancel",
+        title: "Cancel",
+        description: "Cancel one Insurance Policy of another dealer."
+      }
     }];
 }
 
@@ -201,7 +222,7 @@ function createCarConfig() {
 }
 
 function createInsuranceConfig() {
-  [{
+  return [{
       constructor: Insurance,
       args: [ Insurance.protections.Fire ],
       count: 2, // TODO: figure out actual number

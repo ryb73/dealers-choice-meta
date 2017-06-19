@@ -16,172 +16,176 @@ var DECK_SPACING     = 5,
                         2 * (consts.cardBreadthSm + DECK_SPACING);
 
 function Decks() {
-  this.Container_constructor();
+    this.Container_constructor();
 
-  this._setup();
+    this._setup();
 }
 
 var p = createjs.extend(Decks, createjs.Container);
 
 p._setup = function() {
-  var totalHeight = consts.cardBreadthSm * 3 + DECK_SPACING * 2;
-  this.setBounds(0, 0, consts.cardLengthSm, totalHeight);
-  this.regX = 0;
-  this.regY = totalHeight / 2; // I think this is sort of an anti-pattern but am not terribly concerned right now
+    var totalHeight = consts.cardBreadthSm * 3 + DECK_SPACING * 2;
+    this.setBounds(0, 0, consts.cardLengthSm, totalHeight);
+    this.regX = 0;
+    this.regY = totalHeight / 2; // I think this is sort of an anti-pattern but am not terribly concerned right now
 
-  var carDeck = createCardBack(assets.carBack);
-  carDeck.x = carDeck.regX;
-  carDeck.y = carDeck.regY;
-  this.addChild(carDeck);
+    var carDeck = createCardBack(assets.carBack);
+    carDeck.x = carDeck.regX;
+    carDeck.y = carDeck.regY;
+    this.addChild(carDeck);
 
-  var dcDeck = createCardBack(assets.dcCardBack);
-  dcDeck.rotation = -90;
-  dcDeck.x = dcDeck.regY; // regyY because it's rotated
-  dcDeck.y = DC_CARD_Y;
-  this.addChild(dcDeck);
+    var dcDeck = createCardBack(assets.dcCardBack);
+    dcDeck.rotation = -90;
+    dcDeck.x = dcDeck.regY; // regyY because it's rotated
+    dcDeck.y = DC_CARD_Y;
+    this.addChild(dcDeck);
 
-  var insuranceDeck = createCardBack(assets.insuranceBack);
-  insuranceDeck.x = insuranceDeck.regX;
-  insuranceDeck.y = INSURANCE_CARD_Y;
-  this.addChild(insuranceDeck);
+    var insuranceDeck = createCardBack(assets.insuranceBack);
+    insuranceDeck.x = insuranceDeck.regX;
+    insuranceDeck.y = INSURANCE_CARD_Y;
+    this.addChild(insuranceDeck);
 };
 
 p.giveCar = function(car, destCoords, transitionTime) {
-  var newCard = createCar(car);
-  newCard.flip(transitionTime / 4);
-  this.addChild(newCard);
+    var newCard = createCar(car);
+    newCard.flip(transitionTime / 4);
+    this.addChild(newCard);
 
-  var deferred = q.defer();
-  createjs.Tween.get(newCard)
-    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
-    .call(function() {
-      deferred.resolve(newCard);
-    });
+    var deferred = q.defer();
+    createjs.Tween.get(newCard)
+        .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+        .call(function() {
+            deferred.resolve(newCard);
+        });
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
 p.giveDcCard = function(dcCard, destCoords, transitionTime, flip) {
-  var newCard = createDcCard(dcCard);
-  if(flip) newCard.flip(transitionTime / 4);
-  newCard.y = DC_CARD_Y;
-  this.addChild(newCard);
+    var newCard = createDcCard(dcCard);
+    if(flip) newCard.flip(transitionTime / 4);
+    newCard.y = DC_CARD_Y;
+    this.addChild(newCard);
 
-  var deferred = q.defer();
-  createjs.Tween.get(newCard)
-    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
-    .call(function() {
-      deferred.resolve(newCard);
-    });
+    var deferred = q.defer();
+    createjs.Tween.get(newCard)
+        .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+        .call(function() {
+            deferred.resolve(newCard);
+        });
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
 p.giveInsurance = function(insurance, destCoords, transitionTime) {
-  var newCard = createInsurance(insurance);
-  newCard.flip(transitionTime / 4);
-  newCard.y = INSURANCE_CARD_Y;
-  this.addChild(newCard);
+    var newCard = createInsurance(insurance);
+    newCard.flip(transitionTime / 4);
+    newCard.y = INSURANCE_CARD_Y;
+    this.addChild(newCard);
 
-  var deferred = q.defer();
-  createjs.Tween.get(newCard)
-    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
-    .call(function() {
-      deferred.resolve(newCard);
-    });
+    var deferred = q.defer();
+    createjs.Tween.get(newCard)
+        .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+        .call(function() {
+            deferred.resolve(newCard);
+        });
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
 p.getInsuranceToGive = function() {
-  var card = new createCardBack(assets.insuranceBack);
-  return {
-    insuranceDisp: card,
-    coords: {
-      x: card.x,
-      y: INSURANCE_CARD_Y,
-      rotation: card.rotation
-    },
-  };
+    var card = new createCardBack(assets.insuranceBack);
+    return {
+        insuranceDisp: card,
+        coords: {
+            x: card.x,
+            y: INSURANCE_CARD_Y,
+            rotation: card.rotation
+        },
+    };
 };
 
 p.discardCar = function(carDisp, startingCoords, transitionTime) {
-  let destCoords = {
-    x: carDisp.regX,
-    y: carDisp.regY,
-    rotation: 0
-  };
+    let destCoords = {
+        x: carDisp.regX,
+        y: carDisp.regY,
+        rotation: 0
+    };
 
-  return this._genericDiscard(carDisp, startingCoords, destCoords, transitionTime);
+    return this._genericDiscard(carDisp, startingCoords, destCoords, transitionTime);
 };
 
 p.discardDcCard = function(cardDisp, startingCoords, transitionTime) {
-  let destCoords = {
-    x: cardDisp.regY,
-    y: DC_CARD_Y,
-    rotation: -90
-  };
+    let destCoords = {
+        x: cardDisp.regY,
+        y: DC_CARD_Y,
+        rotation: -90
+    };
 
-  return this._genericDiscard(cardDisp, startingCoords, destCoords, transitionTime);
+    return this._genericDiscard(cardDisp, startingCoords, destCoords, transitionTime);
 };
 
 p._genericDiscard = function (cardDisp, startingCoords, destCoords, transitionTime) {
-  cardDisp.parent.removeChild(cardDisp);
-  // cardDisp.set(startingCoords);
-  cardDisp.x = startingCoords.x;
-  cardDisp.y = startingCoords.y;
-  cardDisp.rotation = startingCoords.rotation;
-  this.addChildAt(cardDisp, 0);
+    cardDisp.parent.removeChild(cardDisp);
+    // cardDisp.set(startingCoords);
+    cardDisp.x = startingCoords.x;
+    cardDisp.y = startingCoords.y;
+    cardDisp.rotation = startingCoords.rotation;
+    this.addChildAt(cardDisp, 0);
 
-  let deferred = q.defer();
-  createjs.Tween.get(cardDisp)
-    .to(destCoords, transitionTime, createjs.Ease.cubicOut)
-    .call(function() {
-      this.removeChild(cardDisp);
-      deferred.resolve();
-    }.bind(this));
+    let deferred = q.defer();
+    createjs.Tween.get(cardDisp)
+        .to(destCoords, transitionTime, createjs.Ease.cubicOut)
+        .call(function() {
+            this.removeChild(cardDisp);
+            deferred.resolve();
+        }.bind(this));
 
-  return deferred.promise;
+    return deferred.promise;
 };
 
 function createCardBack(image) {
-  var back = new CardDisplay(
-    new createjs.Bitmap(image)
-  );
+    var back = new CardDisplay(
+        new createjs.Bitmap(image)
+    );
 
-  return back;
+    return back;
 }
+
+p.createDcCardBack = function() {
+    return createCardBack(assets.dcCardBack);
+};
 
 // car: Optional reference to car. If omitted, creates
 //      a blank car
 function createCar(car) {
-  var back = createCardBack(assets.carBack);
-  var front = new CarFront(car);
-  var flippable = new FlippableCard(back, front);
-  flippable.x = flippable.regX;
-  flippable.y = flippable.regY;
-  return flippable;
+    var back = createCardBack(assets.carBack);
+    var front = new CarFront(car);
+    var flippable = new FlippableCard(back, front);
+    flippable.x = flippable.regX;
+    flippable.y = flippable.regY;
+    return flippable;
 }
 
 function createDcCard(dcCard) {
-  var back = createCardBack(assets.dcCardBack);
-  var front = new DcCardFront(dcCard);
-  var flippable = new FlippableCard(back, front);
+    var back = createCardBack(assets.dcCardBack);
+    var front = new DcCardFront(dcCard);
+    var flippable = new FlippableCard(back, front);
 
-  flippable.rotation = -90;
-  flippable.x = flippable.regY; // regY because it's rotated
+    flippable.rotation = -90;
+    flippable.x = flippable.regY; // regY because it's rotated
 
-  return flippable;
+    return flippable;
 }
 
 function createInsurance(insurance) {
-  var back = new createCardBack(assets.insuranceBack);
-  var front = new InsuranceFront(insurance);
-  var flippable = new FlippableCard(back, front);
+    var back = new createCardBack(assets.insuranceBack);
+    var front = new InsuranceFront(insurance);
+    var flippable = new FlippableCard(back, front);
 
-  flippable.x = back.regX;
+    flippable.x = back.regX;
 
-  return flippable;
+    return flippable;
 }
 
 module.exports = createjs.promote(Decks, "Container");

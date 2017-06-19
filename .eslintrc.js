@@ -29,5 +29,7 @@ module.exports = {
         ],
 
         eqeqeq: [ "error", "always" ],
+
+        "no-console": 0
     },
 };

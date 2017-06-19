@@ -4,12 +4,12 @@ var CardDisplay = require("./card-display"),
     assets      = require("../assets");
 
 function CarFront(car, fullSize) {
-  var frontImgId;
-  frontImgId = (fullSize) ? car.image : car.imageSm;
+    var frontImgId;
+    frontImgId = (fullSize) ? car.image : car.imageSm;
 
-  this.CardDisplay_constructor(
-    new createjs.Bitmap(assets[frontImgId])
-  );
+    this.CardDisplay_constructor(
+        new createjs.Bitmap(assets[frontImgId])
+    );
 }
 
 createjs.extend(CarFront, CardDisplay);
