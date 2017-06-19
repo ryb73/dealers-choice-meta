@@ -1,6 +1,6 @@
 {
   "name": "dc-game-factory",
-  "version": "1.1.5",
+  "version": "1.1.11",
   "description": "Dealer's Choice game factory.",
   "main": "index.js",
   "scripts": {
@@ -20,15 +20,15 @@
   "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/game-factory",
   "devDependencies": {
     "chai-as-promised": "6.0.0",
-    "dc-test": "^1.1.5",
+    "dc-test": "^1.1.11",
     "istanbul": "0.4.5",
     "mocha": "3.2.0"
   },
   "dependencies": {
     "chai": "^3.0.0",
-    "dc-constants": "^1.1.1",
-    "dc-engine": "^1.1.5",
-    "dc-game-states": "^1.1.5",
+    "dc-constants": "^1.1.11",
+    "dc-engine": "^1.1.11",
+    "dc-game-states": "^1.1.11",
     "lodash": "4.17.4",
     "node-uuid": "1.4.8"
   }

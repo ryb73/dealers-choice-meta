@@ -1,6 +1,6 @@
 {
   "name": "dc-server",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Server for Dealer's Choice game.",
   "main": "index.js",
   "scripts": {
@@ -26,11 +26,11 @@
   "dependencies": {
     "component-emitter": "^1.2.0",
     "config": "1.25.1",
-    "dc-card-pack": "^1.1.10",
-    "dc-constants": "^1.1.1",
-    "dc-db-interface": "^1.1.5",
-    "dc-engine": "^1.1.5",
-    "dc-game-factory": "^1.1.5",
+    "dc-card-pack": "^1.1.11",
+    "dc-constants": "^1.1.11",
+    "dc-db-interface": "^1.1.11",
+    "dc-engine": "^1.1.11",
+    "dc-game-factory": "^1.1.11",
     "express": "4.15.2",
     "fb": "1.1.1",
     "give-unique-id": "^1.0.0",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "chai": "^3.0.0",
     "chai-as-promised": "6.0.0",
-    "dc-test": "^1.1.5",
+    "dc-test": "^1.1.11",
     "istanbul": "0.4.5",
     "mocha": "3.2.0",
     "q": "1.5.0",

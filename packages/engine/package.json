@@ -1,6 +1,6 @@
 {
   "name": "dc-engine",
-  "version": "1.1.5",
+  "version": "1.1.11",
   "description": "Game engine for Dealer's Choice.",
   "main": "index.js",
   "scripts": {

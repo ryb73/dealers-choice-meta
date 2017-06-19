@@ -1,6 +1,6 @@
 {
   "name": "dc-card-pack",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Card pack for Dealer's Choice.",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "devDependencies": {
     "chai": "3.5.0",
     "chai-as-promised": "6.0.0",
-    "dc-engine": "^1.1.5",
+    "dc-engine": "^1.1.11",
     "istanbul": "0.4.5",
     "mocha": "3.2.0"
   },

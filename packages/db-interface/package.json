@@ -1,6 +1,6 @@
 {
   "name": "dc-db-interface",
-  "version": "1.1.5",
+  "version": "1.1.11",
   "description": "DB interface for Dealer's Choice",
   "main": "index.js",
   "scripts": {
@@ -19,9 +19,9 @@
   "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/db-interface",
   "dependencies": {
     "config": "1.25.1",
-    "dc-constants": "^1.1.1",
-    "dc-engine": "^1.1.5",
-    "dc-game-states": "^1.1.5",
+    "dc-constants": "^1.1.11",
+    "dc-engine": "^1.1.11",
+    "dc-game-states": "^1.1.11",
     "lodash": "4.17.4",
     "q": "1.5.0",
     "rethinkdbdash": "2.3.28"

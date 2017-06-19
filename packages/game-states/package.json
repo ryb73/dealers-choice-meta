@@ -1,6 +1,6 @@
 {
   "name": "dc-game-states",
-  "version": "1.1.5",
+  "version": "1.1.11",
   "description": "Dealer's Choice game states",
   "main": "index.js",
   "scripts": {
@@ -19,15 +19,15 @@
   },
   "homepage": "https://github.com/ryb73/dealers-choice-meta/tree/master/packages/game-states",
   "dependencies": {
-    "dc-constants": "^1.1.1",
+    "dc-constants": "^1.1.11",
     "lodash": "4.17.4",
     "q": "1.5.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "chai-as-promised": "6.0.0",
-    "dc-engine": "^1.1.5",
-    "dc-test": "^1.1.5",
+    "dc-engine": "^1.1.11",
+    "dc-test": "^1.1.11",
     "istanbul": "0.4.5",
     "mocha": "3.2.0",
     "sinon": "2.1.0"
