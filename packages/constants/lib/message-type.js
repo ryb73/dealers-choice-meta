@@ -72,6 +72,8 @@ const MessageType = {
   AllowSecondDcCard: "allow-second-dc-card",
 
   AllowTakeCard: "allow-take-card",
+
+  LostPlayer: "lost-player",
 };
 
 module.exports = MessageType;

@@ -16,7 +16,8 @@ function InProgressGameManager($oldManager, $factory, $preset) {
 
     let proxy = new SwappableProxy(this);
 
-    let choiceProvider,
+    let id = $oldManager.id,
+        choiceProvider,
         game,
         defPlayersReady = {};
 
@@ -76,6 +77,24 @@ function InProgressGameManager($oldManager, $factory, $preset) {
 
         ack(card.canPlay(player, game.gameData));
     }
+
+    function removePlayer(player) {
+        let user = self.getUserFromPlayerId(player.id);
+        delete this._users[user.id];
+
+        self._callbacks.toOthers(player, "action", {
+            cmd: MessageType.LostPlayer,
+            userId: user.id
+        });
+    }
+    this.removePlayer = removePlayer;
+
+    Object.defineProperties(this, {
+        id: {
+            enumerable: true,
+            get: () => id
+        }
+    });
 
     initialize();
 
