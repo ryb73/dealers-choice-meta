@@ -9,6 +9,7 @@ const _                     = require("lodash"),
       ResponseCode          = dcConstants.ResponseCode,
       dbInterface           = require("dc-db-interface"),
       log                   = require("rpb-logging")("dc-server"),
+      giveUniqueId          = require("give-unique-id"),
       GameManager           = require("./game-manager"),
       InProgressGameManager = require("./in-progress-game-manager"),
       config                = require("config").get("dc-server");
@@ -17,6 +18,8 @@ function PendingGameManager() {
     GameManager.call(this);
     let supr = _.clone(this);
     let self = this;
+
+    giveUniqueId(this);
 
     let proxy = new SwappableProxy(this);
 
@@ -55,9 +58,7 @@ function PendingGameManager() {
         factory.removePlayer(player);
         self._callbacks.remove(player);
 
-        let user = _.find(self._users, {
-            player: { id: player.id }
-        });
+        let user = self.getUserFromPlayerId(player.id);
         delete self._users[user.id];
 
         if(owner === player) {
@@ -65,11 +66,6 @@ function PendingGameManager() {
         }
     }
     this.removePlayer = removePlayer;
-
-    function isEmpty() {
-        return factory.players.length === 0;
-    }
-    this.isEmpty = isEmpty;
 
     function triggerStart(player, msg, ack) {
         // Only the owner can start the game
@@ -131,13 +127,6 @@ function PendingGameManager() {
 
         return null;
     }
-
-    Object.defineProperties(this, {
-        id: {
-            enumerable: true,
-            get: () => factory.hashCode()
-        }
-    });
 
     initialize();
 

@@ -194,9 +194,7 @@ var proto = {
 
     //TODO: this looks very similar to giveCarFromDeck. refactor?
     giveDcCardFromDeck: animated(function(userIdx, dcCard) {
-        let deferred = q.defer();
-
-        mutexDcCards.lock(() => {
+        return mutexDcCards.lock(() => {
             var user = this.gameState.users[userIdx];
             user.player.dcCards.push(dcCard);
 
@@ -210,12 +208,8 @@ var proto = {
             var qNewCard = decks.giveDcCard(
                 dcCard, cardCoords, TRANSITION_TIME, this._isMe(userIdx)
             );
-            return playerBox.putDcCardInBlankSpace(qNewCard)
-                .then(deferred.resolve)
-                .catch(deferred.reject);
+            return playerBox.putDcCardInBlankSpace(qNewCard);
         });
-
-        return deferred.promise;
     }),
 
     giveInsuranceFromDeck: animated(function(userIdx, insurance) {

@@ -30,6 +30,13 @@ function GameManager($createFrom) {
   }
   this.performCommand = performCommand;
 
+  function getUserFromPlayerId(playerId) {
+    return _.find(users, {
+      player: { id: playerId }
+    });
+  }
+  this.getUserFromPlayerId = getUserFromPlayerId;
+
   function sendChat(player, message) {
     let msg = {
       playerId: player.id,
@@ -37,6 +44,11 @@ function GameManager($createFrom) {
     };
     callbacks.toOthers(player, "chat", msg);
   }
+
+  function isEmpty() {
+    return _.size(users) === 0;
+  }
+  this.isEmpty = isEmpty;
 
   Object.defineProperties(this, {
     _callbacks: {

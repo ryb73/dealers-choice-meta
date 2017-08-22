@@ -101,6 +101,9 @@ let proto = {
             case MessageType.MoveCardBetweenPlayers:
                 this._moveCardBetweenPlayers(msg);
                 break;
+            case MessageType.LostPlayer:
+                this._lostPlayer(msg);
+                break;
             default:
                 console.log("Unexpected message type: " + msg.cmd);
         }
@@ -290,12 +293,22 @@ let proto = {
         canvas.moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, msg.dcCard, cardIdx);
     },
 
+    _lostPlayer(msg) {
+        let user = this._getUserByIdx(this._getUserIdxFromId(msg.userId));
+        alert(`${user.name} disconnected`);
+        location.reload();
+    },
+
     _getPlayerIdxFromId: function(playerId) {
         return _.findIndex(this.gameState.users, {
             player: {
                 id: playerId
             }
         });
+    },
+
+    _getUserIdxFromId(userId) {
+        return _.findIndex(this.gameState.users, { id: userId });
     },
 
     _getCarIdxFromId: function(player, carId) {

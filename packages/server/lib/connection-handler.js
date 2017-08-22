@@ -20,7 +20,7 @@ function ConnectionHandler($io, $socket, $serverState) {
     function initialize() {
         log.info("a user connected");
 
-        socket.on("action", function(msg, ack) {
+        socket.on("action", (msg, ack) => {
             log.trace("message: " + JSON.stringify(msg));
 
             if(manager) {
@@ -30,10 +30,10 @@ function ConnectionHandler($io, $socket, $serverState) {
             }
         });
 
-        socket.on("disconnect", function () {
+        socket.on("disconnect", () => {
             log.info("user [" + userId + "] disconnected");
 
-            serverState.userIds = _.without(serverState.userIds, userId);
+            disconnectPlayer();
         });
 
         $io = $socket = $serverState = null;
@@ -178,6 +178,7 @@ function ConnectionHandler($io, $socket, $serverState) {
         let room = gameRoom(manager.id);
         manager.broadcast = io.to(room).emit.bind(io.to(room));
         player = manager.addPlayer(userId, generateCallbacks(room));
+
         socket.join(room);
 
         ack({
@@ -201,6 +202,7 @@ function ConnectionHandler($io, $socket, $serverState) {
         let room = gameRoom(manager.id);
         player = manager.addPlayer(userId, generateCallbacks(room));
         if(!player) {
+            manager = null;
             ack({ result: ResponseCode.JoinGameFull });
             return;
         }
@@ -240,17 +242,8 @@ function ConnectionHandler($io, $socket, $serverState) {
 
     function leaveCmd(ack) {
         manager.removePlayer(player);
-        notifyPendingGameUpdated(); // Technically game could be started ig.. whatever
-
-        socket.leave(gameRoom(manager.id));
-
-        if(manager.isEmpty())
-            serverState.gameManagers.delete(manager.id);
-        manager = null;
-
-        player = null;
+        postLeave();
         ack();
-        notifyLobbyUpdate();
     }
 
     function notifyPendingGameUpdated() {
@@ -297,7 +290,7 @@ function ConnectionHandler($io, $socket, $serverState) {
     function generateCallbacks(room) {
         return {
             toYou: socket.emit.bind(socket),
-            toOthers: function() {
+            toOthers: function () {
                 // it turns out that "broadcast" is simply
                 // a getter that sets a property on the main
                 // socket object itself which is then read when
@@ -308,6 +301,29 @@ function ConnectionHandler($io, $socket, $serverState) {
                 return broadcastSock.emit.apply(broadcastSock, arguments);
             }
         };
+    }
+
+    function disconnectPlayer() {
+        serverState.userIds = _.without(serverState.userIds, userId);
+
+        if(manager) {
+            manager.removePlayer(player);
+            postLeave();
+        }
+    }
+
+    function postLeave() {
+        notifyPendingGameUpdated(); // Technically game could be started ig.. whatever
+
+        socket.leave(gameRoom(manager.id));
+
+        if (manager.isEmpty())
+            serverState.gameManagers.delete(manager.id);
+        manager = null;
+
+        player = null;
+
+        notifyLobbyUpdate();
     }
 
     initialize();
