@@ -1,6 +1,6 @@
 {
   "name": "dc-game-factory",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "Dealer's Choice game factory.",
   "main": "index.js",
   "scripts": {
@@ -26,9 +26,9 @@
   },
   "dependencies": {
     "chai": "^3.0.0",
-    "dc-constants": "^1.1.11",
+    "dc-constants": "^1.1.13",
     "dc-engine": "^1.1.11",
-    "dc-game-states": "^1.1.11",
+    "dc-game-states": "^1.1.13",
     "lodash": "4.17.4",
     "node-uuid": "1.4.8"
   }

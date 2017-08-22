@@ -1,6 +1,6 @@
 {
   "name": "dc-front-end",
-  "version": "1.1.11",
+  "version": "1.1.13",
   "description": "Front end for Dealer's Choice game",
   "main": "index.js",
   "scripts": {
@@ -29,8 +29,8 @@
     "clean-webpack-plugin": "0.1.16",
     "copy-webpack-plugin": "4.0.1",
     "css-loader": "0.27.3",
-    "dc-constants": "^1.1.11",
-    "dc-game-ui": "^1.1.11",
+    "dc-constants": "^1.1.13",
+    "dc-game-ui": "^1.1.13",
     "evemit": "^1.0.2",
     "extract-text-webpack-plugin": "1.0.1",
     "jquery": "3.2.1",
