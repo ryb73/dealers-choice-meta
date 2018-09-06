@@ -19,6 +19,8 @@ function TurnChoiceProvider($player) {
   function handleIt(cb) {
     callbacks = cb;
 
+    console.log("getting turn choice");
+
     let msg = {
       cmd: MessageType.GetTurnChoice,
       playerId: player.id,

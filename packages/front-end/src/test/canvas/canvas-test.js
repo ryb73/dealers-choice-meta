@@ -114,11 +114,11 @@ $(function() {
   }
 
   function discardCar(playerIdx, carIdx) {
-    getCanvas().discardCar(playerIdx, carIdx);
+    getCanvas().discardCar(playerIdx, carIdx).done();
   }
 
   function discardDcCard(playerIdx, cardIdx) {
-    getCanvas().discardDcCard(playerIdx, cardIdx);
+    getCanvas().discardDcCard(playerIdx, cardIdx).done();
   }
 
   function doChat(s) {
@@ -164,17 +164,17 @@ $(function() {
 
     var i;
     for(i = 0; i < numPlayers * 5; ++i) {
-      canvas.giveDcCardFromDeck(i % numPlayers, availDcCards.pop());
+      canvas.giveDcCardFromDeck(i % numPlayers, availDcCards.pop()).done();
     }
 
     for(i = 0; i < numPlayers * 4; ++i) {
       if(availCars.length === 0) shuffleCars();
-      canvas.giveCarFromDeck(i % numPlayers, availCars.pop());
+      canvas.giveCarFromDeck(i % numPlayers, availCars.pop()).done();
     }
 
     for(i = 0; i < numPlayers; ++i) {
       if(availInsurances.length === 0) shuffleInsurances();
-      canvas.giveInsuranceFromDeck(i % numPlayers, availInsurances.pop());
+      canvas.giveInsuranceFromDeck(i % numPlayers, availInsurances.pop()).done();
     }
   }
 
@@ -252,15 +252,15 @@ $(function() {
   }
 
   function giveCar(playerIdx) {
-    getCanvas().giveCarFromDeck(playerIdx, availCars.pop());
+    getCanvas().giveCarFromDeck(playerIdx, availCars.pop()).done();
   }
 
   function giveDcCard(playerIdx) {
-    getCanvas().giveDcCardFromDeck(playerIdx, availDcCards.pop());
+    getCanvas().giveDcCardFromDeck(playerIdx, availDcCards.pop()).done();
   }
 
   function giveInsurance(playerIdx) {
-    getCanvas().giveInsuranceFromDeck(playerIdx, availInsurances.pop());
+    getCanvas().giveInsuranceFromDeck(playerIdx, availInsurances.pop()).done();
   }
 
   function setHandSize(playerIdx, n) {

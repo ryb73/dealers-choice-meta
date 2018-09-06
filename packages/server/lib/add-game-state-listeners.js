@@ -5,6 +5,7 @@ let spyback     = require("spyback"),
 
 function addGameStateListeners(gameData, callbacks) {
     gameData.dealDcCard = spyback(gameData.dealDcCard, null, ([ player ], dcCard) => {
+        console.log("dealing card", dcCard.id);
         callbacks.broadcast("action", {
             cmd: MessageType.DealDcCardToPlayer,
             playerId: player.id,

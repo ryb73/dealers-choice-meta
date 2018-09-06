@@ -1,5 +1,3 @@
 "use strict";
 
-const mainConfig = require("./main.config.js");
-
-module.exports = mainConfig("./build-dev/");
+module.exports = require("./main.config.js")("./build-dev/");

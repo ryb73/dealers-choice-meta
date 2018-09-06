@@ -58,6 +58,7 @@ let proto = {
     },
 
     _onAction: function(msg) {
+        console.log(msg.cmd);
         switch(msg.cmd) {
             case MessageType.DealDcCardToPlayer:
                 this._dealDcCardToPlayer(msg);
@@ -111,17 +112,17 @@ let proto = {
 
     _dealDcCardToPlayer: function(msg) {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
-        canvas.giveDcCardFromDeck(playerIdx, msg.dcCard);
+        canvas.giveDcCardFromDeck(playerIdx, msg.dcCard).done();
     },
 
     _dealCarToPlayer: function(msg) {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
-        canvas.giveCarFromDeck(playerIdx, msg.car);
+        canvas.giveCarFromDeck(playerIdx, msg.car).done();
     },
 
     _dealInsuranceToPlayer: function(msg) {
         let playerIdx = this._getPlayerIdxFromId(msg.playerId);
-        canvas.giveInsuranceFromDeck(playerIdx, msg.insurance);
+        canvas.giveInsuranceFromDeck(playerIdx, msg.insurance).done();
     },
 
     _doRockPaperScissors: function(msg) {
@@ -242,7 +243,7 @@ let proto = {
         canvas.addChat(name + " sold #" + msg.carId + " for $" + msg.amount + ".");
 
         let carIdx = this._getCarIdxFromId(user.player, msg.carId);
-        canvas.discardCar(playerIdx, carIdx);
+        canvas.discardCar(playerIdx, carIdx).done();
         canvas.giveMoneyFromBank(playerIdx, msg.amount);
     },
 
@@ -252,7 +253,7 @@ let proto = {
         let name = titleCase(this._getDisplayableName(playerIdx));
         canvas.addChat(name + " bought #" + msg.car.id + " for $" + msg.amount + ".");
 
-        canvas.giveCarFromDeck(playerIdx, msg.car);
+        canvas.giveCarFromDeck(playerIdx, msg.car).done();
         canvas.giveMoneyToBank(playerIdx, msg.amount);
     },
 
@@ -265,9 +266,9 @@ let proto = {
 
         if(this._isMe(playerIdx)) {
             let cardIdx = this._getDcCardIdxFromId(user.player, msg.cardId);
-            canvas.discardDcCard(playerIdx, cardIdx);
+            canvas.discardDcCard(playerIdx, cardIdx).done();
         } else {
-            canvas.discardDcCard(playerIdx);
+            canvas.discardDcCard(playerIdx).done();
         }
     },
 
@@ -290,7 +291,7 @@ let proto = {
         let fromUser = this._getUserByIdx(fromPlayerIdx);
         let cardIdx = this._getDcCardIdxFromId(fromUser.player, msg.dcCard.id);
 
-        canvas.moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, msg.dcCard, cardIdx);
+        canvas.moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, msg.dcCard, cardIdx).done();
     },
 
     _lostPlayer(msg) {

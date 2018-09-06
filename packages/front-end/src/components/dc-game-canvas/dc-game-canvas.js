@@ -194,6 +194,7 @@ var proto = {
 
     //TODO: this looks very similar to giveCarFromDeck. refactor?
     giveDcCardFromDeck: animated(function(userIdx, dcCard) {
+        console.log("-givedccard-");
         return mutexDcCards.lock(() => {
             var user = this.gameState.users[userIdx];
             user.player.dcCards.push(dcCard);
@@ -208,7 +209,8 @@ var proto = {
             var qNewCard = decks.giveDcCard(
                 dcCard, cardCoords, TRANSITION_TIME, this._isMe(userIdx)
             );
-            return playerBox.putDcCardInBlankSpace(qNewCard);
+            return playerBox.putDcCardInBlankSpace(qNewCard)
+                .tap(console.log.bind(console, "-end givedccard-"));
         });
     }),
 
@@ -545,7 +547,8 @@ var proto = {
         this.$.chat.scrollTop = this.$.chat.scrollHeight;
     },
 
-    getTurnChoice: function() {
+    getTurnChoice: animated(function() {
+        console.log("-getturnchoice-");
         return mutexDcCards.lock(() => {
             var playerBox = this._getMyUser().dispObjs.playerBox;
             var qDcCardId = playerBox.askForDcCardToPlay();
@@ -555,22 +558,26 @@ var proto = {
                         selection: TurnChoice.DcCard,
                         cardId: cardId
                     };
-                });
+                })
+                .tap(console.log.bind(console, "-end getTurnChoice-"));
         }, true);
-    },
+    }),
 
     allowSecondDcCard: function() {
+        console.log("-allowseconddccard-");
         return mutexDcCards.lock(() => {
             let playerBox = this._getMyUser().dispObjs.playerBox;
 
             return playerBox.askForDcCardToPlay()
                 .then(function(cardId) {
                     return cardId;
-                });
+                })
+                .tap(console.log.bind(console, "-end allowSecondDcCard-"));
         }, true);
     },
 
     chooseOpponentCard: function() {
+        console.log("-chooseOpponentCard-");
         return mutexDcCards.lock(() => {
             let otherPlayerBoxes = this.getOtherPlayerBoxes();
             let qCards = _.invokeMap(otherPlayerBoxes, "askForDcCard");
@@ -579,7 +586,8 @@ var proto = {
                 .then(({ playerId, cardIdx }) => {
                     lastSelectedOpponentCardIdx = cardIdx; // I hate this
                     return playerId;
-                });
+                })
+                .tap(console.log.bind(console, "-end chooseOpponentCard-"));
         }, true);
     },
 
@@ -596,7 +604,8 @@ var proto = {
     },
 
     moveCardBetweenPlayers(fromPlayerIdx, toPlayerIdx, card, cardIdx) {
-        mutexDcCards.lock(() => {
+        console.log("-moveCardBetweenPlayers-");
+        return mutexDcCards.lock(() => {
             let fromUser = this.gameState.users[fromPlayerIdx];
             let fromPlayerBox = fromUser.dispObjs.playerBox;
 
@@ -629,8 +638,9 @@ var proto = {
             else
                 console.log("it ain't me");
 
-            return res;
-        }, true).done();
+            return res
+                .tap(console.log.bind(console, "-end moveCardBetweenPlayers-"));
+        }, true);
     },
 
     _makeFlippableDcCard(card) {
@@ -717,8 +727,7 @@ function animated(fn) {
     return function() {
         var fnArgs = Array.prototype.slice.call(arguments, 0);
         var bindArgs = [ this ].concat(fnArgs);
-        animationThrottler
-            .requestAnim(fn.bind.apply(fn, bindArgs))
-            .done();
+        return animationThrottler
+            .requestAnim(fn.bind.apply(fn, bindArgs));
     };
 }
